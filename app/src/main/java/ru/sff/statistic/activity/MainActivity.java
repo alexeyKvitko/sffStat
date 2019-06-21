@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import ru.sff.statistic.R;
 import ru.sff.statistic.fragment.MenuFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MenuFragment.OnMenuOptionSelectListener{
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -30,5 +30,10 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.addToBackStack( null );
         }
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onMainStatisticSelect() {
+
     }
 }
