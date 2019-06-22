@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="backgroundColor">#ffda57</color>
     <color name="shokoColor">#8a4700</color>
+    <color name="repeatColor">#0074E4</color>
 </resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ballFieldLayoutId"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginHorizontal="4dp"
+    android:background="@drawable/circle"
+    android:gravity="center"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/ballNumberId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="18dp"
+        android:textColor="@color/shokoColor"/>
+    <TextView
+        android:id="@+id/ballRepeatId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/repeatColor" />
+
+</LinearLayout>
