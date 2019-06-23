@@ -2,8 +2,22 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
+    <color name="primaryTextColor">#212121</color>
+    <color name="splashTextColor">#444b55</color>
     <color name="colorAccent">#D81B60</color>
     <color name="backgroundColor">#ffda57</color>
+    <color name="textYellowColor">#ffb600</color>
+    <color name="textRedColor">#ff9000</color>
+
+    <color name="lightYellowColor">#ffed7d</color>
     <color name="shokoColor">#8a4700</color>
     <color name="repeatColor">#0074E4</color>
+    <color name="grayTextColor">#959595</color>
+    <color name="ballRed">#cb2029</color>
+    <color name="ballBlue">#1f5d84</color>
+    <color name="ballGreen">#7fad41</color>
+    <color name="ballYellow">#caa85e</color>
+    <color name="ballCyan">#1faac1</color>
+    <color name="ballOrange">#d95b28</color>
+    <color name="ballVialet">#822482</color>
 </resources>

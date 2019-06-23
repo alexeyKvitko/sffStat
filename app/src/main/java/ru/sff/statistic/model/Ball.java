@@ -10,6 +10,11 @@ public class Ball implements Serializable {
     private boolean isLess;
     private boolean isMiddle;
 
+    public Ball(String ballNumber, String ballRepeat) {
+        this.ballNumber = ballNumber;
+        this.ballRepeat = ballRepeat;
+    }
+
     public String getBallNumber() {
         return ballNumber;
     }

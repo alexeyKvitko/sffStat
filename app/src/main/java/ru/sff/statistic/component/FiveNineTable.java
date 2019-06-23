@@ -1,7 +1,10 @@
 package ru.sff.statistic.component;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
 
 import java.util.List;
 
@@ -23,9 +26,14 @@ public class FiveNineTable extends LinearLayout {
 
     public FiveNineTable( Context context ) {
         super( context );
-        inflate( context, R.layout.ball_field, this );
+        inflate( context, R.layout.five_nine_table, this );
         mContext = context;
-        clearTable();
+    }
+
+    public FiveNineTable( Context context, @Nullable AttributeSet attrs ) {
+        super( context, attrs );
+        inflate( context, R.layout.five_nine_table, this );
+        mContext = context;
     }
 
     public void clearTable(){
@@ -39,16 +47,18 @@ public class FiveNineTable extends LinearLayout {
 
     private BallField createBallView( Ball ball ){
         BallField ballField = new BallField( mContext );
-        ballField.setBallNumberValue( ball.getBallNumber() );
-        ballField.setBallRepeatValue( ball.getBallRepeat() );
+        ballField.setBall( ball );
         return ballField;
     }
 
-    private void fillFiveNineTable( List<Ball> balls){
-        for( int rowId = 0; rowId < 9; rowId++ ){
-            for( int cell = 1; cell < 6; cell++ ){
-                LinearLayout row = findViewById( rowId );
-                row.addView( createBallView( balls.get( 5*rowId+cell ) ) );
+    public void fillFiveNineTable( List<Ball> balls){
+        for( int rowId = 0; rowId < 8; rowId++ ){
+            LinearLayout row = findViewById( ROW_IDS[ rowId ] );
+            for( int cell = 0; cell < 6; cell++ ){
+                int idx = 6*rowId+cell;
+                if ( idx < 45 ){
+                    row.addView( createBallView( balls.get( idx ) ) );
+                }
             }
         }
     }

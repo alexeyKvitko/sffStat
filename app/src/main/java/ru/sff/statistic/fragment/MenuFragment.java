@@ -11,8 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.component.BallField;
+import ru.sff.statistic.component.ColorBall;
+import ru.sff.statistic.component.FiveNineTable;
+import ru.sff.statistic.model.Ball;
 
 
 public class MenuFragment extends BaseFragment {
@@ -40,9 +47,31 @@ public class MenuFragment extends BaseFragment {
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
-        BallField ballOne = getView().findViewById( R.id.ballFieldOneId );
-        ballOne.setBallNumberValue( "28" );
-        ballOne.setBallRepeatValue( "653" );
+        List<Ball> ballList = new LinkedList<>();
+        for ( int i=1; i<46;i++){
+            Ball ball = new Ball(i+"",(967-i)+"");
+            if ( i == 1 || i ==6 || i == 17 || i == 28 || i == 37 || i== 45 ){
+                ball.setBigger( true );
+            }
+            ballList.add( ball );
+        }
+        FiveNineTable table = getView().findViewById( R.id.fiveNineTableId );
+        table.fillFiveNineTable( ballList );
+        ((ColorBall) getView().findViewById( R.id.colorBallOneId ))
+                .setColorBall( ballList.get(0), AppConstants.CYAN_BALL );
+        ((ColorBall) getView().findViewById( R.id.colorBallTwoId ))
+                .setColorBall( ballList.get(5), AppConstants.RED_BALL );
+        ((ColorBall) getView().findViewById( R.id.colorBallThreeId ))
+                .setColorBall( ballList.get(16), AppConstants.GREEN_BALL );
+        ((ColorBall) getView().findViewById( R.id.colorBallFourId ))
+                .setColorBall( ballList.get(27), AppConstants.ORANGE_BALL );
+        ((ColorBall) getView().findViewById( R.id.colorBallFiveId ))
+                .setColorBall( ballList.get(36), AppConstants.BLUE_BALL );
+        ((ColorBall) getView().findViewById( R.id.colorBallSixId ))
+                .setColorBall( ballList.get(44), AppConstants.VIALET_BALL );
+
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
