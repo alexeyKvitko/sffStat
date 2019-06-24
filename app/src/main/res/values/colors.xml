@@ -20,4 +20,6 @@
     <color name="ballCyan">#1faac1</color>
     <color name="ballOrange">#d95b28</color>
     <color name="ballVialet">#822482</color>
+    <color name="ballGray">#9a9a9a</color>
+    <color name="ballBrown">#7b2700</color>
 </resources>

@@ -2,32 +2,35 @@ package ru.sff.statistic.model;
 
 import java.io.Serializable;
 
-public class Ball implements Serializable {
+public class Ball implements Serializable, Comparable, Cloneable {
 
-    private String ballNumber;
-    private String ballRepeat;
+    private int ballNumber;
+    private int ballRepeat;
     private boolean isBigger;
     private boolean isLess;
     private boolean isMiddle;
 
-    public Ball(String ballNumber, String ballRepeat) {
+    public Ball( int ballNumber, int ballRepeat, boolean isBigger, boolean isLess, boolean isMiddle ) {
         this.ballNumber = ballNumber;
         this.ballRepeat = ballRepeat;
+        this.isBigger = isBigger;
+        this.isLess = isLess;
+        this.isMiddle = isMiddle;
     }
 
-    public String getBallNumber() {
+    public int getBallNumber() {
         return ballNumber;
     }
 
-    public void setBallNumber( String ballNumber ) {
+    public void setBallNumber( int ballNumber ) {
         this.ballNumber = ballNumber;
     }
 
-    public String getBallRepeat() {
+    public int getBallRepeat() {
         return ballRepeat;
     }
 
-    public void setBallRepeat( String ballRepeat ) {
+    public void setBallRepeat( int ballRepeat ) {
         this.ballRepeat = ballRepeat;
     }
 
@@ -54,4 +57,15 @@ public class Ball implements Serializable {
     public void setMiddle( boolean middle ) {
         isMiddle = middle;
     }
+
+    @Override
+    public int compareTo( Object o ) {
+        int res = this.ballRepeat - ( ( Ball ) o ).getBallRepeat();
+        return -res;
+    }
+
+    public Ball clone() throws CloneNotSupportedException {
+        return ( Ball ) super.clone();
+    }
+
 }

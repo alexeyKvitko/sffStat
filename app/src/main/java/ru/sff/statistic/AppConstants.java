@@ -14,4 +14,6 @@ public abstract class AppConstants {
     public static final String GREEN_BALL = "GREEN_BALL";
     public static final String VIALET_BALL = "VIALET_BALL";
     public static final String ORANGE_BALL = "ORANGE_BALL";
+    public static final String GRAY_BALL = "GRAY_BALL";
+    public static final String BROWN_BALL = "BROWN_BALL";
 }

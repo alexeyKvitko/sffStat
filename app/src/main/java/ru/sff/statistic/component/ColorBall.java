@@ -20,6 +20,7 @@ public class ColorBall extends LinearLayout {
 
     private LinearLayout mColorBall;
     private TextView mBallNumber;
+    private TextView mBallRepeat;
 
     public ColorBall(Context context) {
         super(context);
@@ -37,11 +38,14 @@ public class ColorBall extends LinearLayout {
         mColorBall = findViewById( R.id.colorBallLayoutId );
         mBallNumber = findViewById( R.id.colorBallNumberId );
         mBallNumber.setTypeface( AppConstants.ROTONDA_BOLD );
+        mBallRepeat = findViewById( R.id.colorBallRepeatId );
+        mBallRepeat.setTypeface( AppConstants.ROTONDA_BOLD );
     }
 
     public void setColorBall(Ball ball, String color ){
         mBall = ball;
-        mBallNumber.setText( mBall.getBallNumber() );
+        mBallNumber.setText( mBall.getBallNumber()+"" );
+        mBallRepeat.setText( mBall.getBallRepeat()+"" );
         mColor = color;
         Resources resources = SFFSApplication.getAppContext().getResources();
         switch ( color ){
@@ -72,6 +76,14 @@ public class ColorBall extends LinearLayout {
             case AppConstants.VIALET_BALL:
                 mColorBall.setBackground( resources.getDrawable( R.drawable.ball_vialet ) );
                 mBallNumber.setTextColor( resources.getColor( R.color.ballVialet ) );
+                break;
+            case AppConstants.GRAY_BALL:
+                mColorBall.setBackground( resources.getDrawable( R.drawable.ball_gray ) );
+                mBallNumber.setTextColor( resources.getColor( R.color.ballGray ) );
+                break;
+            case AppConstants.BROWN_BALL:
+                mColorBall.setBackground( resources.getDrawable( R.drawable.ball_brown ) );
+                mBallNumber.setTextColor( resources.getColor( R.color.ballBrown ) );
                 break;
         }
     }

@@ -43,8 +43,8 @@ public class BallField extends LinearLayout {
 
     public void setBall(Ball ball) {
         mBall = ball;
-        mBallNumber.setText(mBall.getBallNumber());
-        mBallRepeat.setText(mBall.getBallRepeat());
+        mBallNumber.setText(mBall.getBallNumber()+"");
+        mBallRepeat.setText(mBall.getBallRepeat()+"");
         if (mBall.isBigger()) {
             setBiggerBall();
         }
