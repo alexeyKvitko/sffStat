@@ -6,6 +6,13 @@
     <string name="four_five_label">45</string>
     <string name="loto_6_45">Гослото «6 из 45»</string>
     <string name="statistics">Статистика</string>
-    <string name="all_draws_label">За Время Игры</string>
+    <string name="all_draws_label">За все время игры</string>
     <string name="internal_error">Внутренняя ошибка, повторите попытку позже</string>
+    <string name="from_draw">С Тиража</string>
+    <string name="draws_label">Тиражи</string>
+    <string name="to_draw">По Тираж</string>
+    <string name="often_digit_label">Часто выпадающие числа</string>
+    <string name="less_digit_number">Редко выпадающие числа</string>
+    <string name="middle_digit_number">Середнячок</string>
+    <string name="result_field_number">Комбинация на поле</string>
 </resources>

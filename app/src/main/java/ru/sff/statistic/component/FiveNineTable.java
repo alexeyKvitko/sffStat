@@ -2,6 +2,8 @@ package ru.sff.statistic.component;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
@@ -47,17 +49,27 @@ public class FiveNineTable extends LinearLayout {
 
     private BallField createBallView( Ball ball ){
         BallField ballField = new BallField( mContext );
-        ballField.setBall( ball );
+        if ( ball != null ){
+            ballField.setBall( ball );
+        } else {
+           ballField.setBall( new Ball( -1, 0, null ) );
+           ballField.setVisibility( View.GONE );
+        }
+
         return ballField;
     }
 
-    public void fillFiveNineTable( List<Ball> balls){
+    public void fillFiveNineTable( ){
         for( int rowId = 0; rowId < 8; rowId++ ){
             LinearLayout row = findViewById( ROW_IDS[ rowId ] );
             for( int cell = 0; cell < 6; cell++ ){
                 int idx = 6*rowId+cell;
                 if ( idx < 45 ){
-                    row.addView( createBallView( balls.get( idx ) ) );
+                    row.addView( createBallView( mBallsInfo.getDrawBalls().get( idx ) ) );
+                } else if ( idx == 45 ){
+                    LayoutParams params = ( LayoutParams ) row.getLayoutParams();
+                    params.gravity = Gravity.LEFT;
+                    row.setLayoutParams( params );
                 }
             }
         }
@@ -65,6 +77,11 @@ public class FiveNineTable extends LinearLayout {
 
     public void setBallsInfo( BallsInfo ballsInfo ) {
         this.mBallsInfo = ballsInfo;
-        fillFiveNineTable( mBallsInfo.getDrawBalls() );
+        fillFiveNineTable( );
+    }
+
+    public void redrawTable(){
+        clearTable();
+        fillFiveNineTable();
     }
 }

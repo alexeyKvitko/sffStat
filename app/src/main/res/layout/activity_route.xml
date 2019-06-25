@@ -2,10 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/routeActivityLayoutId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
+    android:fitsSystemWindows="true"
     tools:context=".activity.RouteActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_marginLeft="-8dp"
+            android:id="@+id/routeBackBtnId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:elevation="10dp"
+            app:srcCompat="@drawable/filter_back_black_btn" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,9 +34,11 @@
 
         <RelativeLayout
             android:id="@+id/routeFragmentContainerId"
-            android:layout_width="match_parent"
+                android:layout_width="match_parent"
             android:layout_height="match_parent"></RelativeLayout>
-
     </LinearLayout>
+
+    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

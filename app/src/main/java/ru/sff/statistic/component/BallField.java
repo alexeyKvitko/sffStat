@@ -3,6 +3,7 @@ package ru.sff.statistic.component;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,7 +12,9 @@ import androidx.annotation.Nullable;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
+import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.Ball;
+import ru.sff.statistic.model.BallSetType;
 
 public class BallField extends LinearLayout {
 
@@ -45,15 +48,42 @@ public class BallField extends LinearLayout {
         mBall = ball;
         mBallNumber.setText(mBall.getBallNumber()+"");
         mBallRepeat.setText(mBall.getBallRepeat()+"");
-        if (mBall.isBigger()) {
+        if ( BallSetType.BIGGER.equals( GlobalManager.getSelBallType() )
+                    && GlobalManager.getSelBallType().equals( mBall.getBallType() ) ) {
             setBiggerBall();
         }
+        if ( BallSetType.LESS.equals( GlobalManager.getSelBallType() )
+                && GlobalManager.getSelBallType().equals( mBall.getBallType() ) ) {
+            setLessBall();
+        }
+        if ( BallSetType.MIDDLE.equals( GlobalManager.getSelBallType() )
+                && GlobalManager.getSelBallType().equals( mBall.getBallType() ) ) {
+            setMiddleBall();
+        }
+
     }
 
     private void setBiggerBall(){
         Resources resources = SFFSApplication.getAppContext().getResources();
         mBallLayout.setBackground( resources.getDrawable(R.drawable.filled_circle));
         mBallNumber.setTextColor( resources.getColor( R.color.textYellowColor ) );
+        mBallRepeat.setTextColor( resources.getColor( R.color.lightYellowColor ) );
     }
+
+    private void setLessBall(){
+        Resources resources = SFFSApplication.getAppContext().getResources();
+        mBallLayout.setBackground( resources.getDrawable(R.drawable.less_circle));
+        mBallNumber.setTextColor( resources.getColor( R.color.lightGrayColor ) );
+        mBallRepeat.setTextColor( resources.getColor( R.color.lightGrayColor ) );
+    }
+
+    private void setMiddleBall(){
+        Resources resources = SFFSApplication.getAppContext().getResources();
+        mBallLayout.setBackground( resources.getDrawable(R.drawable.middle_circle));
+        mBallNumber.setTextColor( resources.getColor( R.color.textYellowColor ) );
+        mBallRepeat.setTextColor( resources.getColor( R.color.lightYellowColor ) );
+    }
+
+
 
 }

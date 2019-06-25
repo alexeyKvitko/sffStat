@@ -24,7 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/textRedColor"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="2dp"
         android:textSize="14dp" />
 
 </LinearLayout>

@@ -47,44 +47,42 @@ public class ColorBall extends LinearLayout {
         mBallNumber.setText( mBall.getBallNumber()+"" );
         mBallRepeat.setText( mBall.getBallRepeat()+"" );
         mColor = color;
-        Resources resources = SFFSApplication.getAppContext().getResources();
         switch ( color ){
             case AppConstants.RED_BALL:
-                mColorBall.setBackground( resources.getDrawable( R.drawable.ball_red ) );
-                mBallNumber.setTextColor( resources.getColor( R.color.ballRed ) );
+                applyColorToBall ( R.drawable.ball_red , R.drawable.border_repeat_red, R.color.ballRed );
                 break;
             case AppConstants.BLUE_BALL:
-                mColorBall.setBackground( resources.getDrawable( R.drawable.ball_blue ) );
-                mBallNumber.setTextColor( resources.getColor( R.color.ballBlue ) );
+                applyColorToBall ( R.drawable.ball_blue , R.drawable.border_repeat_blue, R.color.ballBlue );
                 break;
             case AppConstants.GREEN_BALL:
-                mColorBall.setBackground( resources.getDrawable( R.drawable.ball_green ) );
-                mBallNumber.setTextColor( resources.getColor( R.color.ballGreen ) );
+                applyColorToBall ( R.drawable.ball_green , R.drawable.border_repeat_green, R.color.ballGreen );
                 break;
             case AppConstants.YELLOW_BALL:
-                mColorBall.setBackground( resources.getDrawable( R.drawable.ball_yellow ) );
-                mBallNumber.setTextColor( resources.getColor( R.color.ballYellow ) );
+                applyColorToBall ( R.drawable.ball_yellow , R.drawable.border_repeat_yellow, R.color.ballYellow );
                 break;
             case AppConstants.CYAN_BALL:
-                mColorBall.setBackground( resources.getDrawable( R.drawable.ball_cyan ) );
-                mBallNumber.setTextColor( resources.getColor( R.color.ballCyan ) );
+                applyColorToBall ( R.drawable.ball_cyan , R.drawable.border_repeat_cyan, R.color.ballCyan );
                 break;
             case AppConstants.ORANGE_BALL:
-                mColorBall.setBackground( resources.getDrawable( R.drawable.ball_orange ) );
-                mBallNumber.setTextColor( resources.getColor( R.color.ballOrange ) );
+                applyColorToBall ( R.drawable.ball_orange , R.drawable.border_repeat_orange, R.color.ballOrange );
                 break;
             case AppConstants.VIALET_BALL:
-                mColorBall.setBackground( resources.getDrawable( R.drawable.ball_vialet ) );
-                mBallNumber.setTextColor( resources.getColor( R.color.ballVialet ) );
+                applyColorToBall ( R.drawable.ball_vialet , R.drawable.border_repeat_vialet, R.color.ballVialet );
                 break;
             case AppConstants.GRAY_BALL:
-                mColorBall.setBackground( resources.getDrawable( R.drawable.ball_gray ) );
-                mBallNumber.setTextColor( resources.getColor( R.color.ballGray ) );
+                applyColorToBall ( R.drawable.ball_gray , R.drawable.border_repeat_gray, R.color.ballGray );
                 break;
             case AppConstants.BROWN_BALL:
-                mColorBall.setBackground( resources.getDrawable( R.drawable.ball_brown ) );
-                mBallNumber.setTextColor( resources.getColor( R.color.ballBrown ) );
+                applyColorToBall ( R.drawable.circle , R.drawable.border_repeat_brown, R.color.ballBrown );
                 break;
         }
+    }
+
+    private void applyColorToBall( int drawableId, int borderId, int colorId ){
+        Resources resources = SFFSApplication.getAppContext().getResources();
+        mColorBall.setBackground( resources.getDrawable( drawableId ) );
+        mBallNumber.setTextColor( resources.getColor( colorId ) );
+        mBallRepeat.setBackground( resources.getDrawable( borderId ) );
+        mBallRepeat.setTextColor( resources.getColor( colorId ) );
     }
 }

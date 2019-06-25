@@ -1,29 +1,26 @@
 package ru.sff.statistic.activity;
 
 
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.view.View;
-        import android.widget.LinearLayout;
-        import android.widget.TextView;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-        import androidx.appcompat.app.AppCompatActivity;
+import java.util.Map;
 
-        import java.util.Map;
+import ru.sff.statistic.AppConstants;
+import ru.sff.statistic.R;
+import ru.sff.statistic.SFFSApplication;
+import ru.sff.statistic.component.AppHeader;
+import ru.sff.statistic.utils.CustomAnimation;
 
-        import ru.sff.statistic.AppConstants;
-        import ru.sff.statistic.R;
-        import ru.sff.statistic.SFFSApplication;
-        import ru.sff.statistic.component.AppHeader;
-        import ru.sff.statistic.utils.CustomAnimation;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout mRequestAll;
     private LinearLayout mRequestByDraw;
     private LinearLayout mRequestByDate;
     private LinearLayout mRequestByAmount;
-
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -32,14 +29,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initialize();
     }
 
-
-    private void initialize(){
+    private void initialize() {
+        mActivityContainer = findViewById( R.id.mainActivityLayoutId );
         AppHeader mainHeader = findViewById( R.id.mainHeaderId );
         mainHeader.setHeader( R.drawable.emoji_think, R.string.loto_6_45 );
-        ( (TextView) findViewById( R.id.queryAllDrawsId )).setTypeface(AppConstants.ROBOTO_CONDENCED );
-        ( (TextView) findViewById( R.id.queryByDrawsId )).setTypeface(AppConstants.ROBOTO_CONDENCED );
-        ( (TextView) findViewById( R.id.queryByDateId)).setTypeface(AppConstants.ROBOTO_CONDENCED );
-        ( (TextView) findViewById( R.id.queryByAmountId)).setTypeface(AppConstants.ROBOTO_CONDENCED );
+        ( ( TextView ) findViewById( R.id.queryAllDrawsId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
+        ( ( TextView ) findViewById( R.id.queryByDrawsId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
+        ( ( TextView ) findViewById( R.id.queryByDateId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
+        ( ( TextView ) findViewById( R.id.queryByAmountId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
 
         mRequestAll = findViewById( R.id.requestAllDrawId );
         mRequestByDraw = findViewById( R.id.requestByDrawId );
@@ -74,10 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick( View view ) {
         CustomAnimation.bounceAnimation( view );
-        switch ( view.getId() ){
+        switch ( view.getId() ) {
             case R.id.requestAllDrawId:
-                startNewActivity(  RouteActivity.class );
+                startNewActivity( RouteActivity.class );
                 break;
         }
     }
+
+
 }

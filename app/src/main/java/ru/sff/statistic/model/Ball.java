@@ -6,16 +6,12 @@ public class Ball implements Serializable, Comparable, Cloneable {
 
     private int ballNumber;
     private int ballRepeat;
-    private boolean isBigger;
-    private boolean isLess;
-    private boolean isMiddle;
+    private BallSetType ballType;
 
-    public Ball( int ballNumber, int ballRepeat, boolean isBigger, boolean isLess, boolean isMiddle ) {
+    public Ball( int ballNumber, int ballRepeat, BallSetType ballType ) {
         this.ballNumber = ballNumber;
         this.ballRepeat = ballRepeat;
-        this.isBigger = isBigger;
-        this.isLess = isLess;
-        this.isMiddle = isMiddle;
+        this.ballType = ballType;
     }
 
     public int getBallNumber() {
@@ -34,28 +30,12 @@ public class Ball implements Serializable, Comparable, Cloneable {
         this.ballRepeat = ballRepeat;
     }
 
-    public boolean isBigger() {
-        return isBigger;
+    public BallSetType getBallType() {
+        return ballType;
     }
 
-    public void setBigger( boolean bigger ) {
-        isBigger = bigger;
-    }
-
-    public boolean isLess() {
-        return isLess;
-    }
-
-    public void setLess( boolean less ) {
-        isLess = less;
-    }
-
-    public boolean isMiddle() {
-        return isMiddle;
-    }
-
-    public void setMiddle( boolean middle ) {
-        isMiddle = middle;
+    public void setBallType( BallSetType ballType ) {
+        this.ballType = ballType;
     }
 
     @Override

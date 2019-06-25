@@ -5,14 +5,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import ru.sff.statistic.R;
 import ru.sff.statistic.component.AppHeader;
 import ru.sff.statistic.fragment.AllResultsFragment;
 
-public class RouteActivity extends AppCompatActivity implements AllResultsFragment.OnMenuOptionSelectListener{
+public class RouteActivity extends BaseActivity implements AllResultsFragment.OnMenuOptionSelectListener{
 
     private AppHeader mHeader;
+    private ImageView mBackBtn;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -22,7 +24,9 @@ public class RouteActivity extends AppCompatActivity implements AllResultsFragme
     }
 
     private void initialize(){
+        mActivityContainer = findViewById( R.id.routeActivityLayoutId );
         mHeader = findViewById( R.id.routeHeaderId );
+        mBackBtn = findViewById( R.id.routeBackBtnId );
         addReplaceFragment( AllResultsFragment.newInstance(), R.drawable.emoji_look, R.string.all_draws_label );
     }
 
@@ -42,5 +46,9 @@ public class RouteActivity extends AppCompatActivity implements AllResultsFragme
     @Override
     public void onMainStatisticSelect() {
 
+    }
+
+    public ImageView getBackBtn() {
+        return mBackBtn;
     }
 }

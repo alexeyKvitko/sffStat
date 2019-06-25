@@ -7,6 +7,10 @@ public abstract class AppConstants {
     public static final Typeface ROBOTO_CONDENCED = Typeface.createFromAsset( SFFSApplication.getAppContext().getAssets(), "font/RobotoCondensed.ttf" );
     public static final Typeface ROTONDA_BOLD = Typeface.createFromAsset( SFFSApplication.getAppContext().getAssets(), "font/RotondaBold.ttf" );
 
+    public static final String AUTH_BEARER = "Bearer ";
+
+    public static final String FULL_DATE_FORMAT = "dd MMMM yyyy, HH:mm";
+
     public static final String RED_BALL = "RED_BALL";
     public static final String BLUE_BALL = "BLUE_BALL";
     public static final String CYAN_BALL = "CYAN_BALL";

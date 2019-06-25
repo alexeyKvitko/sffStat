@@ -1,24 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".fragment.AllResultsFragment">
 
-    <ru.sff.statistic.component.SixBallSet
-        android:id="@+id/biggerBallSetId"
-        android:layout_marginTop="48dp"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <ru.sff.statistic.component.FiveNineTable
-        android:id="@+id/fiveNineTableId"
-        android:layout_marginTop="24dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/drawTitleId"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/draws_label"
+            android:textColor="@color/shokoTextColor"
+            android:textSize="22dp" />
 
-</LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/firstDrawNumId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/firstDrawDateId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/splashTextColor"
+                    android:layout_marginTop="4dp"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lastDrawNumId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryTextColor"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/lastDrawDateId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/splashTextColor"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="32dp"
+            android:background="@color/shokoColor"/>
+
+        <TextView
+            android:id="@+id/oftenDigitId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            android:textSize="16dp"
+            android:textColor="@color/grayTextColor"
+            android:text="@string/often_digit_label"/>
+
+        <ru.sff.statistic.component.SixBallSet
+            android:id="@+id/biggerBallSetId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/lessDigitId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            android:textSize="16dp"
+            android:textColor="@color/grayTextColor"
+            android:text="@string/less_digit_number"/>
+
+        <ru.sff.statistic.component.SixBallSet
+            android:id="@+id/lessBallSetId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/middleDigitId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            android:textSize="16dp"
+            android:textColor="@color/grayTextColor"
+            android:text="@string/middle_digit_number"/>
+
+        <ru.sff.statistic.component.SixBallSet
+            android:id="@+id/middleBallSetId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="32dp"
+            android:background="@color/shokoColor"/>
+
+        <TextView
+            android:id="@+id/resultOnTableId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            android:textSize="16dp"
+            android:textColor="@color/grayTextColor"
+            android:text="@string/result_field_number"/>
+
+        <ru.sff.statistic.component.FiveNineTable
+            android:id="@+id/fiveNineTableId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp" />
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:text="@string/often_digit_label"
+                android:id="@+id/biggerButtonId"
+                android:checked="true"
+                android:textColor="@color/grayTextColor"
+                android:textSize="16dp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:text="@string/less_digit_number"
+                android:id="@+id/lessButtonId"
+                android:textColor="@color/grayTextColor"
+                android:checked="false"
+                android:textSize="16dp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:text="@string/middle_digit_number"
+                android:textColor="@color/grayTextColor"
+                android:id="@+id/middleButtonId"
+                android:checked="false"
+                android:textSize="16dp" />
+
+
+        </RadioGroup>
+    </LinearLayout>
+</ScrollView>

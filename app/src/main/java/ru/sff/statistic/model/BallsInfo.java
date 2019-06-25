@@ -8,8 +8,8 @@ public class BallsInfo implements Serializable {
 
     private int firstDraw;
     private int lastDraw;
-    private Date firstDrawDate;
-    private Date lastDrawDate;
+    private String firstDrawDate;
+    private String lastDrawDate;
     private Ball[] moreOften = new Ball[6];
     private Ball[] lessOfter= new Ball[6];;
     private Ball[] middleOften= new Ball[6];;
@@ -33,19 +33,19 @@ public class BallsInfo implements Serializable {
         this.lastDraw = lastDraw;
     }
 
-    public Date getFirstDrawDate() {
+    public String getFirstDrawDate() {
         return firstDrawDate;
     }
 
-    public void setFirstDrawDate(Date firstDrawDate) {
+    public void setFirstDrawDate( String firstDrawDate ) {
         this.firstDrawDate = firstDrawDate;
     }
 
-    public Date getLastDrawDate() {
+    public String getLastDrawDate() {
         return lastDrawDate;
     }
 
-    public void setLastDrawDate(Date lastDrawDate) {
+    public void setLastDrawDate( String lastDrawDate ) {
         this.lastDrawDate = lastDrawDate;
     }
 
