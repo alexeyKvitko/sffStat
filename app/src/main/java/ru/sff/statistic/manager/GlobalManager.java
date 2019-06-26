@@ -8,6 +8,7 @@ public class GlobalManager {
     private static final GlobalManager GLOBAL_MANAGER = new GlobalManager();
 
     private static BallSetType selBallType;
+    private static Integer[] fieldOrintation;
 
 
     private GlobalManager() {
@@ -24,5 +25,13 @@ public class GlobalManager {
 
     public static void setSelBallType( BallSetType selBallType ) {
         GlobalManager.selBallType = selBallType;
+    }
+
+    public static Integer[] getFieldOrintation() {
+        return fieldOrintation;
+    }
+
+    public static void setFieldOrintation( Integer[] fieldOrintation ) {
+        GlobalManager.fieldOrintation = fieldOrintation;
     }
 }

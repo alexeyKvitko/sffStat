@@ -6,6 +6,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
@@ -43,6 +44,29 @@ public abstract class CustomAnimation {
         } else {
             ( ( Vibrator ) SFFSApplication.getAppContext().getSystemService( Context.VIBRATOR_SERVICE ) ).vibrate( 50 );
         }
+    }
+
+    public static void transitionAnimation( final View sourceView, final View targetView ) {
+        Animation fadeIn = AnimationUtils.loadAnimation( SFFSApplication.getAppContext(), R.anim.fade_in );
+        Animation fadeOut = AnimationUtils.loadAnimation( SFFSApplication.getAppContext(), R.anim.fade_out );
+        fadeIn.setAnimationListener( new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart( Animation animation ) {
+
+            }
+
+            @Override
+            public void onAnimationEnd( Animation animation ) {
+                sourceView.setVisibility( View.GONE );
+            }
+
+            @Override
+            public void onAnimationRepeat( Animation animation ) {
+            }
+        } );
+        targetView.setVisibility( View.VISIBLE );
+        sourceView.startAnimation( fadeOut );
+        targetView.startAnimation( fadeIn );
     }
     
 }

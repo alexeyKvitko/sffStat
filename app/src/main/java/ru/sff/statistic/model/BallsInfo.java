@@ -15,6 +15,7 @@ public class BallsInfo implements Serializable {
     private Ball[] middleOften= new Ball[6];;
     private List<Ball> drawBalls;
     private EvenOdd evenOdd;
+    private DrawInfo totalDrawInfo;
 
 
     public int getFirstDraw() {
@@ -87,5 +88,13 @@ public class BallsInfo implements Serializable {
 
     public void setEvenOdd(EvenOdd evenOdd) {
         this.evenOdd = evenOdd;
+    }
+
+    public DrawInfo getTotalDrawInfo() {
+        return totalDrawInfo;
+    }
+
+    public void setTotalDrawInfo( DrawInfo totalDrawInfo ) {
+        this.totalDrawInfo = totalDrawInfo;
     }
 }

@@ -59,4 +59,32 @@ public abstract class AppUtils {
                                 .getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
+
+    public static String getFormatedString( Integer value ){
+        StringBuilder result = new StringBuilder();
+        String temp = value.toString();
+        if( temp.length() <= 3 ){
+            return temp;
+        }
+        if( temp.length() <= 6 ){
+            int idx = temp.length() - 3;
+            result.append( temp.substring( 0,idx ) ).append( " " ).append( temp.substring( idx ) );
+        }
+        if ( temp.length() > 6 && temp.length() <= 9 ){
+            int idx1 = temp.length() - 3;
+            int idx = temp.length() - 6;
+            result.append( temp.substring( 0,idx ) ).append( " " ).append( temp.substring( idx, idx1 ) )
+                    .append( " " ).append( temp.substring( idx1 ) );
+        }
+        if ( temp.length() > 9 && temp.length() <= 12 ){
+            int idx2 = temp.length() - 3;
+            int idx1 = temp.length() - 6;
+            int idx = temp.length() - 9;
+            result.append( temp.substring( 0,idx ) ).append( " " ).append( temp.substring( idx, idx1 ) )
+                    .append( " " ).append( temp.substring( idx1,idx2 ) )
+                    .append( " " ).append( temp.substring( idx2 ) );
+        }
+        return result.toString();
+    }
+
 }

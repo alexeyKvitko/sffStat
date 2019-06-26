@@ -30,6 +30,8 @@ public class SplashActivity extends AppCompatActivity {
         ( (TextView) findViewById( R.id.fourFiveDigitId ) ).setTypeface(AppConstants.ROTONDA_BOLD );
         ( (TextView) findViewById( R.id.goslotoId ) ).setTypeface(AppConstants.ROBOTO_CONDENCED );
         GlobalManager.getInstance().setSelBallType( BallSetType.BIGGER );
+        GlobalManager.getInstance().setFieldOrintation( AppConstants.BALL_12_RIGHT );
+
         if ( !AppUtils.isNetworkAvailable() ) {
             finishActivity( "Отсутствует интернет соединение" );
         } else {
@@ -42,7 +44,6 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }, 600);
         }
-
     }
 
     private void finishActivity( String toastMsg ) {

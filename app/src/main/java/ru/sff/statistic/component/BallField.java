@@ -3,7 +3,7 @@ package ru.sff.statistic.component;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,6 +45,13 @@ public class BallField extends LinearLayout {
     }
 
     public void setBall(Ball ball) {
+        if ( ball == null ){
+            mBallNumber.setVisibility( View.GONE );
+            mBallRepeat.setVisibility( View.GONE );
+            mBallLayout.setBackgroundColor( SFFSApplication.getAppContext().getResources()
+                                                    .getColor( R.color.transparentBackground ) );
+            return;
+        }
         mBall = ball;
         mBallNumber.setText(mBall.getBallNumber()+"");
         mBallRepeat.setText(mBall.getBallRepeat()+"");

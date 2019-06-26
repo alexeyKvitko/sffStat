@@ -24,6 +24,7 @@ import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.activity.RouteActivity;
 import ru.sff.statistic.component.ColorBall;
+import ru.sff.statistic.component.FieldOrientation;
 import ru.sff.statistic.component.FiveNineTable;
 import ru.sff.statistic.component.SixBallSet;
 import ru.sff.statistic.manager.GlobalManager;
@@ -34,6 +35,7 @@ import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BallsInfo;
 import ru.sff.statistic.rest.RestController;
 import ru.sff.statistic.utils.AppUtils;
+import ru.sff.statistic.utils.CustomAnimation;
 
 
 public class AllResultsFragment extends BaseFragment {
@@ -79,6 +81,8 @@ public class AllResultsFragment extends BaseFragment {
     }
 
     private void initialize() {
+        CustomAnimation.transitionAnimation( getView().findViewById( R.id.scrollContainerId ),
+                getView().findViewById( R.id.pleaseWaitContainerId ) );
         mBackButton = ( ( RouteActivity ) getActivity() ).getBackBtn();
         mBackButton.setOnClickListener( ( View view ) -> {
             getActivity().onBackPressed();
@@ -99,6 +103,10 @@ public class AllResultsFragment extends BaseFragment {
         ( ( RadioButton ) getView().findViewById( R.id.biggerButtonId ) ).setTypeface( AppConstants.ROTONDA_BOLD );
         ( ( RadioButton ) getView().findViewById( R.id.lessButtonId ) ).setTypeface( AppConstants.ROTONDA_BOLD );
         ( ( RadioButton ) getView().findViewById( R.id.middleButtonId ) ).setTypeface( AppConstants.ROTONDA_BOLD );
+        FieldOrientation fieldOrientation = getView().findViewById( R.id.fieldOrientationId );
+        fieldOrientation.setOnFieldOrientationListener( () -> {
+            mBallTable.redrawTable();
+        } );
 
         setThisOnClickListener( R.id.biggerButtonId, R.id.lessButtonId, R.id.middleButtonId );
 
@@ -155,8 +163,8 @@ public class AllResultsFragment extends BaseFragment {
         }
     }
 
-    private void redrawTable(BallSetType ballSetType ){
-        if( GlobalManager.getSelBallType().equals( ballSetType ) ){
+    private void redrawTable( BallSetType ballSetType ) {
+        if ( GlobalManager.getSelBallType().equals( ballSetType ) ) {
             return;
         }
         GlobalManager.setSelBallType( ballSetType );
@@ -166,6 +174,38 @@ public class AllResultsFragment extends BaseFragment {
     public interface OnMenuOptionSelectListener {
         // TODO: Update argument type and name
         void onMainStatisticSelect();
+    }
+
+    private void populateFragment() {
+        mBallTable = getView().findViewById( R.id.fiveNineTableId );
+        mBallTable.setBallsInfo( mBallsInfo );
+
+        SixBallSet biggerBallSet = getView().findViewById( R.id.biggerBallSetId );
+        biggerBallSet.setBallSet( mBallsInfo.getMoreOften(), BallSetType.BIGGER );
+
+        SixBallSet lessBallSet = getView().findViewById( R.id.lessBallSetId );
+        lessBallSet.setBallSet( mBallsInfo.getLessOfter(), BallSetType.LESS );
+
+        SixBallSet middleBallSet = getView().findViewById( R.id.middleBallSetId );
+        middleBallSet.setBallSet( mBallsInfo.getMiddleOften(), BallSetType.MIDDLE );
+
+        mFirstDraw.setText( "с № " + mBallsInfo.getFirstDraw() );
+        mLastDraw.setText( "по № " + mBallsInfo.getLastDraw() );
+        mFirstDrawDate.setText( mBallsInfo.getFirstDrawDate() );
+        mLastDrawDate.setText( mBallsInfo.getLastDrawDate() );
+        initTextView( R.id.totalTicketLabelId, AppConstants.ROTONDA_BOLD );
+
+        initTextView( R.id.totalTicketValueId, AppConstants.ROBOTO_BLACK )
+                .setText( AppUtils.getFormatedString( mBallsInfo.getTotalDrawInfo().getPersonCount() ) );
+        initTextView( R.id.totalTicketDescId, AppConstants.ROBOTO_CONDENCED );
+
+        initTextView( R.id.averangeTicketValueId, AppConstants.ROBOTO_BLACK )
+                .setText( AppUtils.getFormatedString(
+                        mBallsInfo.getTotalDrawInfo().getPersonCount()
+                                / Integer.valueOf( mBallsInfo.getLastDraw() ) ) );
+        initTextView( R.id.averangeTicketDescId, AppConstants.ROBOTO_CONDENCED );
+        CustomAnimation.transitionAnimation( getView().findViewById( R.id.pleaseWaitContainerId ),
+                getView().findViewById( R.id.scrollContainerId ) );
     }
 
     private class GetAllResults extends AsyncTask< Void, Void, String > {
@@ -203,30 +243,14 @@ public class AllResultsFragment extends BaseFragment {
         @Override
         protected void onPostExecute( String result ) {
             super.onPostExecute( result );
-            if ( result != null ){
-            ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );
-            ( new Handler() ).postDelayed( () -> {
-                getActivity().onBackPressed();
-            }, 2000 );
+            if ( result != null ) {
+                ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );
+                ( new Handler() ).postDelayed( () -> {
+                    getActivity().onBackPressed();
+                }, 2000 );
+                return;
             }
-
-            mBallTable = getView().findViewById( R.id.fiveNineTableId );
-            mBallTable.setBallsInfo( mBallsInfo );
-
-            SixBallSet biggerBallSet = getView().findViewById( R.id.biggerBallSetId );
-            biggerBallSet.setBallSet( mBallsInfo.getMoreOften(), BallSetType.BIGGER );
-
-            SixBallSet lessBallSet = getView().findViewById( R.id.lessBallSetId );
-            lessBallSet.setBallSet( mBallsInfo.getLessOfter(), BallSetType.LESS );
-
-            SixBallSet middleBallSet = getView().findViewById( R.id.middleBallSetId );
-            middleBallSet.setBallSet( mBallsInfo.getMiddleOften(), BallSetType.MIDDLE );
-
-            mFirstDraw.setText( "с № " + mBallsInfo.getFirstDraw() );
-            mLastDraw.setText( "по № " + mBallsInfo.getLastDraw() );
-            mFirstDrawDate.setText( mBallsInfo.getFirstDrawDate() );
-            mLastDrawDate.setText( mBallsInfo.getLastDrawDate() );
-
+            populateFragment();
         }
     }
 }

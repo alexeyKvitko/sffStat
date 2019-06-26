@@ -10,11 +10,13 @@
     <color name="textRedColor">#ff9000</color>
 
     <color name="lightYellowColor">#ffed7d</color>
+    <color name="lotoYellowTextColor">#ddad31</color>
     <color name="shokoColor">#8a4700</color>
     <color name="shokoTextColor">#D25830</color>
     <color name="transparentToastBackground">#90000000</color>
     <color name="grayTextColor">#aca99f</color>
     <color name="lightGrayColor">#fafafa</color>
+    <color name="transparentBackground">#00000000</color>
 
     <color name="repeatColor">#0074E4</color>
 

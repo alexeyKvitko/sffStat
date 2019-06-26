@@ -2,17 +2,15 @@ package ru.sff.statistic.component;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.Gravity;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
-import java.util.List;
-
 import ru.sff.statistic.R;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallsInfo;
+
+import static ru.sff.statistic.manager.GlobalManager.getFieldOrintation;
 
 public class FiveNineTable extends LinearLayout {
 
@@ -49,27 +47,20 @@ public class FiveNineTable extends LinearLayout {
 
     private BallField createBallView( Ball ball ){
         BallField ballField = new BallField( mContext );
-        if ( ball != null ){
-            ballField.setBall( ball );
-        } else {
-           ballField.setBall( new Ball( -1, 0, null ) );
-           ballField.setVisibility( View.GONE );
-        }
-
+        ballField.setBall( ball );
         return ballField;
     }
 
     public void fillFiveNineTable( ){
-        for( int rowId = 0; rowId < 8; rowId++ ){
+        for( int rowId = 0; rowId < 7; rowId++ ){
             LinearLayout row = findViewById( ROW_IDS[ rowId ] );
-            for( int cell = 0; cell < 6; cell++ ){
-                int idx = 6*rowId+cell;
+            for( int cell = 0; cell < 7; cell++ ){
+                int rowCel = 7*rowId+cell;
+                int idx = getFieldOrintation()[ rowCel ];
                 if ( idx < 45 ){
                     row.addView( createBallView( mBallsInfo.getDrawBalls().get( idx ) ) );
-                } else if ( idx == 45 ){
-                    LayoutParams params = ( LayoutParams ) row.getLayoutParams();
-                    params.gravity = Gravity.LEFT;
-                    row.setLayoutParams( params );
+                } else {
+                    row.addView( createBallView( null ) );
                 }
             }
         }

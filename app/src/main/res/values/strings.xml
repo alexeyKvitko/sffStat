@@ -15,4 +15,6 @@
     <string name="less_digit_number">Редко выпадающие числа</string>
     <string name="middle_digit_number">Середнячок</string>
     <string name="result_field_number">Комбинация на поле</string>
+    <string name="total_ticket_label">Число билетов в розыгрышах</string>
+    <string name="table_orientation">Ориентация поля</string>
 </resources>
