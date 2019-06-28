@@ -27,6 +27,7 @@ import ru.sff.statistic.component.ColorBall;
 import ru.sff.statistic.component.FieldOrientation;
 import ru.sff.statistic.component.FiveNineTable;
 import ru.sff.statistic.component.SixBallSet;
+import ru.sff.statistic.component.TwoCellStat;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
@@ -47,11 +48,9 @@ public class AllResultsFragment extends BaseFragment {
     private BallsInfo mBallsInfo;
     private ImageView mBackButton;
 
-    private TextView mFirstDraw;
-    private TextView mFirstDrawDate;
-
-    private TextView mLastDraw;
-    private TextView mLastDrawDate;
+    private TwoCellStat mDrawRange;
+    private TwoCellStat mTotalTicket;
+    private TwoCellStat mTotalPaidAmount;
 
     private FiveNineTable mBallTable;
 
@@ -87,14 +86,10 @@ public class AllResultsFragment extends BaseFragment {
         mBackButton.setOnClickListener( ( View view ) -> {
             getActivity().onBackPressed();
         } );
-        mFirstDraw = initTextView( R.id.firstDrawNumId );
-        mFirstDrawDate = initTextView( R.id.firstDrawDateId );
-        mLastDraw = initTextView( R.id.lastDrawNumId );
-        mLastDrawDate = initTextView( R.id.lastDrawDateId );
-        mFirstDraw.setTypeface( AppConstants.ROTONDA_BOLD );
-        mFirstDrawDate.setTypeface( AppConstants.ROBOTO_CONDENCED );
-        mLastDraw.setTypeface( AppConstants.ROTONDA_BOLD );
-        mLastDrawDate.setTypeface( AppConstants.ROBOTO_CONDENCED );
+        mDrawRange = getView().findViewById( R.id.twoCellDrawRangeId );
+        mTotalTicket = getView().findViewById( R.id.twoCellTotalTicketId );
+        mTotalPaidAmount = getView().findViewById( R.id.twoCellPaidAmountId );
+
         initTextView( R.id.drawTitleId ).setTypeface( AppConstants.ROTONDA_BOLD );
         initTextView( R.id.oftenDigitId ).setTypeface( AppConstants.ROTONDA_BOLD );
         initTextView( R.id.lessDigitId ).setTypeface( AppConstants.ROTONDA_BOLD );
@@ -189,21 +184,25 @@ public class AllResultsFragment extends BaseFragment {
         SixBallSet middleBallSet = getView().findViewById( R.id.middleBallSetId );
         middleBallSet.setBallSet( mBallsInfo.getMiddleOften(), BallSetType.MIDDLE );
 
-        mFirstDraw.setText( "с № " + mBallsInfo.getFirstDraw() );
-        mLastDraw.setText( "по № " + mBallsInfo.getLastDraw() );
-        mFirstDrawDate.setText( mBallsInfo.getFirstDrawDate() );
-        mLastDrawDate.setText( mBallsInfo.getLastDrawDate() );
+        mDrawRange.setTwoCellValue( "с № " + mBallsInfo.getFirstDraw(), mBallsInfo.getFirstDrawDate(),
+                "по № " + mBallsInfo.getLastDraw(), mBallsInfo.getLastDrawDate() );
+
         initTextView( R.id.totalTicketLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.totalPaidAmountLabelId, AppConstants.ROTONDA_BOLD );
 
-        initTextView( R.id.totalTicketValueId, AppConstants.ROBOTO_BLACK )
-                .setText( AppUtils.getFormatedString( mBallsInfo.getTotalDrawInfo().getPersonCount() ) );
-        initTextView( R.id.totalTicketDescId, AppConstants.ROBOTO_CONDENCED );
+        mTotalTicket.setTwoCellValue(  AppUtils.getFormatedString( mBallsInfo.getTotalDrawInfo().getPersonCount() ),
+                getActivity().getString( R.string.all_draws_label ),
+                AppUtils.getFormatedString(
+                        mBallsInfo.getTotalDrawInfo().getPersonCount() / Integer.valueOf( mBallsInfo.getLastDraw() ) ),
+                getActivity().getString( R.string.per_draw_label ) );
 
-        initTextView( R.id.averangeTicketValueId, AppConstants.ROBOTO_BLACK )
-                .setText( AppUtils.getFormatedString(
-                        mBallsInfo.getTotalDrawInfo().getPersonCount()
-                                / Integer.valueOf( mBallsInfo.getLastDraw() ) ) );
-        initTextView( R.id.averangeTicketDescId, AppConstants.ROBOTO_CONDENCED );
+        mTotalPaidAmount.setTwoCellValue(  AppUtils.getFormatedString( mBallsInfo.getTotalDrawInfo().getPaidAmount() ),
+                getActivity().getString( R.string.all_draws_label ),
+                AppUtils.getFormatedString(
+                        mBallsInfo.getTotalDrawInfo().getPaidAmount() / Integer.valueOf( mBallsInfo.getLastDraw() ) ),
+                getActivity().getString( R.string.per_draw_label ) );
+
+
         CustomAnimation.transitionAnimation( getView().findViewById( R.id.pleaseWaitContainerId ),
                 getView().findViewById( R.id.scrollContainerId ) );
     }
