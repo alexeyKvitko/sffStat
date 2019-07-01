@@ -7,7 +7,7 @@ public class GlobalManager {
 
     private static final GlobalManager GLOBAL_MANAGER = new GlobalManager();
 
-    private static BallSetType selBallType;
+    private static BallSetType[] ballSetTypes;
     private static Integer[] fieldOrintation;
 
 
@@ -19,12 +19,12 @@ public class GlobalManager {
         return GLOBAL_MANAGER;
     }
 
-    public static BallSetType getSelBallType() {
-        return selBallType;
+    public static BallSetType[] getBallSetTypes() {
+        return ballSetTypes;
     }
 
-    public static void setSelBallType( BallSetType selBallType ) {
-        GlobalManager.selBallType = selBallType;
+    public static void setBallSetTypes( BallSetType[] ballSetTypes ) {
+        GlobalManager.ballSetTypes = ballSetTypes;
     }
 
     public static Integer[] getFieldOrintation() {

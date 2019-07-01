@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.LinkedList;
@@ -23,15 +22,14 @@ import retrofit2.Response;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.activity.RouteActivity;
-import ru.sff.statistic.component.ColorBall;
 import ru.sff.statistic.component.FieldOrientation;
 import ru.sff.statistic.component.FiveNineTable;
 import ru.sff.statistic.component.SixBallSet;
 import ru.sff.statistic.component.TwoCellStat;
+import ru.sff.statistic.component.WinTable;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
-import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BallsInfo;
 import ru.sff.statistic.rest.RestController;
@@ -51,6 +49,11 @@ public class AllResultsFragment extends BaseFragment {
     private TwoCellStat mDrawRange;
     private TwoCellStat mTotalTicket;
     private TwoCellStat mTotalPaidAmount;
+    private TwoCellStat mEvenOdd;
+
+    private boolean mBiggerShow;
+    private boolean mLessShow;
+    private boolean mMiddleShow;
 
     private FiveNineTable mBallTable;
 
@@ -86,18 +89,31 @@ public class AllResultsFragment extends BaseFragment {
         mBackButton.setOnClickListener( ( View view ) -> {
             getActivity().onBackPressed();
         } );
+
+        mBiggerShow = true;
+        mLessShow = true;
+        mMiddleShow = true;
         mDrawRange = getView().findViewById( R.id.twoCellDrawRangeId );
         mTotalTicket = getView().findViewById( R.id.twoCellTotalTicketId );
         mTotalPaidAmount = getView().findViewById( R.id.twoCellPaidAmountId );
+        mEvenOdd = getView().findViewById( R.id.twoCellEvenOddId );
 
         initTextView( R.id.drawTitleId ).setTypeface( AppConstants.ROTONDA_BOLD );
         initTextView( R.id.oftenDigitId ).setTypeface( AppConstants.ROTONDA_BOLD );
         initTextView( R.id.lessDigitId ).setTypeface( AppConstants.ROTONDA_BOLD );
         initTextView( R.id.middleDigitId ).setTypeface( AppConstants.ROTONDA_BOLD );
         initTextView( R.id.resultOnTableId ).setTypeface( AppConstants.ROTONDA_BOLD );
-        ( ( RadioButton ) getView().findViewById( R.id.biggerButtonId ) ).setTypeface( AppConstants.ROTONDA_BOLD );
-        ( ( RadioButton ) getView().findViewById( R.id.lessButtonId ) ).setTypeface( AppConstants.ROTONDA_BOLD );
-        ( ( RadioButton ) getView().findViewById( R.id.middleButtonId ) ).setTypeface( AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.totalTicketLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.totalPaidAmountLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.drawResultsLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.evenOddLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.tableOrientationId, AppConstants.ROBOTO_CONDENCED );
+        initTextView( R.id.fallingNumbersLabelId, AppConstants.ROBOTO_CONDENCED );
+
+        initTextView( R.id.biggerButtonId, AppConstants.ROBOTO_CONDENCED );
+        initTextView( R.id.lessButtonId, AppConstants.ROBOTO_CONDENCED );
+        initTextView( R.id.middleButtonId, AppConstants.ROBOTO_CONDENCED );
+
         FieldOrientation fieldOrientation = getView().findViewById( R.id.fieldOrientationId );
         fieldOrientation.setOnFieldOrientationListener( () -> {
             mBallTable.redrawTable();
@@ -145,25 +161,46 @@ public class AllResultsFragment extends BaseFragment {
 
     @Override
     public void onClick( View view ) {
+        CustomAnimation.bounceAnimation( view );
         switch ( view.getId() ) {
             case R.id.biggerButtonId:
-                redrawTable( BallSetType.BIGGER );
+                mBiggerShow = !mBiggerShow;
+                setBallSetButton( view.getId(), mBiggerShow );
                 break;
             case R.id.lessButtonId:
-                redrawTable( BallSetType.LESS );
+                mLessShow = !mLessShow;
+                setBallSetButton( view.getId(), mLessShow );
                 break;
             case R.id.middleButtonId:
-                redrawTable( BallSetType.MIDDLE );
+                mMiddleShow = !mMiddleShow;
+                setBallSetButton( view.getId(), mMiddleShow );
                 break;
         }
+        List<BallSetType> ballSetTypeList = new LinkedList<>(  );
+        if( mBiggerShow ){
+            ballSetTypeList.add( BallSetType.BIGGER );
+        }
+        if( mLessShow ){
+            ballSetTypeList.add( BallSetType.LESS );
+        }
+        if( mMiddleShow ){
+            ballSetTypeList.add( BallSetType.MIDDLE );
+        }
+        GlobalManager.getInstance().setBallSetTypes( ballSetTypeList.toArray( new BallSetType[ ballSetTypeList.size() ] ) );
+        mBallTable.redrawTable();
     }
 
-    private void redrawTable( BallSetType ballSetType ) {
-        if ( GlobalManager.getSelBallType().equals( ballSetType ) ) {
-            return;
+    private void setBallSetButton(int buttonId, boolean btnEnable ){
+        TextView btn = getView().findViewById( buttonId );
+        if ( btnEnable ){
+            btn.setBackground( getActivity().getResources().getDrawable( R.drawable.border_btn_orange ) );
+            btn.setTextColor( getActivity().getResources().getColor( R.color.ballOrange ) );
+            btn.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_check_orange_18dp, 0, 0, 0 );
+        } else {
+            btn.setBackground( getActivity().getResources().getDrawable( R.drawable.border_btn_gray ) );
+            btn.setTextColor( getActivity().getResources().getColor( R.color.ballGray) );
+            btn.setCompoundDrawablesWithIntrinsicBounds( 0, 0, 0, 0 );
         }
-        GlobalManager.setSelBallType( ballSetType );
-        mBallTable.redrawTable();
     }
 
     public interface OnMenuOptionSelectListener {
@@ -187,8 +224,10 @@ public class AllResultsFragment extends BaseFragment {
         mDrawRange.setTwoCellValue( "с № " + mBallsInfo.getFirstDraw(), mBallsInfo.getFirstDrawDate(),
                 "по № " + mBallsInfo.getLastDraw(), mBallsInfo.getLastDrawDate() );
 
-        initTextView( R.id.totalTicketLabelId, AppConstants.ROTONDA_BOLD );
-        initTextView( R.id.totalPaidAmountLabelId, AppConstants.ROTONDA_BOLD );
+        mEvenOdd.setTwoCellValue(  AppUtils.getFormatedString( Long.valueOf( mBallsInfo.getEvenOdd().getEvenCount() ) ),
+                getActivity().getString( R.string.even_label ),
+                AppUtils.getFormatedString( Long.valueOf( mBallsInfo.getEvenOdd().getOddCount() ) ),
+                getActivity().getString( R.string.odd_label ) );
 
         mTotalTicket.setTwoCellValue(  AppUtils.getFormatedString( mBallsInfo.getTotalDrawInfo().getPersonCount() ),
                 getActivity().getString( R.string.all_draws_label ),
@@ -202,6 +241,12 @@ public class AllResultsFragment extends BaseFragment {
                         mBallsInfo.getTotalDrawInfo().getPaidAmount() / Integer.valueOf( mBallsInfo.getLastDraw() ) ),
                 getActivity().getString( R.string.per_draw_label ) );
 
+        WinTable winTable = getView().findViewById( R.id.winTableAllResultsId );
+        winTable.setWinBalls( mBallsInfo.getTotalDrawInfo().getSixGuessedWin(),
+                                mBallsInfo.getTotalDrawInfo().getFiveGuessedWin(),
+                                mBallsInfo.getTotalDrawInfo().getFourGuessedWin(),
+                                mBallsInfo.getTotalDrawInfo().getThreeGuessedWin(),
+                                mBallsInfo.getTotalDrawInfo().getTwoGuessedWin() );
 
         CustomAnimation.transitionAnimation( getView().findViewById( R.id.pleaseWaitContainerId ),
                 getView().findViewById( R.id.scrollContainerId ) );

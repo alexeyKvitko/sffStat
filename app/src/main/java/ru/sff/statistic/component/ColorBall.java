@@ -73,7 +73,7 @@ public class ColorBall extends LinearLayout {
                 applyColorToBall ( R.drawable.ball_gray , R.drawable.border_repeat_gray, R.color.ballGray );
                 break;
             case AppConstants.BROWN_BALL:
-                applyColorToBall ( R.drawable.circle , R.drawable.border_repeat_brown, R.color.ballBrown );
+                applyColorToBall ( R.drawable.middle_circle , R.drawable.border_repeat_brown, R.color.ballBrown );
                 break;
         }
     }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Статистика в запросах</string>
+    <string name="app_name">6 из 45. Статистика в запросах</string>
 
 
     <string name="six_label">6</string>
@@ -12,11 +12,17 @@
     <string name="from_draw">С Тиража</string>
     <string name="draws_label">Тиражи</string>
     <string name="to_draw">По Тираж</string>
+    <string name="even_label">Четных</string>
+    <string name="odd_label">Нечетных</string>
     <string name="often_digit_label">Часто выпадающие числа</string>
-    <string name="less_digit_number">Редко выпадающие числа</string>
+    <string name="less_digit_label">Редко выпадающие числа</string>
+    <string name="often_digit_short">Часто выпад.</string>
+    <string name="less_digit_short">Редко выпад.</string>
     <string name="middle_digit_number">Середнячок</string>
     <string name="result_field_number">Комбинация на поле</string>
     <string name="total_ticket_label">Число билетов в розыгрышах</string>
     <string name="total_paid_amount_label">Выплаченная сумма в розыгрышах</string>
+    <string name="draw_results_label">Итоги розыгрышей</string>
     <string name="table_orientation">Ориентация поля</string>
+    <string name="even_odd_label">Четные, Нечетные</string>
 </resources>

@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         ( (TextView) findViewById( R.id.sixDigitId ) ).setTypeface(AppConstants.ROTONDA_BOLD );
         ( (TextView) findViewById( R.id.fourFiveDigitId ) ).setTypeface(AppConstants.ROTONDA_BOLD );
         ( (TextView) findViewById( R.id.goslotoId ) ).setTypeface(AppConstants.ROBOTO_CONDENCED );
-        GlobalManager.getInstance().setSelBallType( BallSetType.BIGGER );
+        GlobalManager.getInstance().setBallSetTypes( new BallSetType[]{BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE } );
         GlobalManager.getInstance().setFieldOrintation( AppConstants.BALL_12_RIGHT );
 
         if ( !AppUtils.isNetworkAvailable() ) {

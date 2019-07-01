@@ -60,7 +60,7 @@ public abstract class AppUtils {
     }
 
 
-    public static String getFormatedString( Integer value ){
+    public static String getFormatedString( Long value ){
         StringBuilder result = new StringBuilder();
         String temp = value.toString();
         if( temp.length() <= 3 ){

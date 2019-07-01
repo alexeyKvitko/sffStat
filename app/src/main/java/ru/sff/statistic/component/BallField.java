@@ -55,18 +55,21 @@ public class BallField extends LinearLayout {
         mBall = ball;
         mBallNumber.setText(mBall.getBallNumber()+"");
         mBallRepeat.setText(mBall.getBallRepeat()+"");
-        if ( BallSetType.BIGGER.equals( GlobalManager.getSelBallType() )
-                    && GlobalManager.getSelBallType().equals( mBall.getBallType() ) ) {
-            setBiggerBall();
+        for( BallSetType ballSetType : GlobalManager.getBallSetTypes() ){
+            if ( BallSetType.BIGGER.equals( ballSetType )
+                    && ballSetType.equals( mBall.getBallType() ) ) {
+                setBiggerBall();
+            }
+            if ( BallSetType.LESS.equals( ballSetType )
+                    && ballSetType.equals( mBall.getBallType() ) ) {
+                setLessBall();
+            }
+            if ( BallSetType.MIDDLE.equals( ballSetType )
+                    && ballSetType.equals( mBall.getBallType() ) ) {
+                setMiddleBall();
+            }
         }
-        if ( BallSetType.LESS.equals( GlobalManager.getSelBallType() )
-                && GlobalManager.getSelBallType().equals( mBall.getBallType() ) ) {
-            setLessBall();
-        }
-        if ( BallSetType.MIDDLE.equals( GlobalManager.getSelBallType() )
-                && GlobalManager.getSelBallType().equals( mBall.getBallType() ) ) {
-            setMiddleBall();
-        }
+
 
     }
 

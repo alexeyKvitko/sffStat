@@ -6,24 +6,24 @@ public class DrawInfo implements Serializable {
 
     private Integer id;
     private Integer drawId;
-    private Integer twoGuessedWin;
-    private Integer twoGuessedAmount;
-    private Integer twoGuessedTotal;
-    private Integer threeGuessedWin;
-    private Integer threeGuessedAmount;
-    private Integer threeGuessedTotal;
-    private Integer fourGuessedWin;
-    private Integer fourGuessedAmount;
-    private Integer fourGuessedTotal;
-    private Integer fiveGuessedWin;
-    private Integer fiveGuessedAmount;
-    private Integer fiveGuessedTotal;
-    private Integer sixGuessedWin;
-    private Integer sixGuessedAmount;
-    private Integer sixGuessedTotal;
-    private Integer personCount;
-    private Integer paidAmount;
-    private Integer superPrize;
+    private Long twoGuessedWin;
+    private Long twoGuessedAmount;
+    private Long twoGuessedTotal;
+    private Long threeGuessedWin;
+    private Long threeGuessedAmount;
+    private Long threeGuessedTotal;
+    private Long fourGuessedWin;
+    private Long fourGuessedAmount;
+    private Long fourGuessedTotal;
+    private Long fiveGuessedWin;
+    private Long fiveGuessedAmount;
+    private Long fiveGuessedTotal;
+    private Long sixGuessedWin;
+    private Long sixGuessedAmount;
+    private Long sixGuessedTotal;
+    private Long personCount;
+    private Long paidAmount;
+    private Long superPrize;
 
     public Integer getId() {
         return id;
@@ -41,147 +41,147 @@ public class DrawInfo implements Serializable {
         this.drawId = drawId;
     }
 
-    public Integer getTwoGuessedWin() {
+    public Long getTwoGuessedWin() {
         return twoGuessedWin;
     }
 
-    public void setTwoGuessedWin( Integer twoGuessedWin ) {
+    public void setTwoGuessedWin( Long twoGuessedWin ) {
         this.twoGuessedWin = twoGuessedWin;
     }
 
-    public Integer getTwoGuessedAmount() {
+    public Long getTwoGuessedAmount() {
         return twoGuessedAmount;
     }
 
-    public void setTwoGuessedAmount( Integer twoGuessedAmount ) {
+    public void setTwoGuessedAmount( Long twoGuessedAmount ) {
         this.twoGuessedAmount = twoGuessedAmount;
     }
 
-    public Integer getTwoGuessedTotal() {
+    public Long getTwoGuessedTotal() {
         return twoGuessedTotal;
     }
 
-    public void setTwoGuessedTotal( Integer twoGuessedTotal ) {
+    public void setTwoGuessedTotal( Long twoGuessedTotal ) {
         this.twoGuessedTotal = twoGuessedTotal;
     }
 
-    public Integer getThreeGuessedWin() {
+    public Long getThreeGuessedWin() {
         return threeGuessedWin;
     }
 
-    public void setThreeGuessedWin( Integer threeGuessedWin ) {
+    public void setThreeGuessedWin( Long threeGuessedWin ) {
         this.threeGuessedWin = threeGuessedWin;
     }
 
-    public Integer getThreeGuessedAmount() {
+    public Long getThreeGuessedAmount() {
         return threeGuessedAmount;
     }
 
-    public void setThreeGuessedAmount( Integer threeGuessedAmount ) {
+    public void setThreeGuessedAmount( Long threeGuessedAmount ) {
         this.threeGuessedAmount = threeGuessedAmount;
     }
 
-    public Integer getThreeGuessedTotal() {
+    public Long getThreeGuessedTotal() {
         return threeGuessedTotal;
     }
 
-    public void setThreeGuessedTotal( Integer threeGuessedTotal ) {
+    public void setThreeGuessedTotal( Long threeGuessedTotal ) {
         this.threeGuessedTotal = threeGuessedTotal;
     }
 
-    public Integer getFourGuessedWin() {
+    public Long getFourGuessedWin() {
         return fourGuessedWin;
     }
 
-    public void setFourGuessedWin( Integer fourGuessedWin ) {
+    public void setFourGuessedWin( Long fourGuessedWin ) {
         this.fourGuessedWin = fourGuessedWin;
     }
 
-    public Integer getFourGuessedAmount() {
+    public Long getFourGuessedAmount() {
         return fourGuessedAmount;
     }
 
-    public void setFourGuessedAmount( Integer fourGuessedAmount ) {
+    public void setFourGuessedAmount( Long fourGuessedAmount ) {
         this.fourGuessedAmount = fourGuessedAmount;
     }
 
-    public Integer getFourGuessedTotal() {
+    public Long getFourGuessedTotal() {
         return fourGuessedTotal;
     }
 
-    public void setFourGuessedTotal( Integer fourGuessedTotal ) {
+    public void setFourGuessedTotal( Long fourGuessedTotal ) {
         this.fourGuessedTotal = fourGuessedTotal;
     }
 
-    public Integer getFiveGuessedWin() {
+    public Long getFiveGuessedWin() {
         return fiveGuessedWin;
     }
 
-    public void setFiveGuessedWin( Integer fiveGuessedWin ) {
+    public void setFiveGuessedWin( Long fiveGuessedWin ) {
         this.fiveGuessedWin = fiveGuessedWin;
     }
 
-    public Integer getFiveGuessedAmount() {
+    public Long getFiveGuessedAmount() {
         return fiveGuessedAmount;
     }
 
-    public void setFiveGuessedAmount( Integer fiveGuessedAmount ) {
+    public void setFiveGuessedAmount( Long fiveGuessedAmount ) {
         this.fiveGuessedAmount = fiveGuessedAmount;
     }
 
-    public Integer getFiveGuessedTotal() {
+    public Long getFiveGuessedTotal() {
         return fiveGuessedTotal;
     }
 
-    public void setFiveGuessedTotal( Integer fiveGuessedTotal ) {
+    public void setFiveGuessedTotal( Long fiveGuessedTotal ) {
         this.fiveGuessedTotal = fiveGuessedTotal;
     }
 
-    public Integer getSixGuessedWin() {
+    public Long getSixGuessedWin() {
         return sixGuessedWin;
     }
 
-    public void setSixGuessedWin( Integer sixGuessedWin ) {
+    public void setSixGuessedWin( Long sixGuessedWin ) {
         this.sixGuessedWin = sixGuessedWin;
     }
 
-    public Integer getSixGuessedAmount() {
+    public Long getSixGuessedAmount() {
         return sixGuessedAmount;
     }
 
-    public void setSixGuessedAmount( Integer sixGuessedAmount ) {
+    public void setSixGuessedAmount( Long sixGuessedAmount ) {
         this.sixGuessedAmount = sixGuessedAmount;
     }
 
-    public Integer getSixGuessedTotal() {
+    public Long getSixGuessedTotal() {
         return sixGuessedTotal;
     }
 
-    public void setSixGuessedTotal( Integer sixGuessedTotal ) {
+    public void setSixGuessedTotal( Long sixGuessedTotal ) {
         this.sixGuessedTotal = sixGuessedTotal;
     }
 
-    public Integer getPersonCount() {
+    public Long getPersonCount() {
         return personCount;
     }
 
-    public void setPersonCount( Integer personCount ) {
+    public void setPersonCount( Long personCount ) {
         this.personCount = personCount;
     }
 
-    public Integer getPaidAmount() {
+    public Long getPaidAmount() {
         return paidAmount;
     }
 
-    public void setPaidAmount( Integer paidAmount ) {
+    public void setPaidAmount( Long paidAmount ) {
         this.paidAmount = paidAmount;
     }
 
-    public Integer getSuperPrize() {
+    public Long getSuperPrize() {
         return superPrize;
     }
 
-    public void setSuperPrize( Integer superPrize ) {
+    public void setSuperPrize( Long superPrize ) {
         this.superPrize = superPrize;
     }
 }
