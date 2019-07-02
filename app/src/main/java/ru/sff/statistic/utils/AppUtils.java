@@ -3,13 +3,16 @@ package ru.sff.statistic.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.SFFSApplication;
 
 public abstract class AppUtils {
@@ -85,6 +88,15 @@ public abstract class AppUtils {
                     .append( " " ).append( temp.substring( idx2 ) );
         }
         return result.toString();
+    }
+
+    public static boolean isStorageReady() {
+        return Environment.MEDIA_MOUNTED.equals( Environment.getExternalStorageState() );
+    }
+
+    public static String getSnapshotPath(){
+        return Environment.getExternalStorageDirectory()+ File.separator+ AppConstants.PICTURE_DIR
+                +File.separator+AppConstants.SNAPSHOT_FILENAME + AppConstants.EXTENSION_JPG;
     }
 
 }

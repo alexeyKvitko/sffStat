@@ -1,17 +1,18 @@
 package ru.sff.statistic.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 import android.widget.ImageView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import ru.sff.statistic.R;
 import ru.sff.statistic.component.AppHeader;
 import ru.sff.statistic.fragment.AllResultsFragment;
+import ru.sff.statistic.fragment.BallSetBasketFragment;
 
-public class RouteActivity extends BaseActivity implements AllResultsFragment.OnMenuOptionSelectListener{
+
+public class RouteActivity extends BaseActivity implements AllResultsFragment.OnMenuOptionSelectListener {
 
     private AppHeader mHeader;
     private ImageView mBackBtn;
@@ -44,11 +45,14 @@ public class RouteActivity extends BaseActivity implements AllResultsFragment.On
     }
 
     @Override
-    public void onMainStatisticSelect() {
+    public void onBallSetBasketShow() {
 
+        addReplaceFragment( BallSetBasketFragment.newInstance(),R.drawable.emoji_look, R.string.basket_view_title );
     }
 
     public ImageView getBackBtn() {
         return mBackBtn;
     }
+
+
 }

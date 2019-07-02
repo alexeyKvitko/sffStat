@@ -21,6 +21,7 @@ public class SixBallSet extends LinearLayout {
             , R.id.colorBallFiveId, R.id.colorBallSixId };
 
     private Ball[] mBallSet;
+    private BallSetType mSetType;
 
     public SixBallSet( Context context ) {
         super( context );
@@ -32,14 +33,13 @@ public class SixBallSet extends LinearLayout {
         inflate( context, R.layout.six_ball_set, this );
     }
 
-    public void setBallSet( Ball[] ballSet, BallSetType setType ) {
-        this.mBallSet = ballSet;
+    public void redrawBalls(){
         String[] colors = new String[6];
-        if ( BallSetType.LESS.equals( setType ) ) {
+        if ( BallSetType.LESS.equals( mSetType ) ) {
             for ( int i = 0; i < 6; i++ ) {
                 colors[ i ] = AppConstants.GRAY_BALL;
             }
-        } else if ( BallSetType.MIDDLE.equals( setType ) ) {
+        } else if ( BallSetType.MIDDLE.equals( mSetType ) ) {
             for ( int i = 0; i < 6; i++ ) {
                 colors[ i ] = AppConstants.BROWN_BALL;
             }
@@ -50,6 +50,12 @@ public class SixBallSet extends LinearLayout {
             ( ( ColorBall ) findViewById( BALL_IDX[ i ] ) )
                     .setColorBall( mBallSet[ i ], colors[ i ] );
         }
+    }
+
+    public void setBallSet( Ball[] ballSet, BallSetType setType ) {
+        this.mBallSet = ballSet;
+        this.mSetType = setType;
+        redrawBalls();
     }
 
 

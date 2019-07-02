@@ -2,6 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/allResultsFragmentId"
+    android:background="@drawable/main_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.AllResultsFragment">
@@ -42,15 +44,33 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/shokoColor" />
 
-            <TextView
-                android:id="@+id/oftenDigitId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="24dp"
-                android:text="@string/often_digit_label"
-                android:textColor="@color/grayTextColor"
-                android:textSize="16dp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/oftenDigitId"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:layout_height="wrap_content"
+                    android:text="@string/often_digit_label"
+                    android:textColor="@color/grayTextColor"
+                    android:textSize="16dp" />
+                <LinearLayout
+                    android:id="@+id/addToBasketBiggerAllId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_weight="8">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_basket_grey600_18dp"/>
+                </LinearLayout>
+            </LinearLayout>
 
             <ru.sff.statistic.component.SixBallSet
                 android:id="@+id/biggerBallSetId"
@@ -59,15 +79,33 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp" />
 
-            <TextView
-                android:id="@+id/lessDigitId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="24dp"
-                android:text="@string/less_digit_label"
-                android:textColor="@color/grayTextColor"
-                android:textSize="16dp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lessDigitId"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:layout_height="wrap_content"
+                    android:text="@string/less_digit_label"
+                    android:textColor="@color/grayTextColor"
+                    android:textSize="16dp" />
+                <LinearLayout
+                    android:id="@+id/addToBasketLessAllId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_weight="8">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_basket_grey600_18dp"/>
+                </LinearLayout>
+            </LinearLayout>
 
             <ru.sff.statistic.component.SixBallSet
                 android:id="@+id/lessBallSetId"
@@ -76,15 +114,33 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp" />
 
-            <TextView
-                android:id="@+id/middleDigitId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="24dp"
-                android:text="@string/middle_digit_number"
-                android:textColor="@color/grayTextColor"
-                android:textSize="16dp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/middleDigitId"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:layout_height="wrap_content"
+                    android:text="@string/middle_digit_number"
+                    android:textColor="@color/grayTextColor"
+                    android:textSize="16dp" />
+                <LinearLayout
+                    android:id="@+id/addToBasketMiddleAllId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_weight="8">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_basket_grey600_18dp"/>
+                </LinearLayout>
+            </LinearLayout>
 
             <ru.sff.statistic.component.SixBallSet
                 android:id="@+id/middleBallSetId"

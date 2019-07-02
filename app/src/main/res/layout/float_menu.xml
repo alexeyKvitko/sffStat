@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/floatMenuId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        fab:fab_addButtonColorNormal="@color/menuBackground"
+        fab:fab_addButtonColorPressed="@color/lightYellowColor"
+        fab:fab_addButtonPlusIconColor="@color/shokoColor"
+        fab:fab_addButtonSize="mini"
+        fab:fab_colorNormal="@color/menuBackground"
+        fab:fab_expandDirection="down"
+        fab:fab_labelStyle="@style/menu_labels_style">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabSelectedSetId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/backgroundColor"
+            fab:fab_colorPressed="@color/lightYellowColor"
+            fab:fab_icon="@drawable/ic_basket_shoko_18dp"
+            fab:fab_size="mini"
+            fab:fab_title="@string/fab_selected_set" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCountPercentId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/backgroundColor"
+            fab:fab_colorPressed="@color/lightYellowColor"
+            fab:fab_icon="@drawable/ic_percent_shoko_18dp"
+            fab:fab_size="mini"
+            fab:fab_title="@string/fab_percent" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+</RelativeLayout>

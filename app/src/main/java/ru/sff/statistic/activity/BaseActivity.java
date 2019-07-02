@@ -10,4 +10,6 @@ public class BaseActivity extends AppCompatActivity {
     public ConstraintLayout getActivityContainer() {
         return mActivityContainer;
     }
+
+
 }

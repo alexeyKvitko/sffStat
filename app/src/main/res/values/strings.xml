@@ -7,6 +7,7 @@
     <string name="loto_6_45">Гослото «6 из 45»</string>
     <string name="statistics">Статистика</string>
     <string name="all_draws_label">За все время игры</string>
+    <string name="basket_view_title">Выбранные наборы</string>
     <string name="per_draw_label">В среднем за тираж</string>
     <string name="internal_error">Внутренняя ошибка, повторите попытку позже</string>
     <string name="from_draw">С Тиража</string>
@@ -25,4 +26,10 @@
     <string name="draw_results_label">Итоги розыгрышей</string>
     <string name="table_orientation">Ориентация поля</string>
     <string name="even_odd_label">Четные, Нечетные</string>
+    <string name="fab_falling_count">Количество выпадений</string>
+    <string name="fab_percent">Проценты</string>
+    <string name="fab_selected_set">Выбранные комбинации</string>
+    <string name="nav_menu_basket">Корзина</string>
+
+
 </resources>

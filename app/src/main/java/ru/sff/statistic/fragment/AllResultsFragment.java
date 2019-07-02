@@ -3,17 +3,18 @@ package ru.sff.statistic.fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,8 +31,10 @@ import ru.sff.statistic.component.WinTable;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
+import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BallsInfo;
+import ru.sff.statistic.model.StoredBallSet;
 import ru.sff.statistic.rest.RestController;
 import ru.sff.statistic.utils.AppUtils;
 import ru.sff.statistic.utils.CustomAnimation;
@@ -50,6 +53,10 @@ public class AllResultsFragment extends BaseFragment {
     private TwoCellStat mTotalTicket;
     private TwoCellStat mTotalPaidAmount;
     private TwoCellStat mEvenOdd;
+
+    private SixBallSet mBiggerBallSet;
+    private SixBallSet mLessBallSet;
+    private SixBallSet mMiddleBallSet;
 
     private boolean mBiggerShow;
     private boolean mLessShow;
@@ -81,6 +88,8 @@ public class AllResultsFragment extends BaseFragment {
         super.onActivityCreated( savedInstanceState );
         initialize();
     }
+
+
 
     private void initialize() {
         CustomAnimation.transitionAnimation( getView().findViewById( R.id.scrollContainerId ),
@@ -119,15 +128,21 @@ public class AllResultsFragment extends BaseFragment {
             mBallTable.redrawTable();
         } );
 
-        setThisOnClickListener( R.id.biggerButtonId, R.id.lessButtonId, R.id.middleButtonId );
-
+        setThisOnClickListener( R.id.biggerButtonId, R.id.lessButtonId, R.id.middleButtonId,
+                R.id.addToBasketBiggerAllId,R.id.addToBasketLessAllId,R.id.addToBasketMiddleAllId );
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed() {
+    public void showBallSetBasket() {
         if ( mListener != null ) {
-            mListener.onMainStatisticSelect();
+            mListener.onBallSetBasketShow();
         }
+    }
+
+    public void changeViewType(){
+        mBiggerBallSet.redrawBalls();
+        mLessBallSet.redrawBalls();
+        mMiddleBallSet.redrawBalls();
+        mBallTable.redrawTable();
     }
 
     @Override
@@ -175,6 +190,21 @@ public class AllResultsFragment extends BaseFragment {
                 mMiddleShow = !mMiddleShow;
                 setBallSetButton( view.getId(), mMiddleShow );
                 break;
+            case R.id.addToBasketBiggerAllId:
+                CustomAnimation.clickAnimation( view );
+                addBallSetToBasket( R.id.addToBasketBiggerAllId, AppConstants.BALL_SET_TOTAL_BIGGER,
+                            mBallsInfo.getMoreOften(), BallSetType.BIGGER );
+                break;
+            case R.id.addToBasketLessAllId:
+                CustomAnimation.clickAnimation( view );
+                addBallSetToBasket( R.id.addToBasketLessAllId,
+                        AppConstants.BALL_SET_TOTAL_LESS, mBallsInfo.getLessOfter(), BallSetType.LESS );
+                break;
+            case R.id.addToBasketMiddleAllId:
+                CustomAnimation.clickAnimation( view );
+                addBallSetToBasket( R.id.addToBasketMiddleAllId,
+                        AppConstants.BALL_SET_TOTAL_MIDDLE, mBallsInfo.getMiddleOften(), BallSetType.MIDDLE );
+                break;
         }
         List<BallSetType> ballSetTypeList = new LinkedList<>(  );
         if( mBiggerShow ){
@@ -188,6 +218,22 @@ public class AllResultsFragment extends BaseFragment {
         }
         GlobalManager.getInstance().setBallSetTypes( ballSetTypeList.toArray( new BallSetType[ ballSetTypeList.size() ] ) );
         mBallTable.redrawTable();
+    }
+
+    private void addBallSetToBasket( int basketId, String basketType, Ball[] ballSet, BallSetType ballSetType ){
+        ImageView basketImage = ( ImageView ) (( LinearLayout) getView().findViewById( basketId ) ).getChildAt( 0 );
+        if ( GlobalManager.getStoredBallSet().get( basketType ) == null ){
+            StoredBallSet storedBallSet = new StoredBallSet();
+            storedBallSet.setBallSets( ballSet );
+            storedBallSet.setBallSetType( ballSetType );
+            storedBallSet.setStoredDate( AppUtils.formatDate( AppConstants.FULL_DATE_FORMAT, new Date( ) ) );
+            storedBallSet.setBallSetName( basketType );
+            GlobalManager.getStoredBallSet().put( basketType, storedBallSet );
+            basketImage.setImageDrawable( getActivity().getResources().getDrawable( R.drawable.ic_basket_shoko_18dp ) );
+        } else {
+            GlobalManager.getStoredBallSet().remove( basketType );
+            basketImage.setImageDrawable( getActivity().getResources().getDrawable( R.drawable.ic_basket_grey600_18dp ) );
+        }
     }
 
     private void setBallSetButton(int buttonId, boolean btnEnable ){
@@ -205,21 +251,22 @@ public class AllResultsFragment extends BaseFragment {
 
     public interface OnMenuOptionSelectListener {
         // TODO: Update argument type and name
-        void onMainStatisticSelect();
+        void onBallSetBasketShow();
+
     }
 
     private void populateFragment() {
         mBallTable = getView().findViewById( R.id.fiveNineTableId );
         mBallTable.setBallsInfo( mBallsInfo );
 
-        SixBallSet biggerBallSet = getView().findViewById( R.id.biggerBallSetId );
-        biggerBallSet.setBallSet( mBallsInfo.getMoreOften(), BallSetType.BIGGER );
+        mBiggerBallSet = getView().findViewById( R.id.biggerBallSetId );
+        mBiggerBallSet.setBallSet( mBallsInfo.getMoreOften(), BallSetType.BIGGER );
 
-        SixBallSet lessBallSet = getView().findViewById( R.id.lessBallSetId );
-        lessBallSet.setBallSet( mBallsInfo.getLessOfter(), BallSetType.LESS );
+        mLessBallSet = getView().findViewById( R.id.lessBallSetId );
+        mLessBallSet.setBallSet( mBallsInfo.getLessOfter(), BallSetType.LESS );
 
-        SixBallSet middleBallSet = getView().findViewById( R.id.middleBallSetId );
-        middleBallSet.setBallSet( mBallsInfo.getMiddleOften(), BallSetType.MIDDLE );
+        mMiddleBallSet = getView().findViewById( R.id.middleBallSetId );
+        mMiddleBallSet.setBallSet( mBallsInfo.getMiddleOften(), BallSetType.MIDDLE );
 
         mDrawRange.setTwoCellValue( "с № " + mBallsInfo.getFirstDraw(), mBallsInfo.getFirstDrawDate(),
                 "по № " + mBallsInfo.getLastDraw(), mBallsInfo.getLastDrawDate() );
@@ -251,6 +298,7 @@ public class AllResultsFragment extends BaseFragment {
         CustomAnimation.transitionAnimation( getView().findViewById( R.id.pleaseWaitContainerId ),
                 getView().findViewById( R.id.scrollContainerId ) );
     }
+
 
     private class GetAllResults extends AsyncTask< Void, Void, String > {
 

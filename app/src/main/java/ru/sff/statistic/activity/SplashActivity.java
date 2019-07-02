@@ -1,12 +1,19 @@
 package ru.sff.statistic.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
@@ -18,19 +25,61 @@ public class SplashActivity extends AppCompatActivity {
 
     private static int SPLASH_TIME_OUT = 2000;
 
+    private static final int UNIQUE_PERMISSION_CODE = 100;
+
+    private boolean mPermissionGranted;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         initialize();
+   }
+
+    private void checkPermissions( int code ) {
+        mPermissionGranted = false;
+        String[] permissions_required = new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE };
+        List notGrantedPermissions = new ArrayList<>();
+        for ( String permission : permissions_required ) {
+            if ( ActivityCompat.checkSelfPermission( getApplicationContext(), permission ) != PackageManager.PERMISSION_GRANTED ) {
+                notGrantedPermissions.add( permission );
+            }
+        }
+        if ( notGrantedPermissions.size() > 0 ) {
+            String[] permissions = new String[ notGrantedPermissions.size() ];
+            notGrantedPermissions.toArray( permissions );
+            ActivityCompat.requestPermissions( this, permissions, code );
+        } else {
+            initialize();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult( int requestCode, String permissions[], int[] grantResults ) {
+        if ( requestCode == UNIQUE_PERMISSION_CODE ) {
+            boolean ok = true;
+            for ( int i = 0; i < grantResults.length; ++i ) {
+                ok = ok && ( grantResults[ i ] == PackageManager.PERMISSION_GRANTED );
+            }
+            if ( ok ) {
+                initialize();
+            } else {
+                Toast.makeText( this, "Error: required permissions not granted!", Toast.LENGTH_SHORT ).show();
+                finish();
+            }
+        }
     }
 
     private void initialize(){
+         mPermissionGranted = true;
         ( (TextView) findViewById( R.id.sixDigitId ) ).setTypeface(AppConstants.ROTONDA_BOLD );
         ( (TextView) findViewById( R.id.fourFiveDigitId ) ).setTypeface(AppConstants.ROTONDA_BOLD );
         ( (TextView) findViewById( R.id.goslotoId ) ).setTypeface(AppConstants.ROBOTO_CONDENCED );
-        GlobalManager.getInstance().setBallSetTypes( new BallSetType[]{BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE } );
-        GlobalManager.getInstance().setFieldOrintation( AppConstants.BALL_12_RIGHT );
+
+        GlobalManager.getInstance().initialize();
 
         if ( !AppUtils.isNetworkAvailable() ) {
             finishActivity( "Отсутствует интернет соединение" );

@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
+import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.Ball;
 
 public class ColorBall extends LinearLayout {
@@ -45,7 +46,11 @@ public class ColorBall extends LinearLayout {
     public void setColorBall(Ball ball, String color ){
         mBall = ball;
         mBallNumber.setText( mBall.getBallNumber()+"" );
-        mBallRepeat.setText( mBall.getBallRepeat()+"" );
+        String repeatCount = mBall.getBallRepeat()+"";
+        if( AppConstants.VIEW_TYPE_PERCENT.equals(  GlobalManager.getResultViewType() ) ){
+            repeatCount =  (mBall.getBallRepeat()*100/GlobalManager.getTotalDrawCount())+"%";
+        }
+        mBallRepeat.setText( repeatCount );
         mColor = color;
         switch ( color ){
             case AppConstants.RED_BALL:

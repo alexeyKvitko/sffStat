@@ -54,7 +54,11 @@ public class BallField extends LinearLayout {
         }
         mBall = ball;
         mBallNumber.setText(mBall.getBallNumber()+"");
-        mBallRepeat.setText(mBall.getBallRepeat()+"");
+        String repeatCount = mBall.getBallRepeat()+"";
+        if( AppConstants.VIEW_TYPE_PERCENT.equals(  GlobalManager.getResultViewType() ) ){
+            repeatCount =  (mBall.getBallRepeat()*100/GlobalManager.getTotalDrawCount())+"%";
+        }
+        mBallRepeat.setText( repeatCount );
         for( BallSetType ballSetType : GlobalManager.getBallSetTypes() ){
             if ( BallSetType.BIGGER.equals( ballSetType )
                     && ballSetType.equals( mBall.getBallType() ) ) {

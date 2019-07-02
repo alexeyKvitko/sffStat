@@ -8,11 +8,29 @@ public abstract class AppConstants {
     public static final Typeface ROTONDA_BOLD = Typeface.createFromAsset( SFFSApplication.getAppContext().getAssets(), "font/RotondaBold.ttf" );
     public static final Typeface ROBOTO_BLACK = Typeface.createFromAsset( SFFSApplication.getAppContext().getAssets(), "font/Roboto-Black.ttf" );
 
+    public static final String FLOAT_MENU_MESSAGE = "ru.sff.statistic.component.FLOAT_MENU_MESSAGE";
+    public static final String FLOAT_MENU_ACTION = "ru.sff.statistic.component.FLOAT_MENU_ACTION";
+    public static final String FLOAT_MENU_CHANGE_VIEW_TYPE = "ru.sff.statistic.component.FLOAT_MENU_CHANGE_VT";
+    public static final String FLOAT_MENU_SHOW_BASKET = "ru.sff.statistic.component.FLOAT_MENU_SHOW_BASKET";
+
+    public static final String VIEW_TYPE_PERCENT = "view_type_percent";
+    public static final String VIEW_TYPE_FALLING_COUNT = "view_type_falling_count";
+
+    public static final String BALL_SET_TOTAL_BIGGER = "ВСЕ_ТИРАЖИ_ЧВЧ";
+    public static final String BALL_SET_TOTAL_LESS = "ВСЕ_ТИРАЖИ_РВЧ";
+    public static final String BALL_SET_TOTAL_MIDDLE = "ВСЕ_ТИРАЖИ_СРД";
+
     public static final String AUTH_BEARER = "Bearer ";
 
     public static final int FAKE_ID = -1;
 
-    public static final String FULL_DATE_FORMAT = "dd MMMM yyyy, HH:mm";
+    public static final String FULL_DATE_FORMAT = "dd MMMM yyyy в HH:mm";
+
+    public static final String PICTURE_DIR = "stoloto";
+    public static final String SNAPSHOT_FILENAME = "lotoapp";
+    public static final String EXTENSION_JPG = ".png";
+    public static final String EXTENSION_PNG = ".jpg";
+    public static final String EXTENSION_NOMEDIA = ".nomedia";
 
     public static final String RED_BALL = "RED_BALL";
     public static final String BLUE_BALL = "BLUE_BALL";
