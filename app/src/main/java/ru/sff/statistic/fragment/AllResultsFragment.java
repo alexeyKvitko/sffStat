@@ -1,6 +1,7 @@
 package ru.sff.statistic.fragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -130,6 +131,24 @@ public class AllResultsFragment extends BaseFragment {
 
         setThisOnClickListener( R.id.biggerButtonId, R.id.lessButtonId, R.id.middleButtonId,
                 R.id.addToBasketBiggerAllId,R.id.addToBasketLessAllId,R.id.addToBasketMiddleAllId );
+        initBasketImage();
+    }
+
+    private void initBasketImage(){
+        if ( GlobalManager.getStoredBallSet().size() > 0 ){
+            Drawable basketSelect = getActivity().getResources().getDrawable( R.drawable.ic_basket_shoko_18dp );
+            for(String key : GlobalManager.getStoredBallSet().keySet() ){
+                int imageId = AppConstants.FAKE_ID;
+                if ( AppConstants.BALL_SET_TOTAL_BIGGER.equals( key ) ){
+                    imageId = R.id.basketBiggerAllImageId;
+                } else if ( AppConstants.BALL_SET_TOTAL_LESS.equals( key ) ){
+                    imageId = R.id.basketLessAllImageId;
+                } else if ( AppConstants.BALL_SET_TOTAL_MIDDLE.equals( key ) ){
+                    imageId = R.id.basketMiddleAllImageId;
+                }
+                ((ImageView) getView().findViewById( imageId )).setImageDrawable( basketSelect );
+            }
+        }
     }
 
     public void showBallSetBasket() {

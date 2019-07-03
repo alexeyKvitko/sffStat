@@ -1,40 +1,33 @@
 package ru.sff.statistic.fragment;
 
 
-import android.animation.IntEvaluator;
-import android.animation.ValueAnimator;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.component.SixBallSet;
 import ru.sff.statistic.manager.GlobalManager;
-import ru.sff.statistic.utils.AppUtils;
+import ru.sff.statistic.model.BallsInfo;
+import ru.sff.statistic.model.StoredBallSet;
+import ru.sff.statistic.recycleview.BasketAdapter;
 
-import static ru.sff.statistic.manager.GlobalManager.getStoredBallSet;
 
+public class BallSetBasketFragment extends BaseFragment implements BasketAdapter.BasketDataObjectHolder.BasketTrashListener {
 
-public class BallSetBasketFragment extends BaseFragment {
-
-    public static final int BASKET_IMAGE_WIDTH = ( int ) AppUtils.convertDpToPixel( 66 );
-    public static final int BASKET_IMAGE_HEIGHT = ( int ) AppUtils.convertDpToPixel( 66 );
-
-    public static final int BASKET_HEADER_HEIGHT = ( int ) AppUtils.convertDpToPixel( 56 );
-    public static final int BASKET_ROW_HEIGHT = ( int ) AppUtils.convertDpToPixel( 112 );
-    public static final int ANIMATION_DUARATION = 300;
-
-    private int mBasketHeight;
-
+    private RecyclerView mBasketRecView;
+    private BasketAdapter mBasketAdapter;
+    
     public BallSetBasketFragment() {}
 
     public static BallSetBasketFragment newInstance( ) {
@@ -54,36 +47,70 @@ public class BallSetBasketFragment extends BaseFragment {
         return inflater.inflate( R.layout.fragment_ball_set_basket, container, false );
     }
 
-    @Override
-    public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
-        super.onActivityCreated( savedInstanceState );
-//        getView().findViewById( R.id.basketFragmentId ).setBackground( Drawable.createFromPath( AppUtils.getSnapshotPath() ) );
-        int basketHeight = getStoredBallSet().size() > 3 ? 3 : getStoredBallSet().size();
-        mBasketHeight = BASKET_HEADER_HEIGHT + BASKET_ROW_HEIGHT * basketHeight;
-        animateBasketBody( 0, mBasketHeight );
-        initTextView( R.id.basketTitleId, AppConstants.ROTONDA_BOLD );
+
+    private void initRecView() {
+        if ( mBasketRecView == null ) {
+            mBasketRecView = getView().findViewById( R.id.basketRVId );
+            mBasketRecView.setLayoutManager( new LinearLayoutManager( getContext(), RecyclerView.VERTICAL, false ) );
+            mBasketRecView.setAdapter( mBasketAdapter );
+            mBasketRecView.setHasFixedSize( false );
+        }
+        mBasketRecView.getAdapter().notifyDataSetChanged();
     }
 
-    private void animateBasketBody( int start, int end ) {
-        Animation fade = AnimationUtils.loadAnimation( getActivity(), R.anim.fade_in );
-        if ( mBasketHeight == start ) {
-            fade = AnimationUtils.loadAnimation( getActivity(), R.anim.fade_out );
+    private void initAdapter() {
+        if ( mBasketAdapter == null ) {
+            fillBasketAdapter( new LinkedList<>( GlobalManager.getStoredBallSet().values() ) );
         }
-        getView().findViewById( R.id.shadowBasketLayoutId ).startAnimation( fade );
-        final View basketBody = getView().findViewById( R.id.basketBodyId );
-        final FrameLayout.LayoutParams layoutParams = ( FrameLayout.LayoutParams ) basketBody.getLayoutParams();
-        ValueAnimator valAnimator = ValueAnimator.ofObject( new IntEvaluator(), start, end );
-        valAnimator.addUpdateListener( ( ValueAnimator animator ) -> {
-            int val = ( ( Integer ) animator.getAnimatedValue() );
-            layoutParams.height = val;
-            basketBody.setLayoutParams( layoutParams );
-        } );
-        valAnimator.setDuration( ANIMATION_DUARATION );
-        valAnimator.start();
+        mBasketAdapter.setBasketTrashListener( this );
+        mBasketAdapter.notifyDataSetChanged();
     }
+
+    private void fillBasketAdapter( List< StoredBallSet > entities ) {
+        if ( mBasketAdapter == null ) {
+            mBasketAdapter = new BasketAdapter( new LinkedList<>() );
+        } else {
+            mBasketAdapter.deleteAllItem();
+        }
+        int el = 0;
+        for ( int idx = entities.size()-1; idx >= 0; idx-- ) {
+            mBasketAdapter.addItem( entities.get(idx), el );
+            el++;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initAdapter();
+        initRecView();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if ( mBasketRecView != null ) {
+            mBasketRecView.setAdapter( null );
+            mBasketRecView = null;
+        }
+        mBasketAdapter = null;
+    }
+
+
 
     @Override
     public void onClick( View view ) {
 
+    }
+
+    @Override
+    public void onBasketTrashClick( String entityName ) {
+        GlobalManager.getStoredBallSet().remove( entityName );
+        if( GlobalManager.getStoredBallSet().size() == 0 ){
+            getActivity().onBackPressed();
+            return;
+        }
+        fillBasketAdapter( new LinkedList<>( GlobalManager.getStoredBallSet().values() ) );
+        mBasketAdapter.notifyDataSetChanged();
     }
 }

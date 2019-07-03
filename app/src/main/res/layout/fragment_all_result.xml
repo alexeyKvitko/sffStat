@@ -66,8 +66,10 @@
                     android:gravity="right"
                     android:layout_weight="8">
                     <ImageView
+                        android:id="@+id/basketBiggerAllImageId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="4dp"
                         app:srcCompat="@drawable/ic_basket_grey600_18dp"/>
                 </LinearLayout>
             </LinearLayout>
@@ -101,8 +103,10 @@
                     android:gravity="right"
                     android:layout_weight="8">
                     <ImageView
+                        android:id="@+id/basketLessAllImageId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="4dp"
                         app:srcCompat="@drawable/ic_basket_grey600_18dp"/>
                 </LinearLayout>
             </LinearLayout>
@@ -136,8 +140,10 @@
                     android:gravity="right"
                     android:layout_weight="8">
                     <ImageView
+                        android:id="@+id/basketMiddleAllImageId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="4dp"
                         app:srcCompat="@drawable/ic_basket_grey600_18dp"/>
                 </LinearLayout>
             </LinearLayout>

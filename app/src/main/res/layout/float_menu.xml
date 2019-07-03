@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/backgroundColor"
             fab:fab_colorPressed="@color/lightYellowColor"
-            fab:fab_icon="@drawable/ic_basket_shoko_18dp"
+            fab:fab_icon="@drawable/ic_basket_shoko_menu_18dp"
             fab:fab_size="mini"
             fab:fab_title="@string/fab_selected_set" />
 
