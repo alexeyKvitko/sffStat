@@ -31,5 +31,10 @@
     <string name="fab_selected_set">Выбранные комбинации</string>
     <string name="nav_menu_basket">Корзина</string>
 
+    <string name="nav_tab_plane">Результаты</string>
+    <string name="nav_tab_grid">Таблица</string>
+
+
+
 
 </resources>
