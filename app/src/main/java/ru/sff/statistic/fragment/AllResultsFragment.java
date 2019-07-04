@@ -32,8 +32,9 @@ public class AllResultsFragment extends BaseFragment {
     private ImageView mBackButton;
     private ViewPager mPager;
     private TabLayout mTabs;
-    ResultPagerAdapter mResultPagerAdapter;
+    private ResultPagerAdapter mResultPagerAdapter;
     private DrawsPlaneFragment mDrawsPlaneFragment;
+    private LotoDrawsFragment mLotoDrawsFragment;
 
 
     public AllResultsFragment() {
@@ -148,7 +149,8 @@ public class AllResultsFragment extends BaseFragment {
                     mDrawsPlaneFragment = DrawsPlaneFragment.newInstance();
                     return mDrawsPlaneFragment;
                 case 1:
-                    return DemoObjectFragment.newInstance( position );
+                    mLotoDrawsFragment = LotoDrawsFragment.newInstance();
+                    return mLotoDrawsFragment;
                 default:
                     return null;
             }
@@ -163,41 +165,6 @@ public class AllResultsFragment extends BaseFragment {
 
     }
 
-    // Instances of this class are fragments representing a single
-// object in our collection.
-    public static class DemoObjectFragment extends Fragment {
-
-        int mNum;
-
-        static DemoObjectFragment newInstance( int num ) {
-            DemoObjectFragment f = new DemoObjectFragment();
-
-            Bundle args = new Bundle();
-            args.putInt( "num", num );
-            f.setArguments( args );
-
-            return f;
-        }
-
-        @Override
-        public void onCreate( @Nullable Bundle savedInstanceState ) {
-            super.onCreate( savedInstanceState );
-            mNum = getArguments() != null ? getArguments().getInt( "num" ) : 1;
-        }
-
-        @Override
-        public View onCreateView( LayoutInflater inflater,
-                                  ViewGroup container, Bundle savedInstanceState ) {
-            return inflater.inflate( R.layout.fragment_collection_object, container, false );
-        }
-
-        @Override
-        public void onViewCreated( @NonNull View view, @Nullable Bundle savedInstanceState ) {
-            Bundle args = getArguments();
-            ( ( TextView ) view.findViewById( R.id.text1 ) )
-                    .setText( Integer.toString( mNum ) );
-        }
-    }
 
 
 }

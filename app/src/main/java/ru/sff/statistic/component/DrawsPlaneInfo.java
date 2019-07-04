@@ -39,7 +39,7 @@ import ru.sff.statistic.utils.CustomAnimation;
 
 public class DrawsPlaneInfo extends BaseComponent {
 
-    private static final String TAG = "AllResultsFragment";
+    private static final String TAG = "DrawsPlaneInfo";
 
     private BallsInfo mBallsInfo;
 

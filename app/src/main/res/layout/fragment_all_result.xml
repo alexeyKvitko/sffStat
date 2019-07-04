@@ -18,10 +18,9 @@
             android:id="@+id/tabLayoutId"
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
-            android:layout_height="18dp"
+            android:layout_height="wrap_content"
              app:tabTextColor="@color/shokoColor"
-             app:tabPaddingBottom="4dp"
-             app:tabIndicatorColor="@color/backgroundColor">
+            app:tabIndicatorColor="@color/backgroundColor">
 
         </com.google.android.material.tabs.TabLayout>
 

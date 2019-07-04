@@ -8,6 +8,7 @@
     <string name="statistics">Статистика</string>
     <string name="all_draws_label">За все время игры</string>
     <string name="basket_view_title">Выбранные наборы</string>
+    <string name="draw_details_title">Результаты тиража №</string>
     <string name="per_draw_label">В среднем за тираж</string>
     <string name="internal_error">Внутренняя ошибка, повторите попытку позже</string>
     <string name="from_draw">С Тиража</string>
@@ -34,7 +35,8 @@
     <string name="nav_tab_plane">Результаты</string>
     <string name="nav_tab_grid">Таблица</string>
 
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

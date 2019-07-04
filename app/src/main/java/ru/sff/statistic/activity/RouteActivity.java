@@ -1,6 +1,7 @@
 package ru.sff.statistic.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
@@ -10,9 +11,12 @@ import ru.sff.statistic.R;
 import ru.sff.statistic.component.AppHeader;
 import ru.sff.statistic.fragment.AllResultsFragment;
 import ru.sff.statistic.fragment.BallSetBasketFragment;
+import ru.sff.statistic.fragment.DrawDetailsFragment;
+import ru.sff.statistic.fragment.LotoDrawsFragment;
 
 
-public class RouteActivity extends BaseActivity implements AllResultsFragment.OnMenuOptionSelectListener {
+public class RouteActivity extends BaseActivity implements
+        AllResultsFragment.OnMenuOptionSelectListener, LotoDrawsFragment.OnDrawDetailsClickListener {
 
     private AppHeader mHeader;
     private ImageView mBackBtn;
@@ -28,11 +32,15 @@ public class RouteActivity extends BaseActivity implements AllResultsFragment.On
         mActivityContainer = findViewById( R.id.routeActivityLayoutId );
         mHeader = findViewById( R.id.routeHeaderId );
         mBackBtn = findViewById( R.id.routeBackBtnId );
-        addReplaceFragment( AllResultsFragment.newInstance(), R.drawable.emoji_look, R.string.all_draws_label );
+        addReplaceFragment( AllResultsFragment.newInstance(), R.drawable.emoji_look, R.string.all_draws_label, null );
     }
 
-    protected void addReplaceFragment( Fragment newFragment, int emojiId, int titleId ) {
-        mHeader.setHeader( emojiId, titleId );
+    protected void addReplaceFragment( Fragment newFragment, int emojiId, int titleId, String title ) {
+        if ( title == null ) {
+            mHeader.setHeader( emojiId, titleId );
+        } else {
+            mHeader.setHeader( emojiId, title );
+        }
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations( R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out );
         if ( getSupportFragmentManager().getFragments().size() == 0 ) {
@@ -46,8 +54,7 @@ public class RouteActivity extends BaseActivity implements AllResultsFragment.On
 
     @Override
     public void onBallSetBasketShow() {
-
-        addReplaceFragment( BallSetBasketFragment.newInstance(),R.drawable.emoji_look, R.string.basket_view_title );
+        addReplaceFragment( BallSetBasketFragment.newInstance(),R.drawable.emoji_look, R.string.basket_view_title, null );
     }
 
     public ImageView getBackBtn() {
@@ -55,4 +62,9 @@ public class RouteActivity extends BaseActivity implements AllResultsFragment.On
     }
 
 
+    @Override
+    public void onDrawDetailsClick( Integer draw ) {
+        addReplaceFragment( DrawDetailsFragment.newInstance( draw ),R.drawable.emoji_look, 0,
+                getResources().getString( R.string.draw_details_title )+" "+draw.toString() );
+    }
 }

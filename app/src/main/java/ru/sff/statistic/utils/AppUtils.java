@@ -11,6 +11,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.SFFSApplication;
@@ -42,7 +43,7 @@ public abstract class AppUtils {
     }
 
     public static String formatDate( String format, Date date ) {
-        SimpleDateFormat sdf = new SimpleDateFormat( format );
+        SimpleDateFormat sdf = new SimpleDateFormat( format, new Locale( "ru" ) );
         String result = null;
         try {
             result = sdf.format(date );

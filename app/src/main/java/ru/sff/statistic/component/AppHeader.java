@@ -32,8 +32,12 @@ public class AppHeader extends LinearLayout {
     }
 
     public void setHeader( int emojiId, int titleId ) {
+        setHeader( emojiId, SFFSApplication.getAppContext().getResources().getString( titleId ) );
+    }
+
+    public void setHeader( int emojiId, String title ) {
         ( ( TextView ) findViewById( R.id.lotoTypeId ) )
-                .setText( SFFSApplication.getAppContext().getResources().getString( titleId ) );
+                .setText( title );
         ( ( ImageView ) findViewById( R.id.emojiId ) )
                 .setImageDrawable( SFFSApplication.getAppContext()
                         .getResources().getDrawable( emojiId ) );
