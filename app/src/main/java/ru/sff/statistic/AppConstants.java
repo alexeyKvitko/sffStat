@@ -2,6 +2,9 @@ package ru.sff.statistic;
 
 import android.graphics.Typeface;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class AppConstants {
 
     public static final Typeface ROBOTO_CONDENCED = Typeface.createFromAsset( SFFSApplication.getAppContext().getAssets(), "font/RobotoCondensed.ttf" );
@@ -41,6 +44,16 @@ public abstract class AppConstants {
     public static final String ORANGE_BALL = "ORANGE_BALL";
     public static final String GRAY_BALL = "GRAY_BALL";
     public static final String BROWN_BALL = "BROWN_BALL";
+
+    public static final Map<String, String> DAY_OF_WEEK = new HashMap<String, String>(){{
+        put("ПН","Понедельник");
+        put("ВТ","Вторник");
+        put("СР","Среда");
+        put("ЧТ","Четверг");
+        put("ПТ","Пятница");
+        put("СБ","Суббота");
+        put("ВС","Воскресенье");
+    }};
 
     public static final Integer[] BALL_12_RIGHT = new Integer[] {48,25,26,27,28,29,30 ,47,24,9,10,11,12,31
             ,46,23,8,1,2,13,32,45,22,7,0,3,14,33,44,21,6,5,4,15,34,43,20,19,18,17,16,35,42,41,40,39,38,37,36};

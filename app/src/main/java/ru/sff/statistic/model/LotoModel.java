@@ -1,12 +1,11 @@
 package ru.sff.statistic.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
-public class Loto implements Serializable {
+public class LotoModel implements Serializable {
 
     private Integer id;
-    private Date drawDate;
+    private String drawDate;
     private Integer day;
     private String month;
     private Integer year;
@@ -41,11 +40,11 @@ public class Loto implements Serializable {
         this.id = id;
     }
 
-    public Date getDrawDate() {
+    public String getDrawDate() {
         return drawDate;
     }
 
-    public void setDrawDate(Date drawDate) {
+    public void setDrawDate( String drawDate ) {
         this.drawDate = drawDate;
     }
 

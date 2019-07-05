@@ -1,12 +1,10 @@
 package ru.sff.statistic.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,16 +22,11 @@ import retrofit2.Call;
 import retrofit2.Response;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
-import ru.sff.statistic.component.SixBallWin;
-import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
-import ru.sff.statistic.model.BallsInfo;
-import ru.sff.statistic.model.Loto;
-import ru.sff.statistic.model.StoredBallSet;
+import ru.sff.statistic.model.LotoModel;
 import ru.sff.statistic.recycleview.LotoDrawAdapter;
 import ru.sff.statistic.rest.RestController;
-import ru.sff.statistic.utils.AppUtils;
 
 
 public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
@@ -47,10 +40,9 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     private RecyclerView mLotoDrawRecView;
     private LotoDrawAdapter mLotoDrawAdapter;
 
-    private List< Loto > mLotoDraws;
+    private List< LotoModel > mLotoModelDraws;
 
-    public LotoDrawsFragment() {
-    }
+    public LotoDrawsFragment() {}
 
 
     public static LotoDrawsFragment newInstance() {
@@ -105,21 +97,21 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
 
     private void initAdapter() {
         if ( mLotoDrawAdapter == null ) {
-            fillLotoDrawAdapter( mLotoDraws );
+            fillLotoDrawAdapter( mLotoModelDraws );
         }
         mLotoDrawAdapter.setLotoDrawDetailsListener( this );
         mLotoDrawAdapter.notifyDataSetChanged();
     }
 
-    private void fillLotoDrawAdapter( List< Loto > entities ) {
+    private void fillLotoDrawAdapter( List< LotoModel > entities ) {
         if ( mLotoDrawAdapter == null ) {
             mLotoDrawAdapter = new LotoDrawAdapter( new LinkedList<>() );
         } else {
             mLotoDrawAdapter.deleteAllItem();
         }
         int el = 0;
-        for ( Loto loto : entities ) {
-            mLotoDrawAdapter.addItem( loto, el );
+        for ( LotoModel lotoModel : entities ) {
+            mLotoDrawAdapter.addItem( lotoModel, el );
             el++;
         }
     }
@@ -143,14 +135,20 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     }
 
     @Override
-    public void onLotoDrawDetailsClick( String draw ) {
+    public void onLotoDrawDetailsClick( String drawStr ) {
         if ( mListener != null ){
-            mListener.onDrawDetailsClick( Integer.valueOf( draw ) );
+            Integer draw = Integer.valueOf( drawStr );
+            for( LotoModel lotoModel : mLotoModelDraws ){
+                if( lotoModel.getDraw() != null && lotoModel.getDraw().equals( draw ) ){
+                    mListener.onDrawDetailsClick( lotoModel );
+                    break;
+                }
+            }
         }
     }
 
     public interface OnDrawDetailsClickListener{
-        void onDrawDetailsClick( Integer draw);
+        void onDrawDetailsClick( LotoModel lotoModel);
     }
 
     private class GetLotoDraws extends AsyncTask< Integer, Void, String > {
@@ -164,14 +162,14 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
         protected String doInBackground( Integer... years ) {
             String result = null;
             try {
-                Call< ApiResponse< List< Loto > > > resultCall = RestController
+                Call< ApiResponse< List< LotoModel > > > resultCall = RestController
                         .getApi().getLotoDrawsByYear( AppConstants.AUTH_BEARER
                                         + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
                                 years[ 0 ] );
-                Response< ApiResponse< List< Loto > > > resultResponse = resultCall.execute();
+                Response< ApiResponse< List< LotoModel > > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {
-                        mLotoDraws = resultResponse.body().getResult();
+                        mLotoModelDraws = resultResponse.body().getResult();
                     } else {
                         result = resultResponse.body().getMessage();
                     }

@@ -3,6 +3,7 @@ package ru.sff.statistic.component;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,7 +49,7 @@ public class ColorBall extends LinearLayout {
         mBallNumber.setText( mBall.getBallNumber()+"" );
         String repeatCount = mBall.getBallRepeat()+"";
         if( AppConstants.VIEW_TYPE_PERCENT.equals(  GlobalManager.getResultViewType() ) ){
-            repeatCount =  (mBall.getBallRepeat()*100/GlobalManager.getTotalDrawCount())+"%";
+            repeatCount =  (mBall.getBallRepeat()*100/GlobalManager.getPlayedDraws())+"%";
         }
         mBallRepeat.setText( repeatCount );
         mColor = color;
@@ -81,6 +82,10 @@ public class ColorBall extends LinearLayout {
                 applyColorToBall ( R.drawable.middle_circle , R.drawable.border_repeat_brown, R.color.ballBrown );
                 break;
         }
+    }
+
+    public void hideCaption(){
+        mBallRepeat.setVisibility( View.GONE );
     }
 
     private void applyColorToBall( int drawableId, int borderId, int colorId ){

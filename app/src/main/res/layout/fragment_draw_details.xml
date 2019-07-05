@@ -1,14 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.DrawDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <include layout="@layout/please_wait" />
+
+    <ScrollView
+        android:id="@+id/drawDetailsScrollViewId"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ru.sff.statistic.component.SixBallSet
+                android:id="@+id/drawDetailsSetId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp" />
+
+            <ru.sff.statistic.component.ThreeCellStat
+                android:id="@+id/threeCellEvenOddId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/deviderColor" />
+
+            <TextView
+                android:id="@+id/detailsDrawDateTimeId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/draw_date_label"
+                android:textColor="@color/grayTextColor"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/detailsDrawDateTimeValueId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/shokoColor"
+                android:textSize="18dp" />
+
+            <ru.sff.statistic.component.ThreeCellStat
+                android:id="@+id/threeCellStatDateId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/deviderColor" />
+
+            <TextView
+                android:id="@+id/detailsDrawCombinationId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/combination_label"
+                android:textColor="@color/grayTextColor"
+                android:textSize="16dp" />
+
+            <ru.sff.statistic.component.SixBallWin
+                android:id="@+id/detailsDrawCombinationValueId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp" />
+
+            <ru.sff.statistic.component.ThreeCellStat
+                android:id="@+id/threeCellStatCombiId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/detailsDrawSumId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/ball_sum_label"
+                android:textColor="@color/grayTextColor"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/detailsDrawSumValueId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/shokoColor"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </FrameLayout>

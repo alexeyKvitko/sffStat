@@ -65,8 +65,12 @@ public abstract class AppUtils {
 
 
     public static String getFormatedString( Long value ){
-        StringBuilder result = new StringBuilder();
         String temp = value.toString();
+        return getFormatedString( temp );
+    }
+
+    public static String getFormatedString( String temp ){
+        StringBuilder result = new StringBuilder();
         if( temp.length() <= 3 ){
             return temp;
         }

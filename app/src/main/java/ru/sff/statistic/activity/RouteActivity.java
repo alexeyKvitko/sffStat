@@ -13,6 +13,7 @@ import ru.sff.statistic.fragment.AllResultsFragment;
 import ru.sff.statistic.fragment.BallSetBasketFragment;
 import ru.sff.statistic.fragment.DrawDetailsFragment;
 import ru.sff.statistic.fragment.LotoDrawsFragment;
+import ru.sff.statistic.model.LotoModel;
 
 
 public class RouteActivity extends BaseActivity implements
@@ -63,8 +64,8 @@ public class RouteActivity extends BaseActivity implements
 
 
     @Override
-    public void onDrawDetailsClick( Integer draw ) {
-        addReplaceFragment( DrawDetailsFragment.newInstance( draw ),R.drawable.emoji_look, 0,
-                getResources().getString( R.string.draw_details_title )+" "+draw.toString() );
+    public void onDrawDetailsClick( LotoModel lotoModel ) {
+        addReplaceFragment( DrawDetailsFragment.newInstance( lotoModel ),R.drawable.emoji_look, 0,
+                getResources().getString( R.string.draw_details_title )+" "+lotoModel.getDraw().toString() );
     }
 }

@@ -58,5 +58,11 @@ public class SixBallSet extends LinearLayout {
         redrawBalls();
     }
 
+    public void hideRepeatCaption(){
+        for ( int i = 0; i < 6; i++ ) {
+            ( ( ColorBall ) findViewById( BALL_IDX[ i ] ) ).hideCaption();
+        }
+    }
+
 
 }

@@ -12,16 +12,16 @@ import java.util.LinkedList;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.component.SixBallWin;
-import ru.sff.statistic.model.Loto;
+import ru.sff.statistic.model.LotoModel;
 import ru.sff.statistic.utils.AppUtils;
 
-public class LotoDrawAdapter extends CommonBaseAdapter< Loto > {
+public class LotoDrawAdapter extends CommonBaseAdapter< LotoModel > {
 
     private static final String CLASS_TAG = "LotoDrawAdapter";
 
     private int mTrashVisibility;
 
-    public LotoDrawAdapter( LinkedList< Loto > mItemList ) {
+    public LotoDrawAdapter( LinkedList< LotoModel > mItemList ) {
         super( mItemList );
         mTrashVisibility = View.VISIBLE;
     }
@@ -46,21 +46,20 @@ public class LotoDrawAdapter extends CommonBaseAdapter< Loto > {
     @Override
     public void onBindViewHolder(final BaseDataObjectHolder h, final int position) {
         LotoDrawAdapter.LotoDrawDataObjectHolder holder = ( LotoDrawAdapter.LotoDrawDataObjectHolder ) h;
-        final Loto lotoDraw = mItemList.get( position );
+        final LotoModel lotoModelDraw = mItemList.get( position );
         int monthTitleVisibility = View.GONE;
         int cardVisibility = View.GONE;
-        if ( lotoDraw.getDraw() == null ){
+        if ( lotoModelDraw.getDraw() == null ){
              monthTitleVisibility = View.VISIBLE;
-             holder.lotoDrawMonthTitle.setText( lotoDraw.getMonth() );
+             holder.lotoDrawMonthTitle.setText( lotoModelDraw.getMonth() );
         } else {
             cardVisibility = View.VISIBLE;
-            holder.lotoBallWin.setSixBallWins( lotoDraw.getSlotOne(),lotoDraw.getSlotTwo()
-                    ,lotoDraw.getSlotThree(),lotoDraw.getSlotFour()
-                    ,lotoDraw.getSlotFive(),lotoDraw.getSlotSix());
-            holder.lotoDrawNum.setText( lotoDraw.getDraw().toString() );
-            String drawDate = AppUtils.formatDate( AppConstants.FULL_DATE_FORMAT, lotoDraw.getDrawDate() );
-            holder.lotoDrawDateTime.setText( drawDate );
-            holder.lotoDrawPrize.setText( lotoDraw.getSuperPrize() );
+            holder.lotoBallWin.setSixBallWins( lotoModelDraw.getSlotOne(), lotoModelDraw.getSlotTwo()
+                    , lotoModelDraw.getSlotThree(), lotoModelDraw.getSlotFour()
+                    , lotoModelDraw.getSlotFive(), lotoModelDraw.getSlotSix());
+            holder.lotoDrawNum.setText( lotoModelDraw.getDraw().toString() );
+            holder.lotoDrawDateTime.setText( lotoModelDraw.getDrawDate() );
+            holder.lotoDrawPrize.setText( lotoModelDraw.getSuperPrize() );
 
         }
         holder.lotoDrawMonthTitle.setVisibility( monthTitleVisibility );
