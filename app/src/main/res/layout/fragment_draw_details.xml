@@ -117,6 +117,100 @@
                 android:textColor="@color/shokoColor"
                 android:textSize="18dp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/deviderColor" />
+
+            <TextView
+                android:id="@+id/detailsDrawResultId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/draw_result_label"
+                android:textColor="@color/grayTextColor"
+                android:textSize="16dp" />
+
+            <ru.sff.statistic.component.DrawResultTable
+                android:id="@+id/drawResultTableId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/deviderColor" />
+
+            <TextView
+                android:id="@+id/detailsDrawTicketCountId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/ticket_count_label"
+                android:textColor="@color/grayTextColor"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/detailsDrawTicketValueId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/shokoColor"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/detailsDrawPayAmountLabelId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/draw_pay_amount_label"
+                android:textColor="@color/grayTextColor"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/detailsDrawPayAmountValueId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/shokoColor"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/detailsDrawPrizeAmountLabelId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/superprize_draw_label"
+                android:textColor="@color/grayTextColor"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/detailsDrawPrizeAmountValueId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/shokoColor"
+                android:textSize="18dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/deviderColor" />
+
         </LinearLayout>
     </ScrollView>
 

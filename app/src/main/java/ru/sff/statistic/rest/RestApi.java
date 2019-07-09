@@ -27,6 +27,10 @@ public interface RestApi {
     Call< ApiResponse< List< LotoModel > > > getLotoDrawsByYear( @Header("Authorization") String authorization
             , @Path("year") Integer year);
 
+    @GET(APP_API+"getLotoDrawsByMonthAndYear/{month}/{year}")
+    Call< ApiResponse< List< LotoModel > > > getLotoDrawsByMonthAndYear( @Header("Authorization") String authorization
+            , @Path("month") String month, @Path("year") Integer year);
+
     @GET(APP_API+"getDrawDetails/{draw}")
     Call< ApiResponse< DrawInfo > > getDrawDetails( @Header("Authorization") String authorization
             , @Path("draw") Integer draw);

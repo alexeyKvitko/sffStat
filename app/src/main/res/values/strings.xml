@@ -24,6 +24,7 @@
     <string name="result_field_number">Комбинация на поле</string>
     <string name="total_ticket_label">Число билетов в розыгрышах</string>
     <string name="total_paid_amount_label">Выплаченная сумма в розыгрышах</string>
+    <string name="period_label">Период</string>
     <string name="draw_results_label">Итоги розыгрышей</string>
     <string name="table_orientation">Ориентация поля</string>
     <string name="even_odd_label">Четные, Нечетные</string>
@@ -39,6 +40,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="draw_date_label">Дата розыгрыша</string>
     <string name="ball_sum_label">Сумма выпавших цифр</string>
+    <string name="draw_result_label">Итоги розыгрыша</string>
+    <string name="ticket_count_label">Билетов участвовало</string>
+    <string name="draw_pay_amount_label">Выплачено по результам тиража</string>
+    <string name="superprize_draw_label">Суперприз</string>
     <string name="combination_label">Комбинация</string>
 
 

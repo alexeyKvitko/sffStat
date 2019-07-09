@@ -19,6 +19,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.component.DrawResultTable;
 import ru.sff.statistic.component.SixBallSet;
 import ru.sff.statistic.component.SixBallWin;
 import ru.sff.statistic.component.ThreeCellStat;
@@ -92,7 +93,7 @@ public class DrawDetailsFragment extends BaseFragment {
         ThreeCellStat threeCellDate =  getView().findViewById( R.id.threeCellStatDateId );
         threeCellDate.setLeftCell( AppConstants.DAY_OF_WEEK.get(mLotoModel.getDayOfWeek().toUpperCase() )+",", "" );
         threeCellDate.setMiddleCell( mLotoModel.getNumOfWeekInMonth().toString(), "неделя в месяце," );
-        threeCellDate.setRightCell( mLotoModel.getDayOfYear().toString(), "день в году" );
+        threeCellDate.setRightCell( mLotoModel.getDayOfYear().toString(), "день" );
 
         initTextView( R.id.detailsDrawSumId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.detailsDrawSumValueId, AppConstants.ROTONDA_BOLD, mLotoModel.getSum().toString() );
@@ -122,8 +123,40 @@ public class DrawDetailsFragment extends BaseFragment {
 
         ThreeCellStat threeCellCombination =  getView().findViewById( R.id.threeCellStatCombiId );
         threeCellCombination.setLeftCell( AppUtils.getFormatedString( mLotoModel.getCombination().toString() ), " сочетание из " );
-        threeCellCombination.setMiddleCell( "8 145 060", " возможных " );
+        threeCellCombination.setMiddleCell( "8 145 060", "" );
 
+        initTextView( R.id.detailsDrawResultId, AppConstants.ROTONDA_BOLD );
+        DrawResultTable drawResultTable = getView().findViewById( R.id.drawResultTableId );
+        drawResultTable.setSixBallResult( mDrawInfo.getSixGuessedWin(),
+                                            mDrawInfo.getSixGuessedAmount(),
+                                                    mDrawInfo.getSixGuessedTotal() );
+        drawResultTable.setFiveBallResult( mDrawInfo.getFiveGuessedWin(),
+                mDrawInfo.getFiveGuessedAmount(),
+                mDrawInfo.getFiveGuessedTotal() );
+
+        drawResultTable.setFourBallResult( mDrawInfo.getFourGuessedWin(),
+                mDrawInfo.getFourGuessedAmount(),
+                mDrawInfo.getFourGuessedTotal() );
+
+        drawResultTable.setThreeBallResult( mDrawInfo.getThreeGuessedWin(),
+                mDrawInfo.getThreeGuessedAmount(),
+                mDrawInfo.getThreeGuessedTotal() );
+
+        drawResultTable.setTwoBallResult( mDrawInfo.getTwoGuessedWin(),
+                mDrawInfo.getTwoGuessedAmount(),
+                mDrawInfo.getTwoGuessedTotal() );
+
+        initTextView( R.id.detailsDrawTicketCountId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.detailsDrawTicketValueId, AppConstants.ROTONDA_BOLD,
+                AppUtils.getFormatedString( mDrawInfo.getPersonCount() ) );
+
+        initTextView( R.id.detailsDrawPayAmountLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.detailsDrawPayAmountValueId, AppConstants.ROTONDA_BOLD,
+                AppUtils.getFormatedString( mDrawInfo.getPaidAmount() ) );
+
+        initTextView( R.id.detailsDrawPrizeAmountLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.detailsDrawPrizeAmountValueId, AppConstants.ROTONDA_BOLD,
+                AppUtils.getFormatedString( mDrawInfo.getSuperPrize() ) );
 
 
         CustomAnimation.transitionAnimation( getView().findViewById( R.id.pleaseWaitContainerId ),

@@ -96,7 +96,6 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="4dp"
                         android:drawableEnd="@drawable/ic_currency_rub_gray_18dp"
-                        android:text="Суперприз "
                         android:textColor="@color/shokoTextColor"
                         android:textSize="14dp" />
 

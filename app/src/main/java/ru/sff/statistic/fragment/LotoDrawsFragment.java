@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.util.Log;
@@ -22,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.component.ArrowSelector;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.LotoModel;
@@ -39,8 +41,17 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
 
     private RecyclerView mLotoDrawRecView;
     private LotoDrawAdapter mLotoDrawAdapter;
+    private ArrowSelector mMonthArrowSelector;
+    private ArrowSelector mYearArrowSelector;
+    private SwipeRefreshLayout mRefresh;
 
     private List< LotoModel > mLotoModelDraws;
+
+    private String mSelectedMonth;
+    private Integer mSelectedtYear;
+
+    private Integer mMonthIndex = 0;
+    private Integer mYearIndex = 0;
 
     public LotoDrawsFragment() {}
 
@@ -64,8 +75,37 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
+        initialize();
+    }
+
+    private void initialize(){
+        initTextView( R.id.periodLabelId, AppConstants.ROTONDA_BOLD );
+
+        mMonthArrowSelector = getView().findViewById( R.id.monthArrowSelectorId );
+        mYearArrowSelector = getView().findViewById( R.id.yearArrowSelectorId );
+
         Calendar cal = Calendar.getInstance();
-        new GetLotoDraws().execute( cal.get( Calendar.YEAR ) );
+        int currentYear = cal.get( Calendar.YEAR );
+        String[] years = new String[(currentYear-2008)+1];
+        int idx = 0;
+        for( int year = currentYear; year >= 2008; year-- ){
+            years[ idx ] = year+"";
+            idx++;
+        }
+        mMonthArrowSelector.setValues( getActivity().getResources().getStringArray( R.array.monthes ), mMonthIndex );
+        mYearArrowSelector.setValues( years, mYearIndex );
+        mRefresh = getView().findViewById( R.id.swipeRefreshLayoutId );
+        mRefresh.setOnRefreshListener( () -> {
+            if ( !mSelectedMonth.equals(  mMonthArrowSelector.getValue() ) ||
+                   !mSelectedtYear.equals( Integer.valueOf( mYearArrowSelector.getValue() ) ) ){
+                mRefresh.setRefreshing( true );
+                new GetLotoDraws().execute();
+            } else {
+                mRefresh.setRefreshing( false );
+            }
+
+        } );
+        new GetLotoDraws().execute();
     }
 
     @Override
@@ -96,9 +136,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     }
 
     private void initAdapter() {
-        if ( mLotoDrawAdapter == null ) {
-            fillLotoDrawAdapter( mLotoModelDraws );
-        }
+        fillLotoDrawAdapter( mLotoModelDraws );
         mLotoDrawAdapter.setLotoDrawDetailsListener( this );
         mLotoDrawAdapter.notifyDataSetChanged();
     }
@@ -151,7 +189,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
         void onDrawDetailsClick( LotoModel lotoModel);
     }
 
-    private class GetLotoDraws extends AsyncTask< Integer, Void, String > {
+    private class GetLotoDraws extends AsyncTask< Void, Void, String > {
 
         @Override
         protected void onPreExecute() {
@@ -159,13 +197,17 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
         }
 
         @Override
-        protected String doInBackground( Integer... years ) {
+        protected String doInBackground( Void... args ) {
             String result = null;
             try {
+                mSelectedMonth = mMonthArrowSelector.getValue();
+                mSelectedtYear = Integer.valueOf( mYearArrowSelector.getValue() );
+                mMonthIndex = mMonthArrowSelector.getCurrentIndex();
+                mYearIndex = mYearArrowSelector.getCurrentIndex();
                 Call< ApiResponse< List< LotoModel > > > resultCall = RestController
-                        .getApi().getLotoDrawsByYear( AppConstants.AUTH_BEARER
+                        .getApi().getLotoDrawsByMonthAndYear( AppConstants.AUTH_BEARER
                                         + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                                years[ 0 ] );
+                                mSelectedMonth, mSelectedtYear );
                 Response< ApiResponse< List< LotoModel > > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {
@@ -187,6 +229,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
         @Override
         protected void onPostExecute( String result ) {
             super.onPostExecute( result );
+            mRefresh.setRefreshing( false );
             if ( result != null ) {
                 ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );
                 ( new Handler() ).postDelayed( () -> {
