@@ -104,4 +104,14 @@ public abstract class AppUtils {
                 +File.separator+AppConstants.SNAPSHOT_FILENAME + AppConstants.EXTENSION_JPG;
     }
 
+    public static String getTimes( int value ){
+        String times = "раз";
+        String source = (value+"");
+        int lastDigit = Integer.valueOf( source.substring( source.length()-1 ) );
+        if ( lastDigit > 1 && lastDigit < 5 ){
+            times = "раза";
+        }
+        return times;
+    }
+
 }

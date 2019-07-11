@@ -1,17 +1,20 @@
 package ru.sff.statistic.component;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
+import ru.sff.statistic.utils.CustomAnimation;
 
-public class SixBallSet extends LinearLayout {
+public class SixBallSet extends BaseComponent {
 
     private static final String DEF_COLOR[] = new String[]{ AppConstants.RED_BALL, AppConstants.BLUE_BALL,
             AppConstants.ORANGE_BALL, AppConstants.CYAN_BALL, AppConstants.GREEN_BALL, AppConstants.YELLOW_BALL };
@@ -26,11 +29,19 @@ public class SixBallSet extends LinearLayout {
     public SixBallSet( Context context ) {
         super( context );
         inflate( context, R.layout.six_ball_set, this );
+        initialize();
     }
 
     public SixBallSet( Context context, @Nullable AttributeSet attrs ) {
         super( context, attrs );
         inflate( context, R.layout.six_ball_set, this );
+        initialize();
+    }
+
+    private void initialize(){
+        initBaseComponent( this );
+        setThisOnClickListener( R.id.colorBallOneId, R.id.colorBallTwoId, R.id.colorBallThreeId,
+                                R.id.colorBallFourId, R.id.colorBallFiveId, R.id.colorBallSixId );
     }
 
     public void redrawBalls(){
@@ -65,4 +76,11 @@ public class SixBallSet extends LinearLayout {
     }
 
 
+    @Override
+    public void onClick( View view ) {
+        CustomAnimation.clickAnimation( view );
+        Intent intent = new Intent( AppConstants.BALL_SELECT_MESSAGE );
+        intent.putExtra( AppConstants.BALL_SELECT_ACTION, (( ColorBall) view).getBall() );
+        SFFSApplication.getAppContext().sendBroadcast( intent );
+    }
 }

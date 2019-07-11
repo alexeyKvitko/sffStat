@@ -10,6 +10,7 @@ import retrofit2.http.Path;
 import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.BallsInfo;
 import ru.sff.statistic.model.BootstrapModel;
+import ru.sff.statistic.model.DigitInfo;
 import ru.sff.statistic.model.DrawInfo;
 import ru.sff.statistic.model.LotoModel;
 
@@ -34,4 +35,8 @@ public interface RestApi {
     @GET(APP_API+"getDrawDetails/{draw}")
     Call< ApiResponse< DrawInfo > > getDrawDetails( @Header("Authorization") String authorization
             , @Path("draw") Integer draw);
+
+    @GET(APP_API+"getDigitInfo/{digit}")
+    Call< ApiResponse< DigitInfo > > getDigitInfo( @Header("Authorization") String authorization
+            , @Path("digit") Integer digit);
 }

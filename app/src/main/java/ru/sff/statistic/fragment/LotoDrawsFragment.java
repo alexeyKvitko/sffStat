@@ -14,6 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.LinearLayout;
 
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -28,22 +31,32 @@ import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.LotoModel;
 import ru.sff.statistic.recycleview.LotoDrawAdapter;
+import ru.sff.statistic.recycleview.StickyRecyclerView;
 import ru.sff.statistic.rest.RestController;
+import ru.sff.statistic.utils.AppUtils;
 
 
 public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
-                                                LotoDrawDataObjectHolder.LotoDrawDetailsListener {
+                                                LotoDrawDataObjectHolder.LotoDrawDetailsListener,
+                                                StickyRecyclerView.OnActionHeaderListener{
 
 
     private static final String TAG = "LotoDrawsFragment";
 
+    private static final int REC_VIEW_CARD_HEIGHT = 24;
+    private static final int HEADER_EXPAND_MARGIN_TOP = 94;
+    private static final int HEADER_COLLAPSE_MARGIN_TOP = 16;
+    private static final int HEADER_COLLAPSE_ANIMATION_MARGIN = 94;
+    private static final int HEADER_ANIMATION_DURATION = 600;
+
     public OnDrawDetailsClickListener mListener;
 
-    private RecyclerView mLotoDrawRecView;
+    private StickyRecyclerView mLotoDrawRecView;
     private LotoDrawAdapter mLotoDrawAdapter;
     private ArrowSelector mMonthArrowSelector;
     private ArrowSelector mYearArrowSelector;
     private SwipeRefreshLayout mRefresh;
+    private LinearLayout mHeaderContainer;
 
     private List< LotoModel > mLotoModelDraws;
 
@@ -81,6 +94,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     private void initialize(){
         initTextView( R.id.periodLabelId, AppConstants.ROTONDA_BOLD );
 
+        mHeaderContainer = getView().findViewById( R.id.headerSelectPeriodId );
         mMonthArrowSelector = getView().findViewById( R.id.monthArrowSelectorId );
         mYearArrowSelector = getView().findViewById( R.id.yearArrowSelectorId );
 
@@ -128,9 +142,9 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     private void initRecView() {
         if ( mLotoDrawRecView == null ) {
             mLotoDrawRecView = getView().findViewById( R.id.lotoDrawRVId );
-            mLotoDrawRecView.setLayoutManager( new LinearLayoutManager( getContext(), RecyclerView.VERTICAL, false ) );
-            mLotoDrawRecView.setAdapter( mLotoDrawAdapter );
-            mLotoDrawRecView.setHasFixedSize( false );
+            mLotoDrawRecView.setOnActionHeaderListener( this );
+            mLotoDrawRecView.initialize( mLotoDrawAdapter,mRefresh, REC_VIEW_CARD_HEIGHT
+                    , HEADER_EXPAND_MARGIN_TOP, HEADER_COLLAPSE_MARGIN_TOP );
         }
         mLotoDrawRecView.getAdapter().notifyDataSetChanged();
     }
@@ -183,6 +197,55 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
                 }
             }
         }
+    }
+
+    @Override
+    public void onRemoveHeaderAction() {
+        TranslateAnimation slideUp = new TranslateAnimation( 0, 0, 0,
+                -AppUtils.convertDpToPixel( HEADER_COLLAPSE_ANIMATION_MARGIN ) );
+        slideUp.setDuration( HEADER_ANIMATION_DURATION );
+        slideUp.setAnimationListener( new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart( Animation animation ) {
+                mLotoDrawRecView.setAnimateHeader( true );
+            }
+
+            @Override
+            public void onAnimationEnd( Animation animation ) {
+                mHeaderContainer.setVisibility( View.GONE );
+                mLotoDrawRecView.setAnimateHeader( false );
+            }
+
+            @Override
+            public void onAnimationRepeat( Animation animation ) {
+            }
+        } );
+        mHeaderContainer.startAnimation( slideUp );
+    }
+
+    @Override
+    public void onRestoreHeaderAction() {
+        TranslateAnimation slideDown = new TranslateAnimation( 0, 0,
+                -AppUtils.convertDpToPixel( HEADER_COLLAPSE_ANIMATION_MARGIN ), 0 );
+        slideDown.setDuration( HEADER_ANIMATION_DURATION );
+        slideDown.setAnimationListener( new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart( Animation animation ) {
+                mHeaderContainer.setVisibility( View.VISIBLE );
+                mLotoDrawRecView.setAnimateHeader( true );
+            }
+
+            @Override
+            public void onAnimationEnd( Animation animation ) {
+                mLotoDrawRecView.setAnimateHeader( false );
+            }
+
+            @Override
+            public void onAnimationRepeat( Animation animation ) {
+            }
+        } );
+        mHeaderContainer.startAnimation( slideDown );
+
     }
 
     public interface OnDrawDetailsClickListener{

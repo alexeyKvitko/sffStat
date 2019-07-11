@@ -12,7 +12,9 @@ public abstract class AppConstants {
     public static final Typeface ROBOTO_BLACK = Typeface.createFromAsset( SFFSApplication.getAppContext().getAssets(), "font/Roboto-Black.ttf" );
 
     public static final String FLOAT_MENU_MESSAGE = "ru.sff.statistic.component.FLOAT_MENU_MESSAGE";
+    public static final String BALL_SELECT_MESSAGE = "ru.sff.statistic.component.BALL_SELECT_MESSAGE";
     public static final String FLOAT_MENU_ACTION = "ru.sff.statistic.component.FLOAT_MENU_ACTION";
+    public static final String BALL_SELECT_ACTION = "ru.sff.statistic.component.BALL_SELECT_ACTION";
     public static final String FLOAT_MENU_CHANGE_VIEW_TYPE = "ru.sff.statistic.component.FLOAT_MENU_CHANGE_VT";
     public static final String FLOAT_MENU_SHOW_BASKET = "ru.sff.statistic.component.FLOAT_MENU_SHOW_BASKET";
 
@@ -54,6 +56,9 @@ public abstract class AppConstants {
         put("СБ","Суббота");
         put("ВС","Воскресенье");
     }};
+
+    public static final int HEADER_ACTION_REMOVE = -1;
+    public static final int HEADER_ACTION_RESTORE = 1;
 
     public static final Integer[] BALL_12_RIGHT = new Integer[] {48,25,26,27,28,29,30 ,47,24,9,10,11,12,31
             ,46,23,8,1,2,13,32,45,22,7,0,3,14,33,44,21,6,5,4,15,34,43,20,19,18,17,16,35,42,41,40,39,38,37,36};

@@ -9,6 +9,7 @@
     <string name="all_draws_label">За все время игры</string>
     <string name="basket_view_title">Выбранные наборы</string>
     <string name="draw_details_title">Результаты тиража №</string>
+    <string name="digit_details_title">Статистика по шару №</string>
     <string name="per_draw_label">В среднем за тираж</string>
     <string name="internal_error">Внутренняя ошибка, повторите попытку позже</string>
     <string name="from_draw">С Тиража</string>

@@ -95,4 +95,8 @@ public class ColorBall extends LinearLayout {
         mBallRepeat.setBackground( resources.getDrawable( borderId ) );
         mBallRepeat.setTextColor( resources.getColor( colorId ) );
     }
+
+    public Ball getBall(){
+        return mBall;
+    }
 }
