@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.SFFSApplication;
+import ru.sff.statistic.model.MagnetNumber;
 
 public abstract class AppUtils {
 
@@ -105,13 +106,29 @@ public abstract class AppUtils {
     }
 
     public static String getTimes( int value ){
-        String times = "раз";
         String source = (value+"");
+        return getTimes( source );
+    }
+
+    public static String getTimes( String source ){
+        String times = "раз";
         int lastDigit = Integer.valueOf( source.substring( source.length()-1 ) );
         if ( lastDigit > 1 && lastDigit < 5 ){
             times = "раза";
         }
         return times;
+    }
+
+    public static MagnetNumber getMaxMagnetNumber(List< MagnetNumber > magnetNumbers){
+        int max = 0;
+        MagnetNumber maxMagnetNumber =  null;
+        for( MagnetNumber magnetNumber :magnetNumbers ){
+            if( magnetNumber.getCount() > max ){
+                max = magnetNumber.getCount();
+                maxMagnetNumber = magnetNumber;
+            }
+        }
+        return maxMagnetNumber;
     }
 
 }

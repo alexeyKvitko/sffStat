@@ -67,6 +67,7 @@ public class DrawsPlaneInfo extends BaseComponent {
     public DrawsPlaneInfo( Context context ) {
         super( context );
         inflate(context, R.layout.draws_plane_info, this);
+        initialize();
     }
 
     public DrawsPlaneInfo( Context context, @Nullable AttributeSet attrs ) {

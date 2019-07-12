@@ -2,7 +2,7 @@ package ru.sff.statistic.model;
 
 import java.io.Serializable;
 
-public class MagnetNumber implements Serializable {
+public class MagnetNumber implements Serializable, Comparable {
 
     private Integer id;
     private Integer ballCount;
@@ -39,5 +39,11 @@ public class MagnetNumber implements Serializable {
 
     public void setCount( Integer count ) {
         this.count = count;
+    }
+
+    @Override
+    public int compareTo( Object o ) {
+        int res = this.count - ( ( MagnetNumber ) o ).getCount();
+        return -res;
     }
 }
