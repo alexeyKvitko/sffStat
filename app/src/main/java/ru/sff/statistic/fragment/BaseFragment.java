@@ -123,7 +123,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     class FloatMenuActionReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive( Context context, Intent intent ) {
             if ( mFragment instanceof AllResultsFragment ) {
@@ -142,4 +141,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             }
         }
     }
+
+
 }

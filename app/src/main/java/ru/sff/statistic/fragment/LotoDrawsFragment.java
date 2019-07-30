@@ -196,7 +196,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
             Integer draw = Integer.valueOf( drawStr );
             for( LotoModel lotoModel : mLotoModelDraws ){
                 if( lotoModel.getDraw() != null && lotoModel.getDraw().equals( draw ) ){
-                    mListener.onDrawDetailsClick( lotoModel );
+                    mListener.onDrawDetailsClick( lotoModel.getDraw() );
                     break;
                 }
             }
@@ -253,7 +253,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     }
 
     public interface OnDrawDetailsClickListener{
-        void onDrawDetailsClick( LotoModel lotoModel);
+        void onDrawDetailsClick( Integer draw);
     }
 
     private class GetLotoDraws extends AsyncTask< Void, Void, String > {

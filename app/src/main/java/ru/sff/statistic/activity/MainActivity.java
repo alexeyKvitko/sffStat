@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import ru.sff.statistic.AppConstants;
@@ -71,9 +72,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick( View view ) {
         CustomAnimation.bounceAnimation( view );
+        Map<String, String> params = new HashMap<>(  );
         switch ( view.getId() ) {
             case R.id.requestAllDrawId:
-                startNewActivity( RouteActivity.class );
+                params.put( AppConstants.ROUTE_ACTION, AppConstants.SHOW_ALL_DRAW_SCREEN );
+                startNewActivity( RouteActivity.class, params );
+                break;
+            case R.id.requestByDrawId :
+                params.put( AppConstants.ROUTE_ACTION, AppConstants.SHOW_BY_DRAW_SCREEN );
+                startNewActivity( RouteActivity.class, params );
                 break;
         }
     }

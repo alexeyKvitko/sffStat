@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/statByDrawFragmentId"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    tools:context=".fragment.StatByDrawFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/statByDrawRequestContainerId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_debug_blue"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/statByDrawRequestLabelId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:textSize="32dp"
+                android:textColor="@color/shokoTextColor"
+                android:text="Запрос"/>
+
+            <com.etiennelawlor.discreteslider.library.ui.DiscreteSlider
+                android:id="@+id/lastDrawSliderId"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="bottom"
+                app:backdropFillColor="@color/ballYellow"
+                app:backdropStrokeColor="@color/ballYellow"
+                app:backdropStrokeWidth="1dp"
+                app:horizontalBarThickness="1dp"
+                app:position="10"
+                app:progressDrawable="@drawable/transparent_progress"
+                app:thumb="@drawable/ic_draw_slider_18dp"
+                app:tickMarkCount="44"
+                app:tickMarkRadius="2dp" />
+        </LinearLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pagerId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayoutId"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabTextColor="@color/shokoColor"
+                app:tabIndicatorColor="@color/backgroundColor">
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </androidx.viewpager.widget.ViewPager>
+
+    </LinearLayout>
+
+
+
+</FrameLayout>
+
+

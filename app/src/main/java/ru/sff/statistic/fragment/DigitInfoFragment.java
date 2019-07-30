@@ -1,6 +1,7 @@
 package ru.sff.statistic.fragment;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -21,6 +22,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.activity.RouteActivity;
 import ru.sff.statistic.component.BallSetWithDesc;
 import ru.sff.statistic.component.SixBallWin;
@@ -81,7 +83,6 @@ public class DigitInfoFragment extends BaseFragment {
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState ) {
-        // Inflate the layout for this fragment
         return inflater.inflate( R.layout.fragment_digit_info, container, false );
     }
 
@@ -213,9 +214,19 @@ public class DigitInfoFragment extends BaseFragment {
         for( SimpleLotoModel loto : lotoModels ){
             BallSetWithDesc ballSetWithDesc = new BallSetWithDesc( getActivity() );
             ballSetWithDesc.setBallSetWithDigit( loto.getBalls(), loto.getDraw(), mDigitInfo.getBallDigit() );
+            ballSetWithDesc.setOnClickListener( (View view ) ->{
+                Integer draw = ( ( BallSetWithDesc ) view ).getDraw();
+                showDrawDetails( draw );
+            } );
             parentLayout.addView( ballSetWithDesc );
         }
         parentLayout.setVisibility( View.GONE );
+    }
+
+    private void showDrawDetails( Integer draw ){
+        Intent intent = new Intent( AppConstants.DRAW_SELECT_MESSAGE );
+        intent.putExtra( AppConstants.DRAW_SELECT_ACTION, draw );
+        SFFSApplication.getAppContext().sendBroadcast( intent );
     }
 
     @Override
@@ -223,96 +234,40 @@ public class DigitInfoFragment extends BaseFragment {
         CustomAnimation.clickAnimation( view );
         switch ( view.getId() ){
             case R.id.showPairsId:
-                    updatePairs();
+                mPairShown = !mPairShown;
+                  updateContainer( mPairsContainer, mPairShown, R.id.showPairsId );
                 break;
             case R.id.showThreesId:
-                    updateThrees();
+                mThreesShown = !mThreesShown;
+                updateContainer( mThreesContainer, mThreesShown, R.id.showThreesId );
                 break;
             case R.id.showFoursId:
-                updateFours();
+                mFoursShown = !mFoursShown;
+                updateContainer( mFoursContainer, mFoursShown, R.id.showFoursId );
                 break;
             case R.id.showHitFiveId:
-                updateHitFive();
+                mFiveShown = !mFiveShown;
+                updateContainer( mHitFiveContainer, mFiveShown, R.id.showHitFiveId );
                 break;
             case R.id.showHitSixId:
-                updateHitSix();
+                mSixShown = !mSixShown;
+                updateContainer( mHitSixContainer, mSixShown, R.id.showHitSixId );
                 break;
         }
     }
 
-    private void updatePairs(){
-        mPairShown = !mPairShown;
+    private void updateContainer( LinearLayout container, Boolean flag, int buttonId ){
         int visibility =View.VISIBLE;
         int msgColor = getActivity().getResources().getColor( R.color.grayTextColor );
         String msg = "Скрыть";
-        if( !mPairShown ){
+        if( !flag ){
             visibility =View.GONE;
             msgColor = getActivity().getResources().getColor( R.color.shokoTextColor );
             msg = "Показать";
         }
-        mPairsContainer.setVisibility( visibility );
-        TextView pairText = initTextView( R.id.showPairsId, msg );
-        pairText.setTextColor( msgColor );
-    }
-
-    private void updateThrees(){
-        mThreesShown = !mThreesShown;
-        int visibility =View.VISIBLE;
-        int msgColor = getActivity().getResources().getColor( R.color.grayTextColor );
-        String msg = "Скрыть";
-        if( !mThreesShown ){
-            visibility =View.GONE;
-            msgColor = getActivity().getResources().getColor( R.color.shokoTextColor );
-            msg = "Показать";
-        }
-        mThreesContainer.setVisibility( visibility );
-        TextView pairText = initTextView( R.id.showThreesId, msg );
-        pairText.setTextColor( msgColor );
-    }
-
-    private void updateFours(){
-        mFoursShown = !mFoursShown;
-        int visibility =View.VISIBLE;
-        int msgColor = getActivity().getResources().getColor( R.color.grayTextColor );
-        String msg = "Скрыть";
-        if( !mFoursShown ){
-            visibility =View.GONE;
-            msgColor = getActivity().getResources().getColor( R.color.shokoTextColor );
-            msg = "Показать";
-        }
-        mFoursContainer.setVisibility( visibility );
-        TextView pairText = initTextView( R.id.showFoursId, msg );
-        pairText.setTextColor( msgColor );
-    }
-
-    private void updateHitFive(){
-        mFiveShown = !mFiveShown;
-        int visibility =View.VISIBLE;
-        int msgColor = getActivity().getResources().getColor( R.color.grayTextColor );
-        String msg = "Скрыть";
-        if( !mFiveShown ){
-            visibility =View.GONE;
-            msgColor = getActivity().getResources().getColor( R.color.shokoTextColor );
-            msg = "Показать";
-        }
-        mHitFiveContainer.setVisibility( visibility );
-        TextView hitText = initTextView( R.id.showHitFiveId, msg );
-        hitText.setTextColor( msgColor );
-    }
-
-    private void updateHitSix(){
-        mSixShown = !mSixShown;
-        int visibility =View.VISIBLE;
-        int msgColor = getActivity().getResources().getColor( R.color.grayTextColor );
-        String msg = "Скрыть";
-        if( !mSixShown ){
-            visibility =View.GONE;
-            msgColor = getActivity().getResources().getColor( R.color.shokoTextColor );
-            msg = "Показать";
-        }
-        mHitSixContainer.setVisibility( visibility );
-        TextView hitText = initTextView( R.id.showHitSixId, msg );
-        hitText.setTextColor( msgColor );
+        container.setVisibility( visibility );
+        TextView buttonText = initTextView( buttonId, msg );
+        buttonText.setTextColor( msgColor );
     }
 
     @Override
@@ -324,6 +279,7 @@ public class DigitInfoFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        (( RouteActivity ) getActivity() ).hidePanelWihMenu();
         getView().findViewById( R.id.digitInfoHeaderId ).setVisibility( View.VISIBLE );
     }
 

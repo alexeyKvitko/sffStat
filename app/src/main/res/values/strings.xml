@@ -7,6 +7,7 @@
     <string name="loto_6_45">Гослото «6 из 45»</string>
     <string name="statistics">Статистика</string>
     <string name="all_draws_label">За все время игры</string>
+    <string name="by_draws_label">По тиражам</string>
     <string name="basket_view_title">Выбранные наборы</string>
     <string name="draw_details_title">Результаты тиража №</string>
     <string name="digit_details_title">Статистика по шару №</string>

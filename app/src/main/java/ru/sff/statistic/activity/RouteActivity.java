@@ -20,8 +20,8 @@ import ru.sff.statistic.fragment.BallSetBasketFragment;
 import ru.sff.statistic.fragment.DigitInfoFragment;
 import ru.sff.statistic.fragment.DrawDetailsFragment;
 import ru.sff.statistic.fragment.LotoDrawsFragment;
+import ru.sff.statistic.fragment.StatByDrawFragment;
 import ru.sff.statistic.model.Ball;
-import ru.sff.statistic.model.LotoModel;
 
 
 public class RouteActivity extends BaseActivity implements
@@ -30,9 +30,13 @@ public class RouteActivity extends BaseActivity implements
     private IntentFilter mBallSelectIntentFilter = new IntentFilter( AppConstants.BALL_SELECT_MESSAGE );
     private BallSelectReceiver mBallSelectReceiver = new BallSelectReceiver();
 
+    private IntentFilter mDrawSelectIntentFilter = new IntentFilter( AppConstants.DRAW_SELECT_MESSAGE );
+    private DrawSelectReceiver mDrawSelectReceiver = new DrawSelectReceiver();
+
     private AppHeader mHeader;
     private ImageView mBackBtn;
     private FloatMenu mFloatMenu;
+    private String mRouteAction;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -42,11 +46,20 @@ public class RouteActivity extends BaseActivity implements
     }
 
     private void initialize(){
+        mRouteAction = this.getIntent().getStringExtra( AppConstants.ROUTE_ACTION );
         mActivityContainer = findViewById( R.id.routeActivityLayoutId );
         mHeader = findViewById( R.id.routeHeaderId );
         mFloatMenu = findViewById( R.id.routeFloatMenuId );
         mBackBtn = findViewById( R.id.routeBackBtnId );
-        addReplaceFragment( AllResultsFragment.newInstance(), R.drawable.emoji_look, R.string.all_draws_label );
+        switch (  mRouteAction  ){
+            case AppConstants.SHOW_ALL_DRAW_SCREEN:
+                addReplaceFragment( AllResultsFragment.newInstance(), R.drawable.emoji_look, R.string.all_draws_label );
+                break;
+            case AppConstants.SHOW_BY_DRAW_SCREEN:
+                addReplaceFragment( StatByDrawFragment.newInstance(), R.drawable.emoji_look, R.string.by_draws_label );
+                break;
+        }
+
     }
 
     protected void addReplaceFragment( Fragment newFragment, int emojiId, int titleId ) {
@@ -84,23 +97,24 @@ public class RouteActivity extends BaseActivity implements
     protected void onPause() {
         super.onPause();
         unregisterReceiver( mBallSelectReceiver );
+        unregisterReceiver( mDrawSelectReceiver );
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         registerReceiver( mBallSelectReceiver, mBallSelectIntentFilter );
+        registerReceiver( mDrawSelectReceiver, mDrawSelectIntentFilter );
     }
 
     @Override
-    public void onDrawDetailsClick( LotoModel lotoModel ) {
-        addReplaceFragment( DrawDetailsFragment.newInstance( lotoModel ),R.drawable.emoji_look,
-                getResources().getString( R.string.draw_details_title )+" "+lotoModel.getDraw().toString() );
+    public void onDrawDetailsClick( Integer draw ) {
+        addReplaceFragment( DrawDetailsFragment.newInstance( draw ),R.drawable.emoji_look,
+                getResources().getString( R.string.draw_details_title )+" "+draw.toString() );
     }
 
     public void showDigitInfoFragment( Ball ball ){
-        mHeader.setVisibility( View.GONE );
-        mFloatMenu.setVisibility( View.GONE );
         addReplaceFragment( DigitInfoFragment.newInstance( ball ) );
     }
 
@@ -119,7 +133,23 @@ public class RouteActivity extends BaseActivity implements
                     showDigitInfoFragment( ball );
                 }
             }
-        }
+   }
 
+    class DrawSelectReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive( Context context, Intent intent ) {
+            Integer draw =  intent.getIntExtra( AppConstants.DRAW_SELECT_ACTION, AppConstants.FAKE_ID );
+            if ( AppConstants.FAKE_ID != draw ){
+                mHeader.setVisibility( View.VISIBLE );
+                mFloatMenu.setVisibility( View.VISIBLE );
+                onDrawDetailsClick( draw );
+            }
+        }
+    }
+
+    public void hidePanelWihMenu(){
+        mHeader.setVisibility( View.GONE );
+        mFloatMenu.setVisibility( View.GONE );
+    }
 
 }

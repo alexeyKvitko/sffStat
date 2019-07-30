@@ -22,6 +22,7 @@
 
     <color name="repeatColor">#0074E4</color>
     <color name="menuBackground">#fff1d0</color>
+    <color name="transpGrayTextColor">#DDCECECE</color>
 
     <color name="ballRed">#cb2029</color>
     <color name="ballBlue">#1f5d84</color>

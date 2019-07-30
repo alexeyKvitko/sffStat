@@ -13,10 +13,17 @@ public abstract class AppConstants {
 
     public static final String FLOAT_MENU_MESSAGE = "ru.sff.statistic.component.FLOAT_MENU_MESSAGE";
     public static final String BALL_SELECT_MESSAGE = "ru.sff.statistic.component.BALL_SELECT_MESSAGE";
+    public static final String DRAW_SELECT_MESSAGE = "ru.sff.statistic.component.DRAW_SELECT_MESSAGE";
+
     public static final String FLOAT_MENU_ACTION = "ru.sff.statistic.component.FLOAT_MENU_ACTION";
     public static final String BALL_SELECT_ACTION = "ru.sff.statistic.component.BALL_SELECT_ACTION";
+    public static final String DRAW_SELECT_ACTION = "ru.sff.statistic.component.DRAW_SELECT_ACTION";
     public static final String FLOAT_MENU_CHANGE_VIEW_TYPE = "ru.sff.statistic.component.FLOAT_MENU_CHANGE_VT";
     public static final String FLOAT_MENU_SHOW_BASKET = "ru.sff.statistic.component.FLOAT_MENU_SHOW_BASKET";
+
+    public static final String SHOW_ALL_DRAW_SCREEN = "ru.sff.statistic.SHOW_ALL_DRAW_SCREEN";
+    public static final String SHOW_BY_DRAW_SCREEN = "ru.sff.statistic.SHOW_BY_DRAW_SCREEN";
+    public static final String ROUTE_ACTION = "ru.sff.statistic.ROUTE_ACTION";
 
     public static final String VIEW_TYPE_PERCENT = "view_type_percent";
     public static final String VIEW_TYPE_FALLING_COUNT = "view_type_falling_count";

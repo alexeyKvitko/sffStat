@@ -28,6 +28,7 @@ import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
+import ru.sff.statistic.model.DrawDetails;
 import ru.sff.statistic.model.DrawInfo;
 import ru.sff.statistic.model.LotoModel;
 import ru.sff.statistic.rest.RestController;
@@ -41,15 +42,16 @@ public class DrawDetailsFragment extends BaseFragment {
 
     private static final String LOTO_DRAW = "loto_draw";
 
+    private Integer mDraw;
     private LotoModel mLotoModel;
     private DrawInfo mDrawInfo;
 
     public DrawDetailsFragment() {}
 
-    public static DrawDetailsFragment newInstance( LotoModel lotoModel ) {
+    public static DrawDetailsFragment newInstance( Integer draw ) {
         DrawDetailsFragment fragment = new DrawDetailsFragment();
         Bundle args = new Bundle();
-        args.putSerializable( LOTO_DRAW, lotoModel );
+        args.putInt( LOTO_DRAW, draw );
         fragment.setArguments( args );
         return fragment;
     }
@@ -58,7 +60,7 @@ public class DrawDetailsFragment extends BaseFragment {
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         if ( getArguments() != null ) {
-            mLotoModel = ( LotoModel ) getArguments().getSerializable( LOTO_DRAW );
+            mDraw = getArguments().getInt( LOTO_DRAW );
         }
     }
 
@@ -180,14 +182,15 @@ public class DrawDetailsFragment extends BaseFragment {
         protected String doInBackground( Void... draw ) {
             String result = null;
             try {
-                Call< ApiResponse< DrawInfo > > resultCall = RestController
+                Call< ApiResponse< DrawDetails > > resultCall = RestController
                         .getApi().getDrawDetails( AppConstants.AUTH_BEARER
                                         + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                                mLotoModel.getDraw() );
-                Response< ApiResponse< DrawInfo> > resultResponse = resultCall.execute();
+                                mDraw );
+                Response< ApiResponse< DrawDetails> > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {
-                        mDrawInfo = resultResponse.body().getResult();
+                        mDrawInfo = resultResponse.body().getResult().getDrawInfo();
+                        mLotoModel =  resultResponse.body().getResult().getLotoDraw();
                     } else {
                         result = resultResponse.body().getMessage();
                     }

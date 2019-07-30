@@ -23,18 +23,11 @@ import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.activity.RouteActivity;
 
 
-public class AllResultsFragment extends BaseFragment {
+public class AllResultsFragment extends TabbedFragment {
 
     private static final String TAG = "AllResultsFragment";
 
     private OnMenuOptionSelectListener mListener;
-
-    private ImageView mBackButton;
-    private ViewPager mPager;
-    private TabLayout mTabs;
-    private ResultPagerAdapter mResultPagerAdapter;
-    private DrawsPlaneFragment mDrawsPlaneFragment;
-    private LotoDrawsFragment mLotoDrawsFragment;
 
 
     public AllResultsFragment() {
@@ -56,45 +49,8 @@ public class AllResultsFragment extends BaseFragment {
         return inflater.inflate( R.layout.fragment_all_result, container, false );
     }
 
-    @Override
-    public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
-        super.onActivityCreated( savedInstanceState );
-        mResultPagerAdapter = new ResultPagerAdapter( getChildFragmentManager() );
-        mPager = getView().findViewById( R.id.pagerId );
-        mPager.setAdapter( mResultPagerAdapter );
-
-        mTabs = getView().findViewById( R.id.tabLayoutId );
-        mTabs.setupWithViewPager( mPager );
-        changeTabsFont();
-        mBackButton = ( ( RouteActivity ) getActivity() ).getBackBtn();
-        mBackButton.setOnClickListener( ( View view ) -> {
-            getActivity().onBackPressed();
-        } );
-    }
-
-    private void changeTabsFont() {
-        ViewGroup vg = (ViewGroup) mTabs.getChildAt(0);
-        int tabsCount = vg.getChildCount();
-        for (int j = 0; j < tabsCount; j++) {
-            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
-            int tabChildsCount = vgTab.getChildCount();
-            for (int i = 0; i < tabChildsCount; i++) {
-                View tabViewChild = vgTab.getChildAt(i);
-                if (tabViewChild instanceof TextView) {
-                    ((TextView) tabViewChild).setTypeface( AppConstants.ROTONDA_BOLD  );
-                }
-            }
-        }
-    }
-
     public void changeViewType() {
         mDrawsPlaneFragment.changeViewType();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mBackButton.setOnClickListener( null );
     }
 
     @Override
@@ -131,39 +87,7 @@ public class AllResultsFragment extends BaseFragment {
 
     }
 
-    public class ResultPagerAdapter extends FragmentPagerAdapter {
 
-        public ResultPagerAdapter( FragmentManager fm ) {
-            super( fm );
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-
-        @Override
-        public Fragment getItem( int position ) {
-            switch ( position ) {
-                case 0:
-                    mDrawsPlaneFragment = DrawsPlaneFragment.newInstance();
-                    return mDrawsPlaneFragment;
-                case 1:
-                    mLotoDrawsFragment = LotoDrawsFragment.newInstance();
-                    return mLotoDrawsFragment;
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        public CharSequence getPageTitle( int position ) {
-            String title = position == 0 ? SFFSApplication.getAppContext().getResources().getString( R.string.nav_tab_plane )
-                    : SFFSApplication.getAppContext().getResources().getString( R.string.nav_tab_grid );
-            return title;
-        }
-
-    }
 
 
 

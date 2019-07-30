@@ -15,6 +15,8 @@ import ru.sff.statistic.utils.AppUtils;
 
 public class BallSetWithDesc extends BaseComponent {
 
+    private Integer mDraw;
+
     public BallSetWithDesc( Context context ) {
         super( context );
         inflate( context, R.layout.ball_set_desc, this );
@@ -32,6 +34,7 @@ public class BallSetWithDesc extends BaseComponent {
     }
 
     public void setBallSetWithDigit( Ball[] balls, Integer draw, Integer digit ) {
+        mDraw = draw;
         SixBallWin hitBalls = findViewById( R.id.ballSetDigitId );
         hitBalls.setSixBallWins( balls[0].getBallNumber(), balls[1].getBallNumber(),balls[2].getBallNumber(),
                                     balls[3].getBallNumber(), balls[4].getBallNumber(),balls[5].getBallNumber() );
@@ -68,6 +71,10 @@ public class BallSetWithDesc extends BaseComponent {
                 break;
         }
         pairBalls.setActiveBall( digit );
+    }
+
+    public Integer getDraw() {
+        return mDraw;
     }
 
     @Override
