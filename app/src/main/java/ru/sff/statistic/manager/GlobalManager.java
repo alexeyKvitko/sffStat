@@ -17,7 +17,7 @@ public class GlobalManager {
 
     private static BootstrapModel bootstrapModel;
     private static BallSetType[] ballSetTypes;
-    private static Integer[] fieldOrintation;
+    private static Integer[] fieldOrientation;
     private static String resultViewType;
     private static Map<String, StoredBallSet > storedBallSet;
 
@@ -31,7 +31,7 @@ public class GlobalManager {
     public static void initialize(){
         storedBallSet = new HashMap<>();
                 setBallSetTypes( new BallSetType[]{BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE } );
-        setFieldOrintation( AppConstants.BALL_12_RIGHT );
+        setFieldOrientation( AppConstants.BALL_FROM_1 );
         setResultViewType( AppConstants.VIEW_TYPE_FALLING_COUNT );
     }
 
@@ -43,12 +43,12 @@ public class GlobalManager {
         GlobalManager.ballSetTypes = ballSetTypes;
     }
 
-    public static Integer[] getFieldOrintation() {
-        return fieldOrintation;
+    public static Integer[] getFieldOrientation() {
+        return fieldOrientation;
     }
 
-    public static void setFieldOrintation( Integer[] fieldOrintation ) {
-        GlobalManager.fieldOrintation = fieldOrintation;
+    public static void setFieldOrientation( Integer[] fieldOrientation ) {
+        GlobalManager.fieldOrientation = fieldOrientation;
     }
 
     public static String getResultViewType() {

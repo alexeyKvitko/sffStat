@@ -112,9 +112,38 @@ public abstract class AppUtils {
 
     public static String getTimes( String source ){
         String times = "раз";
+        Integer intValue = Integer.valueOf( source );
+        if ( intValue > 10 ){
+            int lastTwoDigit = Integer.valueOf( source.substring( source.length()-2 ) );
+            if ( lastTwoDigit > 10 && lastTwoDigit < 21 ){
+                return times;
+            }
+        }
         int lastDigit = Integer.valueOf( source.substring( source.length()-1 ) );
         if ( lastDigit > 1 && lastDigit < 5 ){
             times = "раза";
+        }
+        return times;
+    }
+
+
+    public static String getDays( int value ){
+        String source = (value+"");
+        return getDays( source );
+    }
+
+    public static String getDays( String source ){
+        String times = " дней";
+        int intValue = Integer.valueOf( source );
+        if ( intValue == 1 ){
+            return " день";
+        }
+        if ( intValue > 4 && intValue < 22 ){
+            return times;
+        }
+        int lastDigit = Integer.valueOf( source.substring( source.length()-1 ) );
+        if ( lastDigit > 1 && lastDigit < 5 ){
+            times = " дня";
         }
         return times;
     }

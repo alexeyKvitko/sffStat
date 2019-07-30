@@ -1,16 +1,21 @@
 package ru.sff.statistic.component;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallsInfo;
+import ru.sff.statistic.utils.CustomAnimation;
 
-import static ru.sff.statistic.manager.GlobalManager.getFieldOrintation;
+import static ru.sff.statistic.manager.GlobalManager.getFieldOrientation;
 
 public class FiveNineTable extends LinearLayout {
 
@@ -56,7 +61,7 @@ public class FiveNineTable extends LinearLayout {
             LinearLayout row = findViewById( ROW_IDS[ rowId ] );
             for( int cell = 0; cell < 7; cell++ ){
                 int rowCel = 7*rowId+cell;
-                int idx = getFieldOrintation()[ rowCel ];
+                int idx = getFieldOrientation()[ rowCel ];
                 if ( idx < 45 ){
                     row.addView( createBallView( mBallsInfo.getDrawBalls().get( idx ) ) );
                 } else {
@@ -75,4 +80,6 @@ public class FiveNineTable extends LinearLayout {
         clearTable();
         fillFiveNineTable();
     }
+
+
 }

@@ -66,6 +66,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     private Integer mMonthIndex = 0;
     private Integer mYearIndex = 0;
 
+
     public LotoDrawsFragment() {}
 
 
@@ -82,6 +83,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState ) {
+        mIsReady = false;
         return inflater.inflate( R.layout.fragment_loto_draws, container, false );
     }
 
@@ -182,8 +184,10 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     public void onClick( View view ) {}
 
     private void populateLotoDraws() {
-        initAdapter();
-        initRecView();
+        if ( mIsReady){
+            initAdapter();
+            initRecView();
+        }
     }
 
     @Override

@@ -18,6 +18,8 @@ import ru.sff.statistic.utils.CustomAnimation;
 public class FieldOrientation extends BaseComponent implements View.OnClickListener {
 
     public static final Map<Integer,Integer> DISBALED_SPIRAL = new HashMap<Integer, Integer>(  ){{
+        put( R.id.orientation1HorId, R.drawable.spiral_1_hor_disable );
+        put( R.id.orientation45HorId, R.drawable.spiral_45_hor_disable );
         put( R.id.orientation12RightId, R.drawable.spiral_12_right_disabe );
         put( R.id.orientation3RightId, R.drawable.spiral_3_right_disabe );
         put( R.id.orientation6RightId, R.drawable.spiral_6_right_disabe );
@@ -29,6 +31,8 @@ public class FieldOrientation extends BaseComponent implements View.OnClickListe
     }};
 
     public static final Map<Integer,Integer> ENABLED_SPIRAL = new HashMap<Integer, Integer>(  ){{
+        put( R.id.orientation1HorId, R.drawable.spiral_1_hor );
+        put( R.id.orientation45HorId, R.drawable.spiral_45_hor );
         put( R.id.orientation12RightId, R.drawable.spiral_12_right );
         put( R.id.orientation3RightId, R.drawable.spiral_3_right );
         put( R.id.orientation6RightId, R.drawable.spiral_6_right );
@@ -40,6 +44,8 @@ public class FieldOrientation extends BaseComponent implements View.OnClickListe
     }};
 
     public static final Map<Integer,Integer[]> FIELD_ORIENTATION = new HashMap<Integer, Integer[]>(  ){{
+        put( R.id.orientation1HorId, AppConstants.BALL_FROM_1 );
+        put( R.id.orientation45HorId, AppConstants.BALL_FROM_45 );
         put( R.id.orientation12RightId, AppConstants.BALL_12_RIGHT );
         put( R.id.orientation3RightId, AppConstants.BALL_3_RIGHT );
         put( R.id.orientation6RightId, AppConstants.BALL_6_RIGHT );
@@ -66,10 +72,11 @@ public class FieldOrientation extends BaseComponent implements View.OnClickListe
 
     private void init(){
         initBaseComponent( this );
-        setThisOnClickListener( R.id.orientation12LeftId, R.id.orientation3LeftId,
-                                    R.id.orientation6LeftId, R.id.orientation9LeftId
-                                    , R.id.orientation12RightId, R.id.orientation3RightId,
-                                        R.id.orientation6RightId, R.id.orientation9RightId);
+        setThisOnClickListener( R.id.orientation1HorId, R.id.orientation45HorId,
+                                    R.id.orientation12LeftId, R.id.orientation3LeftId,
+                                        R.id.orientation6LeftId, R.id.orientation9LeftId,
+                                             R.id.orientation12RightId, R.id.orientation3RightId,
+                                                R.id.orientation6RightId, R.id.orientation9RightId);
     }
 
     @Override
@@ -80,7 +87,7 @@ public class FieldOrientation extends BaseComponent implements View.OnClickListe
                 updateImageView( imageId, DISBALED_SPIRAL.get( imageId ) );
             }
             updateImageView( view.getId(), ENABLED_SPIRAL.get( view.getId() ) );
-            GlobalManager.setFieldOrintation( FIELD_ORIENTATION.get( view.getId() ) );
+            GlobalManager.setFieldOrientation( FIELD_ORIENTATION.get( view.getId() ) );
             if( mListener !=null ){
                 mListener.OnFieldOrientationSelect();
             }

@@ -1,7 +1,9 @@
 package ru.sff.statistic.component;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,8 +17,9 @@ import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
+import ru.sff.statistic.utils.CustomAnimation;
 
-public class BallField extends LinearLayout {
+public class BallField extends LinearLayout implements View.OnClickListener {
 
     private Ball mBall;
 
@@ -42,6 +45,7 @@ public class BallField extends LinearLayout {
         mBallLayout = this.findViewById(R.id.ballFieldLayoutId);
         mBallNumber.setTypeface(AppConstants.ROTONDA_BOLD);
         mBallRepeat.setTypeface(AppConstants.ROBOTO_CONDENCED);
+        this.setOnClickListener( this );
     }
 
     public void setBall(Ball ball) {
@@ -99,5 +103,14 @@ public class BallField extends LinearLayout {
     }
 
 
+    @Override
+    public void onClick( View view ) {
+        CustomAnimation.bounceAnimation( view );
+        ( new Handler() ).postDelayed( () -> {
+            Intent intent = new Intent( AppConstants.BALL_SELECT_MESSAGE );
+            intent.putExtra( AppConstants.BALL_SELECT_ACTION, mBall );
+            SFFSApplication.getAppContext().sendBroadcast( intent );
+        }, 300 );
 
+    }
 }

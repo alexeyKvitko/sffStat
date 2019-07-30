@@ -3,30 +3,43 @@ package ru.sff.statistic.component;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.MagnetNumber;
 import ru.sff.statistic.utils.AppUtils;
 
-public class BallSetWithDigit extends BaseComponent {
+public class BallSetWithDesc extends BaseComponent {
 
-    public BallSetWithDigit( Context context ) {
+    public BallSetWithDesc( Context context ) {
         super( context );
-        inflate( context, R.layout.ball_set_digit, this );
+        inflate( context, R.layout.ball_set_desc, this );
         initialize();
     }
 
-    public BallSetWithDigit( Context context, @Nullable AttributeSet attrs ) {
+    public BallSetWithDesc( Context context, @Nullable AttributeSet attrs ) {
         super( context, attrs );
-        inflate( context, R.layout.ball_set_digit, this );
+        inflate( context, R.layout.ball_set_desc, this );
         initialize();
     }
 
     private void initialize() {
         initBaseComponent( this );
+    }
+
+    public void setBallSetWithDigit( Ball[] balls, Integer draw, Integer digit ) {
+        SixBallWin hitBalls = findViewById( R.id.ballSetDigitId );
+        hitBalls.setSixBallWins( balls[0].getBallNumber(), balls[1].getBallNumber(),balls[2].getBallNumber(),
+                                    balls[3].getBallNumber(), balls[4].getBallNumber(),balls[5].getBallNumber() );
+        hitBalls.setActiveBall( digit );
+        initTextView( R.id.ballSetCountId, AppConstants.ROTONDA_BOLD ).setText( draw.toString() );
+        TextView descText = initTextView( R.id.ballSetDescId, AppConstants.ROBOTO_CONDENCED );
+        descText.setText( "Тираж" );
+        descText.setVisibility( View.VISIBLE );
     }
 
     public void setBallSetWithDigit( MagnetNumber magnetNumber, Integer digit ) {

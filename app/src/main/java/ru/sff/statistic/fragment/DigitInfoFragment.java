@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.util.Log;
@@ -23,7 +22,7 @@ import retrofit2.Response;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.activity.RouteActivity;
-import ru.sff.statistic.component.BallSetWithDigit;
+import ru.sff.statistic.component.BallSetWithDesc;
 import ru.sff.statistic.component.SixBallWin;
 import ru.sff.statistic.component.ThreeCellStat;
 import ru.sff.statistic.component.TwoCellStat;
@@ -32,8 +31,8 @@ import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.DigitInfo;
-import ru.sff.statistic.model.DrawInfo;
 import ru.sff.statistic.model.MagnetNumber;
+import ru.sff.statistic.model.SimpleLotoModel;
 import ru.sff.statistic.rest.RestController;
 import ru.sff.statistic.utils.AppUtils;
 import ru.sff.statistic.utils.CustomAnimation;
@@ -52,10 +51,14 @@ public class DigitInfoFragment extends BaseFragment {
     private LinearLayout mPairsContainer;
     private LinearLayout mThreesContainer;
     private LinearLayout mFoursContainer;
+    private LinearLayout mHitFiveContainer;
+    private LinearLayout mHitSixContainer;
 
     private boolean mPairShown;
     private boolean mThreesShown;
     private boolean mFoursShown;
+    private boolean mFiveShown;
+    private boolean mSixShown;
 
     public DigitInfoFragment() {}
 
@@ -89,6 +92,9 @@ public class DigitInfoFragment extends BaseFragment {
         mPairShown = false;
         mThreesShown = false;
         mFoursShown = false;
+        mFiveShown = false;
+        mSixShown = false;
+
         mPleaseWait = getView().findViewById( R.id.pleaseWaitContainerId );
         mFragmentContainer =  getView().findViewById( R.id.digitInfoScrollViewId );
         mFragmentContainer.setVisibility( View.GONE );
@@ -132,40 +138,82 @@ public class DigitInfoFragment extends BaseFragment {
         threeCellSeries.setMiddleCell( mDigitInfo.getSeriesDrawStart().toString(), " по " );
         threeCellSeries.setRightCell( mDigitInfo.getSeriesDrawEnd().toString(), "" );
 
+        initTextView( R.id.digitInfoFrequenciesLabelId, AppConstants.ROTONDA_BOLD );
+
+        ThreeCellStat threeCellFreq= getView().findViewById( R.id.threeCellDigitInfoFrequinciesId );
+        String rateLabel = AppUtils.getTimes( mDigitInfo.getDayFreqMaxValue() )+", через ";
+        threeCellFreq.setLeftCell( mDigitInfo.getDayFreqMaxValue().toString(), rateLabel );
+        threeCellFreq.setMiddleCell( mDigitInfo.getDayFreqMax().toString(), AppUtils.getDays(  mDigitInfo.getDayFreqMax() ) );
+        threeCellFreq.setRightCell( "", "" );
+
+        ThreeCellStat threeCellFreqAvg= getView().findViewById( R.id.threeCellDigitInfoFreqAvgId );
+        threeCellFreqAvg.setLeftCell( "", "В среднем каждые " );
+        threeCellFreqAvg.setMiddleCell( mDigitInfo.getDayFreqAvg().toString(), AppUtils.getDays(  mDigitInfo.getDayFreqAvg() ) );
+        threeCellFreqAvg.setRightCell( "", "" );
+
         initTextView( R.id.digitInfoPairLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.digitInfoThreesLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.digitInfoFoursLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.digitInfoFiveLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.digitInfoSixLabelId, AppConstants.ROTONDA_BOLD );
+
+
         initTextView( R.id.showPairsId, AppConstants.ROBOTO_CONDENCED );
         initTextView( R.id.showThreesId, AppConstants.ROBOTO_CONDENCED );
+        initTextView( R.id.showFoursId, AppConstants.ROBOTO_CONDENCED );
+        initTextView( R.id.showHitFiveId, AppConstants.ROBOTO_CONDENCED );
+        initTextView( R.id.showHitSixId, AppConstants.ROBOTO_CONDENCED );
 
         Collections.sort( mDigitInfo.getTwoBalls() );
         Collections.sort( mDigitInfo.getThreeBalls());
         Collections.sort( mDigitInfo.getFourBalls() );
 
-        BallSetWithDigit pairBallSet = getView().findViewById( R.id.digitInfoPairBallSetId );
+        BallSetWithDesc pairBallSet = getView().findViewById( R.id.digitInfoPairBallSetId );
         pairBallSet.setBallSetWithDigit( mDigitInfo.getTwoBalls().get( 0 ), mDigitInfo.getBallDigit() );
         mPairsContainer = getView().findViewById( R.id.maxPairContainerId );
         addPairs( mPairsContainer, mDigitInfo.getTwoBalls() );
 
-        BallSetWithDigit threesBallSet = getView().findViewById( R.id.digitInfoThreesBallSetId );
+        BallSetWithDesc threesBallSet = getView().findViewById( R.id.digitInfoThreesBallSetId );
         threesBallSet.setBallSetWithDigit( mDigitInfo.getThreeBalls().get( 0 ), mDigitInfo.getBallDigit() );
         mThreesContainer = getView().findViewById( R.id.maxThreesContainerId );
         addPairs( mThreesContainer, mDigitInfo.getThreeBalls() );
 
-        BallSetWithDigit fourBallSet = getView().findViewById( R.id.digitInfoFoursBallSetId );
+        BallSetWithDesc fourBallSet = getView().findViewById( R.id.digitInfoFoursBallSetId );
         fourBallSet.setBallSetWithDigit( mDigitInfo.getFourBalls().get( 0 ), mDigitInfo.getBallDigit() );
         mFoursContainer = getView().findViewById( R.id.maxFoursContainerId );
         addPairs( mFoursContainer, mDigitInfo.getFourBalls() );
 
-        setThisOnClickListener( R.id.showPairsId, R.id.showThreesId, R.id.showFoursId );
+        ThreeCellStat fiveHitStat = getView().findViewById( R.id.digitInfoFiveHitRate );
+        fiveHitStat.setLeftCell( mDigitInfo.getFiveWinCount().toString(), AppUtils.getTimes( mDigitInfo.getFiveWinCount() ) +", последний " );
+        fiveHitStat.setMiddleCell( mDigitInfo.getHitToFive().get(0).getDrawDate(),"" );
+        mHitFiveContainer = getView().findViewById( R.id.hitFiveContainerId );
+        addHitBalls( mHitFiveContainer, mDigitInfo.getHitToFive() );
+
+        ThreeCellStat sixHitStat = getView().findViewById( R.id.digitInfoSixHitRate );
+        sixHitStat.setLeftCell( mDigitInfo.getHitToSix().size()+"", AppUtils.getTimes( mDigitInfo.getHitToSix().size() ) +", последний " );
+        sixHitStat.setMiddleCell( mDigitInfo.getHitToSix().get(0).getDrawDate(),"" );
+        mHitSixContainer = getView().findViewById( R.id.hitSixContainerId );
+        addHitBalls( mHitSixContainer, mDigitInfo.getHitToSix() );
+
+        setThisOnClickListener( R.id.showPairsId, R.id.showThreesId, R.id.showFoursId, R.id.showHitFiveId, R.id.showHitSixId );
 
         CustomAnimation.transitionAnimation( mPleaseWait, mFragmentContainer );
     }
 
     private void addPairs( LinearLayout parentLayout, List<MagnetNumber> magnetNumbers){
         for( int idx = 1;idx < magnetNumbers.size(); idx++ ){
-            BallSetWithDigit ballSetWithDigit = new BallSetWithDigit( getActivity() );
-            ballSetWithDigit.setBallSetWithDigit( magnetNumbers.get( idx ), mDigitInfo.getBallDigit() );
-            parentLayout.addView( ballSetWithDigit );
+            BallSetWithDesc ballSetWithDesc = new BallSetWithDesc( getActivity() );
+            ballSetWithDesc.setBallSetWithDigit( magnetNumbers.get( idx ), mDigitInfo.getBallDigit() );
+            parentLayout.addView( ballSetWithDesc );
+        }
+        parentLayout.setVisibility( View.GONE );
+    }
+
+    private void addHitBalls( LinearLayout parentLayout, List< SimpleLotoModel > lotoModels ){
+        for( SimpleLotoModel loto : lotoModels ){
+            BallSetWithDesc ballSetWithDesc = new BallSetWithDesc( getActivity() );
+            ballSetWithDesc.setBallSetWithDigit( loto.getBalls(), loto.getDraw(), mDigitInfo.getBallDigit() );
+            parentLayout.addView( ballSetWithDesc );
         }
         parentLayout.setVisibility( View.GONE );
     }
@@ -182,6 +230,12 @@ public class DigitInfoFragment extends BaseFragment {
                 break;
             case R.id.showFoursId:
                 updateFours();
+                break;
+            case R.id.showHitFiveId:
+                updateHitFive();
+                break;
+            case R.id.showHitSixId:
+                updateHitSix();
                 break;
         }
     }
@@ -205,11 +259,11 @@ public class DigitInfoFragment extends BaseFragment {
         mThreesShown = !mThreesShown;
         int visibility =View.VISIBLE;
         int msgColor = getActivity().getResources().getColor( R.color.grayTextColor );
-        String msg = "Скрыть все тройки";
+        String msg = "Скрыть";
         if( !mThreesShown ){
             visibility =View.GONE;
             msgColor = getActivity().getResources().getColor( R.color.shokoTextColor );
-            msg = "Показать все тройки";
+            msg = "Показать";
         }
         mThreesContainer.setVisibility( visibility );
         TextView pairText = initTextView( R.id.showThreesId, msg );
@@ -220,15 +274,45 @@ public class DigitInfoFragment extends BaseFragment {
         mFoursShown = !mFoursShown;
         int visibility =View.VISIBLE;
         int msgColor = getActivity().getResources().getColor( R.color.grayTextColor );
-        String msg = "Скрыть четверки";
+        String msg = "Скрыть";
         if( !mFoursShown ){
             visibility =View.GONE;
             msgColor = getActivity().getResources().getColor( R.color.shokoTextColor );
-            msg = "Показать четверки";
+            msg = "Показать";
         }
         mFoursContainer.setVisibility( visibility );
         TextView pairText = initTextView( R.id.showFoursId, msg );
         pairText.setTextColor( msgColor );
+    }
+
+    private void updateHitFive(){
+        mFiveShown = !mFiveShown;
+        int visibility =View.VISIBLE;
+        int msgColor = getActivity().getResources().getColor( R.color.grayTextColor );
+        String msg = "Скрыть";
+        if( !mFiveShown ){
+            visibility =View.GONE;
+            msgColor = getActivity().getResources().getColor( R.color.shokoTextColor );
+            msg = "Показать";
+        }
+        mHitFiveContainer.setVisibility( visibility );
+        TextView hitText = initTextView( R.id.showHitFiveId, msg );
+        hitText.setTextColor( msgColor );
+    }
+
+    private void updateHitSix(){
+        mSixShown = !mSixShown;
+        int visibility =View.VISIBLE;
+        int msgColor = getActivity().getResources().getColor( R.color.grayTextColor );
+        String msg = "Скрыть";
+        if( !mSixShown ){
+            visibility =View.GONE;
+            msgColor = getActivity().getResources().getColor( R.color.shokoTextColor );
+            msg = "Показать";
+        }
+        mHitSixContainer.setVisibility( visibility );
+        TextView hitText = initTextView( R.id.showHitSixId, msg );
+        hitText.setTextColor( msgColor );
     }
 
     @Override

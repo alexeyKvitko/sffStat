@@ -23,6 +23,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     private Fragment mFragment;
 
+    protected boolean mIsReady;
+
     //TEXT VIEW
     protected TextView initTextView( int textId, Typeface typeface, Integer style, String text ) {
         TextView textView = getView().findViewById( textId );
@@ -109,11 +111,13 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onResume() {
         super.onResume();
         mFragment = this;
+        mIsReady = true;
         getActivity().registerReceiver( mFloatMenuReceiver, mFloatMenuIntentFilter );
     }
 
     @Override
     public void onPause() {
+        mIsReady = false;
         getActivity().unregisterReceiver( mFloatMenuReceiver );
         super.onPause();
     }

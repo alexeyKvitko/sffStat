@@ -143,19 +143,49 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/deviderColor" />
 
+            <TextView
+                android:id="@+id/digitInfoFrequenciesLabelId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="Частота выпадений"
+                android:textColor="@color/grayTextColor"
+                android:textSize="16dp" />
+
+            <ru.sff.statistic.component.ThreeCellStat
+                android:id="@+id/threeCellDigitInfoFrequinciesId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp" />
+
+            <ru.sff.statistic.component.ThreeCellStat
+                android:id="@+id/threeCellDigitInfoFreqAvgId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/deviderColor" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/digitInfoPairLabelId"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_weight="3"
                     android:text="Выпадений в паре (макс.)"
                     android:textColor="@color/grayTextColor"
                     android:textSize="16dp" />
@@ -164,19 +194,19 @@
                     android:id="@+id/showPairsId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_weight="3"
-                    android:gravity="right"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="7"
+                    android:gravity="right|center_vertical"
                     android:text="Показать "
                     android:textColor="@color/shokoTextColor"
                     android:textSize="12dp" />
             </LinearLayout>
 
-            <ru.sff.statistic.component.BallSetWithDigit
+            <ru.sff.statistic.component.BallSetWithDesc
                 android:id="@+id/digitInfoPairBallSetId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="4" />
+                android:layout_marginHorizontal="24dp" />
 
             <LinearLayout
                 android:id="@+id/maxPairContainerId"
@@ -192,39 +222,40 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/deviderColor" />
 
-            <TextView
-                android:id="@+id/digitInfoThreesLabelId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:text="Выпадений в тройке (макс.)"
-                android:textColor="@color/grayTextColor"
-                android:textSize="16dp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
-                <ru.sff.statistic.component.BallSetWithDigit
-                    android:id="@+id/digitInfoThreesBallSetId"
+                <TextView
+                    android:id="@+id/digitInfoThreesLabelId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4" />
+                    android:layout_weight="3"
+                    android:text="Выпадений в тройке (макс.)"
+                    android:textColor="@color/grayTextColor"
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/showThreesId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_weight="6"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="7"
                     android:gravity="right"
-                    android:text="Показать все тройки"
+                    android:text="Показать"
                     android:textColor="@color/shokoTextColor"
                     android:textSize="12dp" />
             </LinearLayout>
+
+
+            <ru.sff.statistic.component.BallSetWithDesc
+                android:id="@+id/digitInfoThreesBallSetId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp" />
 
             <LinearLayout
                 android:id="@+id/maxThreesContainerId"
@@ -240,39 +271,39 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/deviderColor" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/digitInfoFoursLabelId"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
+                android:layout_weight="3"
                 android:text="Выпадений в четверке (макс.)"
                 android:textColor="@color/grayTextColor"
                 android:textSize="16dp" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/showFoursId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:orientation="horizontal">
+                android:layout_marginEnd="12dp"
+                android:layout_weight="7"
+                android:gravity="right"
+                android:text="Показать"
+                android:textColor="@color/shokoTextColor"
+                android:textSize="12dp" />
+        </LinearLayout>
 
-                <ru.sff.statistic.component.BallSetWithDigit
+            <ru.sff.statistic.component.BallSetWithDesc
                     android:id="@+id/digitInfoFoursBallSetId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4" />
-
-                <TextView
-                    android:id="@+id/showFoursId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_weight="6"
-                    android:gravity="right"
-                    android:text="Показать четверки"
-                    android:textColor="@color/shokoTextColor"
-                    android:textSize="12dp" />
-            </LinearLayout>
+                  android:layout_marginHorizontal="24dp" />
 
             <LinearLayout
                 android:id="@+id/maxFoursContainerId"
@@ -288,7 +319,107 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/deviderColor" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/digitInfoFiveLabelId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="Попадания в 5 угаданных"
+                    android:textColor="@color/grayTextColor"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/showHitFiveId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="7"
+                    android:gravity="right"
+                    android:text="Показать"
+                    android:textColor="@color/shokoTextColor"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <ru.sff.statistic.component.ThreeCellStat
+                android:id="@+id/digitInfoFiveHitRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"/>
+
+            <LinearLayout
+                android:id="@+id/hitFiveContainerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:orientation="vertical"></LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/deviderColor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/digitInfoSixLabelId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="Попадания в 6 угаданных"
+                    android:textColor="@color/grayTextColor"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/showHitSixId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="7"
+                    android:gravity="right"
+                    android:text="Показать"
+                    android:textColor="@color/shokoTextColor"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <ru.sff.statistic.component.ThreeCellStat
+                android:id="@+id/digitInfoSixHitRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"/>
+
+            <LinearLayout
+                android:id="@+id/hitSixContainerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:orientation="vertical"></LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp"
+                android:background="@color/deviderColor" />
+
         </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>

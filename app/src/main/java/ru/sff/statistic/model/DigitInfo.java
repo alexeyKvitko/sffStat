@@ -10,11 +10,15 @@ public class DigitInfo {
     private String seriesCount;
     private Integer seriesDrawStart;
     private Integer seriesDrawEnd;
+    private Integer dayFreqAvg;
+    private Integer dayFreqMax;
+    private Integer dayFreqMaxValue;
+    private Integer fiveWinCount;
     private List<MagnetNumber> twoBalls;
     private List<MagnetNumber> threeBalls;
     private List<MagnetNumber> fourBalls;
-    private List<Integer> hitToFive;
-    private List<Integer> hitToSix;
+    private List<SimpleLotoModel> hitToFive;
+    private List<SimpleLotoModel> hitToSix;
     private List<Integer> digitDraws;
 
     public Integer getBallDigit() {
@@ -61,8 +65,41 @@ public class DigitInfo {
         return seriesDrawEnd;
     }
 
+    public Integer getDayFreqAvg() {
+        return dayFreqAvg;
+    }
+
+    public void setDayFreqAvg( Integer dayFreqAvg ) {
+        this.dayFreqAvg = dayFreqAvg;
+    }
+
+    public Integer getDayFreqMax() {
+        return dayFreqMax;
+    }
+
+    public void setDayFreqMax( Integer dayFreqMax ) {
+        this.dayFreqMax = dayFreqMax;
+    }
+
+    public Integer getDayFreqMaxValue() {
+        return dayFreqMaxValue;
+    }
+
+    public void setDayFreqMaxValue( Integer dayFreqMaxValue ) {
+        this.dayFreqMaxValue = dayFreqMaxValue;
+    }
+
     public void setSeriesDrawEnd( Integer seriesDrawEnd ) {
         this.seriesDrawEnd = seriesDrawEnd;
+    }
+
+
+    public Integer getFiveWinCount() {
+        return fiveWinCount;
+    }
+
+    public void setFiveWinCount( Integer fiveWinCount ) {
+        this.fiveWinCount = fiveWinCount;
     }
 
     public List< MagnetNumber > getTwoBalls() {
@@ -89,19 +126,19 @@ public class DigitInfo {
         this.fourBalls = fourBalls;
     }
 
-    public List< Integer > getHitToFive() {
+    public List< SimpleLotoModel > getHitToFive() {
         return hitToFive;
     }
 
-    public void setHitToFive( List< Integer > hitToFive ) {
+    public void setHitToFive( List< SimpleLotoModel > hitToFive ) {
         this.hitToFive = hitToFive;
     }
 
-    public List< Integer > getHitToSix() {
+    public List< SimpleLotoModel > getHitToSix() {
         return hitToSix;
     }
 
-    public void setHitToSix( List< Integer > hitToSix ) {
+    public void setHitToSix( List< SimpleLotoModel > hitToSix ) {
         this.hitToSix = hitToSix;
     }
 
