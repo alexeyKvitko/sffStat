@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_background"
     tools:context=".fragment.StatByDrawFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,33 +16,165 @@
         <LinearLayout
             android:id="@+id/statByDrawRequestContainerId"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_debug_blue"
+            android:layout_height="264dp"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/statByDrawRequestLabelId"
+                android:id="@+id/statByDrawRequestTitleId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="12dp"
-                android:textSize="32dp"
-                android:textColor="@color/shokoTextColor"
-                android:text="Запрос"/>
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="Показать результаты за"
+                android:textColor="@color/grayTextColor"
+                android:textSize="16dp" />
 
-            <com.etiennelawlor.discreteslider.library.ui.DiscreteSlider
-                android:id="@+id/lastDrawSliderId"
+            <LinearLayout
+                android:id="@+id/statByDrawRequestCountId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="20dp"
+                android:elevation="1dp"
+                android:orientation="vertical">
+
+                <ru.sff.statistic.component.ThreeCellStat
+                    android:id="@+id/statByDrawRequestLabelId"
+                    android:background="@drawable/border_left_yellow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="4dp" />
+
+
+                <io.github.stack07142.discreteseekbar.DiscreteSeekBar
+                    android:id="@+id/statByDrawSliderId"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="8dp"
+                    app:discrete_seekbar_maxValue="180"
+                    app:discrete_seekbar_minValue="0"
+                    app:discrete_seekbar_sectionCount="44"
+                    app:discrete_seekbar_thumbColor="@color/shokoColor"
+                    app:discrete_seekbar_thumbDefaultSize="8dp"
+                    app:discrete_seekbar_thumbPressedSize="12dp"
+                    app:discrete_seekbar_tickMarkTextColor="@color/transpGrayTextColor"
+                    app:discrete_seekbar_tickMarkTextSize="12sp"
+                    app:discrete_seekbar_tickMarkTopMargin="18dp"
+                    app:discrete_seekbar_trackColor="@color/lotoYellowTextColor"
+                    app:discrete_seekbar_trackTouchEnable="true"
+                    app:discrete_seekbar_trackWidth="2dp"
+                    app:discrete_seekbar_value="36" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/statByDrawRequestFromToId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="20dp"
+                android:elevation="1dp"
+                android:orientation="vertical">
+
+                <ru.sff.statistic.component.ThreeCellStat
+                    android:id="@+id/statByDrawRequestFromToLabelId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="4dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="24dp"
+                    android:focusableInTouchMode="true"
+                    android:orientation="horizontal">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/fromDrawTextLayoutId"
+                        style="@style/AppInputLayout"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="С тиража"
+                        app:errorEnabled="false"
+                        app:errorTextAppearance="@style/errorText">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/fromDrawValueId"
+                            style="@style/AppEditText"
+                            android:theme="@style/editTextTheme"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/toDrawTextLayoutId"
+                        style="@style/AppInputLayout"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="По тираж"
+                        app:errorEnabled="false"
+                        app:errorTextAppearance="@style/errorText">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/toDrawValueId"
+                            style="@style/AppEditText"
+                            android:theme="@style/editTextTheme"
+                            android:maxLength="4"
+                            android:inputType="number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/drawErrorFieldId"
+                    style="@style/errorText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/error_required_field"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/statByDrawRequestFormId"
+                android:elevation="6dp"
+                android:background="@drawable/button_yellow"
+                android:layout_marginVertical="12dp"
+                android:layout_marginHorizontal="32dp"
+                android:textColor="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_gravity="bottom"
-                app:backdropFillColor="@color/ballYellow"
-                app:backdropStrokeColor="@color/ballYellow"
-                app:backdropStrokeWidth="1dp"
-                app:horizontalBarThickness="1dp"
-                app:position="10"
-                app:progressDrawable="@drawable/transparent_progress"
-                app:thumb="@drawable/ic_draw_slider_18dp"
-                app:tickMarkCount="44"
-                app:tickMarkRadius="2dp" />
+                android:text="@string/button_show"/>
+
+            <ImageView
+                android:id="@+id/statByDrawShowFormId"
+                android:visibility="gone"
+                android:layout_marginTop="38dp"
+                android:layout_marginBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="2dp"
+                app:srcCompat="@drawable/ic_chevron_down_circle_shocko_18dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="12dp"
+                android:background="@color/deviderColor" />
+
         </LinearLayout>
 
         <androidx.viewpager.widget.ViewPager
@@ -51,18 +184,17 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayoutId"
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabTextColor="@color/shokoColor"
-                app:tabIndicatorColor="@color/backgroundColor">
+                android:layout_marginTop="8dp"
+                app:tabIndicatorColor="@color/backgroundColor"
+                app:tabTextColor="@color/shokoColor">
 
             </com.google.android.material.tabs.TabLayout>
 
         </androidx.viewpager.widget.ViewPager>
 
     </LinearLayout>
-
 
 
 </FrameLayout>

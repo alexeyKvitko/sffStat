@@ -14,9 +14,9 @@ public class DigitInfo {
     private Integer dayFreqMax;
     private Integer dayFreqMaxValue;
     private Integer fiveWinCount;
-    private List<MagnetNumber> twoBalls;
-    private List<MagnetNumber> threeBalls;
-    private List<MagnetNumber> fourBalls;
+    private List< MagnetModel > twoBalls;
+    private List< MagnetModel > threeBalls;
+    private List< MagnetModel > fourBalls;
     private List<SimpleLotoModel> hitToFive;
     private List<SimpleLotoModel> hitToSix;
     private List<Integer> digitDraws;
@@ -102,27 +102,27 @@ public class DigitInfo {
         this.fiveWinCount = fiveWinCount;
     }
 
-    public List< MagnetNumber > getTwoBalls() {
+    public List< MagnetModel > getTwoBalls() {
         return twoBalls;
     }
 
-    public void setTwoBalls( List< MagnetNumber > twoBalls ) {
+    public void setTwoBalls( List< MagnetModel > twoBalls ) {
         this.twoBalls = twoBalls;
     }
 
-    public List< MagnetNumber > getThreeBalls() {
+    public List< MagnetModel > getThreeBalls() {
         return threeBalls;
     }
 
-    public void setThreeBalls( List< MagnetNumber > threeBalls ) {
+    public void setThreeBalls( List< MagnetModel > threeBalls ) {
         this.threeBalls = threeBalls;
     }
 
-    public List< MagnetNumber > getFourBalls() {
+    public List< MagnetModel > getFourBalls() {
         return fourBalls;
     }
 
-    public void setFourBalls( List< MagnetNumber > fourBalls ) {
+    public void setFourBalls( List< MagnetModel > fourBalls ) {
         this.fourBalls = fourBalls;
     }
 

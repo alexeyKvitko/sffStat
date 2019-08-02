@@ -8,6 +8,7 @@ import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BootstrapModel;
+import ru.sff.statistic.model.CachedRequestByDraw;
 import ru.sff.statistic.model.StoredBallSet;
 
 public class GlobalManager {
@@ -20,6 +21,9 @@ public class GlobalManager {
     private static Integer[] fieldOrientation;
     private static String resultViewType;
     private static Map<String, StoredBallSet > storedBallSet;
+    private static CachedRequestByDraw cachedRequestByDraw;
+
+
 
     private GlobalManager() {
     }
@@ -33,6 +37,7 @@ public class GlobalManager {
                 setBallSetTypes( new BallSetType[]{BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE } );
         setFieldOrientation( AppConstants.BALL_FROM_1 );
         setResultViewType( AppConstants.VIEW_TYPE_FALLING_COUNT );
+        setCachedRequestByDraw( null );
     }
 
     public static BallSetType[] getBallSetTypes() {
@@ -88,4 +93,11 @@ public class GlobalManager {
         return result;
     }
 
+    public static CachedRequestByDraw getCachedRequestByDraw() {
+        return cachedRequestByDraw;
+    }
+
+    public static void setCachedRequestByDraw( CachedRequestByDraw cachedRequestByDraw ) {
+        GlobalManager.cachedRequestByDraw = cachedRequestByDraw;
+    }
 }

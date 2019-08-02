@@ -21,6 +21,7 @@ import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.activity.RouteActivity;
+import ru.sff.statistic.manager.GlobalManager;
 
 
 public class AllResultsFragment extends TabbedFragment {
@@ -47,6 +48,13 @@ public class AllResultsFragment extends TabbedFragment {
     public View onCreateView( LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState ) {
         return inflater.inflate( R.layout.fragment_all_result, container, false );
+    }
+
+    @Override
+    public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
+        super.onActivityCreated( savedInstanceState );
+        GlobalManager.setCachedRequestByDraw( null );
+        initTabs( AppConstants.FAKE_ID, AppConstants.FAKE_ID );
     }
 
     public void changeViewType() {

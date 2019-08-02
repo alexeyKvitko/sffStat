@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.model.Ball;
-import ru.sff.statistic.model.MagnetNumber;
+import ru.sff.statistic.model.MagnetModel;
 import ru.sff.statistic.utils.AppUtils;
 
 public class BallSetWithDesc extends BaseComponent {
@@ -45,11 +45,11 @@ public class BallSetWithDesc extends BaseComponent {
         descText.setVisibility( View.VISIBLE );
     }
 
-    public void setBallSetWithDigit( MagnetNumber magnetNumber, Integer digit ) {
-        String[] balls = magnetNumber.getCombination().replaceAll( "<", "" ).replaceAll( ">", "" ).split( "," );
+    public void setBallSetWithDigit( MagnetModel magnetModel, Integer digit ) {
+        String[] balls = magnetModel.getCombination().replaceAll( "<", "" ).replaceAll( ">", "" ).split( "," );
         String magnetCount = "";
-        if ( magnetNumber != null ) {
-            magnetCount = " - " + magnetNumber.getCount().toString() + " " + AppUtils.getTimes( magnetNumber.getCount() );
+        if ( magnetModel != null ) {
+            magnetCount = " - " + magnetModel.getCount().toString() + " " + AppUtils.getTimes( magnetModel.getCount() );
         }
         initTextView( R.id.ballSetCountId, AppConstants.ROTONDA_BOLD ).setText( magnetCount );
         SixBallWin pairBalls = findViewById( R.id.ballSetDigitId );

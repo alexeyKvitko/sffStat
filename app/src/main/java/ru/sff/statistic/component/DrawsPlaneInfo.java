@@ -81,7 +81,16 @@ public class DrawsPlaneInfo extends BaseComponent {
         mPleaseWait = layout;
         mScrollView = scrollView;
         CustomAnimation.transitionAnimation( mScrollView, mPleaseWait );
-        new GetAllResults().execute();
+    }
+
+    public void feetchDrawResults(Integer startDraw, Integer endDraw ){
+        if ( GlobalManager.getCachedRequestByDraw() != null
+                            && GlobalManager.getCachedRequestByDraw().getBallsInfo() != null ){
+            mBallsInfo = GlobalManager.getCachedRequestByDraw().getBallsInfo();
+            populateDrawsPlane();
+        } else {
+            new GetDrawResults().execute( startDraw, endDraw );
+        }
     }
 
     private void initialize() {
@@ -269,7 +278,7 @@ public class DrawsPlaneInfo extends BaseComponent {
     }
 
 
-    private class GetAllResults extends AsyncTask< Void, Void, String > {
+    private class GetDrawResults extends AsyncTask< Integer, Void, String > {
 
         @Override
         protected void onPreExecute() {
@@ -277,16 +286,18 @@ public class DrawsPlaneInfo extends BaseComponent {
         }
 
         @Override
-        protected String doInBackground( Void... args ) {
+        protected String doInBackground( Integer... draws ) {
             String result = null;
             try {
                 Call< ApiResponse< BallsInfo > > resultCall = RestController
-                        .getApi().fetchAllResults( AppConstants.AUTH_BEARER
-                                + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4" );
+                        .getApi().fetchResultsByDraw( AppConstants.AUTH_BEARER
+                                + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
+                                draws[0], draws[1] );
                 Response< ApiResponse< BallsInfo > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {
                         mBallsInfo = resultResponse.body().getResult();
+                        GlobalManager.getCachedRequestByDraw().setBallsInfo( mBallsInfo );
                     } else {
                         result = resultResponse.body().getMessage();
                     }

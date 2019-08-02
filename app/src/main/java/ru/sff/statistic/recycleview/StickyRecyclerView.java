@@ -24,6 +24,7 @@ public class StickyRecyclerView extends RecyclerView {
     private float mOpenMarginTop;
     private float mCloseMarginTop;
     private boolean mAnimateHeader;
+    private boolean mHeaderGone;
 
     public StickyRecyclerView( Context context ) {
         super( context );
@@ -54,6 +55,9 @@ public class StickyRecyclerView extends RecyclerView {
 
     public void removeHeaderAction(){
         mLayoutManager.setScroll( -1 );
+        if ( mHeaderGone ){
+            return;
+        }
         if( AppConstants.HEADER_ACTION_REMOVE == mHeaderAction ){
             return;
         }
@@ -66,8 +70,8 @@ public class StickyRecyclerView extends RecyclerView {
         final FrameLayout.LayoutParams layoutParams = ( FrameLayout.LayoutParams ) mSwipeRefreshLayout.getLayoutParams();
         ValueAnimator valAnimator = ValueAnimator.ofObject( new IntEvaluator(), start.intValue(), end.intValue() );
         valAnimator.addUpdateListener( ( ValueAnimator animator ) ->  {
-                int val = ( Integer ) animator.getAnimatedValue();
-                layoutParams.topMargin = val;
+            int val = ( Integer ) animator.getAnimatedValue();
+            layoutParams.topMargin = val;
             mSwipeRefreshLayout.setLayoutParams( layoutParams );
         } );
         valAnimator.setDuration( 300 );
@@ -75,7 +79,7 @@ public class StickyRecyclerView extends RecyclerView {
     }
 
     public void restoreHeaderAction(){
-        if( AppConstants.HEADER_ACTION_RESTORE == mHeaderAction ){
+        if( mHeaderGone || AppConstants.HEADER_ACTION_RESTORE == mHeaderAction ){
             return;
         }
         animateLayout( mCloseMarginTop, mOpenMarginTop );
@@ -108,5 +112,17 @@ public class StickyRecyclerView extends RecyclerView {
 
     public void setAnimateHeader( boolean animateHeader ) {
         this.mAnimateHeader = animateHeader;
+    }
+
+    public boolean ismHeaderGone() {
+        return mHeaderGone;
+    }
+
+    public void setHeaderGone( boolean mHeaderGone ) {
+        this.mHeaderGone = mHeaderGone;
+        if ( mHeaderGone ){
+            animateLayout( mOpenMarginTop, mCloseMarginTop);
+            mHeaderAction = AppConstants.HEADER_ACTION_REMOVE;
+        }
     }
 }

@@ -26,4 +26,29 @@
         <item name="android:textColor">@color/shokoTextColor</item>
     </style>
 
+    <style name="AppInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="hintTextAppearance">@style/HintTextAppearance</item>
+    </style>
+
+    <style name="HintTextAppearance" parent="TextAppearance.Design.Hint">
+        <item name="android:textColor">@color/hint_color</item>
+    </style>
+
+    <style name="errorText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">10dp</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginTop">-4dp</item>
+        <item name="android:textColor">@color/error_color</item>
+    </style>
+
+    <style name="AppEditText" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textCursorDrawable">@drawable/edit_cursor</item>
+        <item name="colorControlNormal">@color/hint_color_inactive</item>
+        <item name="colorControlActivated">@color/hint_color_active</item>
+    </style>
+
+    <style name="editTextTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlActivated">@color/transpGrayTextColor</item>
+    </style>
+
 </resources>

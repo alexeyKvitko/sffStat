@@ -27,6 +27,8 @@ public abstract class TabbedFragment extends BaseFragment{
     protected ResultPagerAdapter mResultPagerAdapter;
     protected DrawsPlaneFragment mDrawsPlaneFragment;
     protected LotoDrawsFragment mLotoDrawsFragment;
+    protected int mStartDraw;
+    protected int mEndDraw;
 
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
@@ -35,12 +37,11 @@ public abstract class TabbedFragment extends BaseFragment{
         mBackButton.setOnClickListener( ( View view ) -> {
             getActivity().onBackPressed();
         } );
-        if ( this instanceof AllResultsFragment ){
-            initTabs();
-        }
     }
 
-    protected void initTabs(){
+    protected void initTabs( int startDraw, int endDraw ){
+        mStartDraw = startDraw;
+        mEndDraw = endDraw;
         mResultPagerAdapter = new ResultPagerAdapter( getChildFragmentManager() );
         mPager = getView().findViewById( R.id.pagerId );
         mPager.setAdapter( mResultPagerAdapter );
@@ -86,10 +87,10 @@ public abstract class TabbedFragment extends BaseFragment{
         public Fragment getItem( int position ) {
             switch ( position ) {
                 case 0:
-                    mDrawsPlaneFragment = DrawsPlaneFragment.newInstance();
+                    mDrawsPlaneFragment = DrawsPlaneFragment.newInstance( mStartDraw, mEndDraw );
                     return mDrawsPlaneFragment;
                 case 1:
-                    mLotoDrawsFragment = LotoDrawsFragment.newInstance();
+                    mLotoDrawsFragment = LotoDrawsFragment.newInstance( mStartDraw, mEndDraw );
                     return mLotoDrawsFragment;
                 default:
                     return null;

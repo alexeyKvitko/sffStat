@@ -1,6 +1,7 @@
 package ru.sff.statistic.component;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -8,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.SFFSApplication;
 
 public class ThreeCellStat extends BaseComponent {
 
@@ -46,4 +48,25 @@ public class ThreeCellStat extends BaseComponent {
     public void onClick( View view ) {
 
     }
+
+    public void disableComponent(){
+        Resources resources= SFFSApplication.getAppContext().getResources();
+        initTextView( R.id.leftThreeCellValueId ).setTextColor( resources.getColor( R.color.transpGrayTextColor ) );
+        initTextView( R.id.leftThreeCellCommentId ).setTextColor( resources.getColor( R.color.transpGrayTextColor ) );
+        initTextView( R.id.middleThreeCellValueId ).setTextColor( resources.getColor( R.color.transpGrayTextColor ) );
+        initTextView( R.id.middleThreeCellCommentId ).setTextColor( resources.getColor( R.color.transpGrayTextColor ) );
+        initTextView( R.id.rightThreeCellValueId ).setTextColor( resources.getColor( R.color.transpGrayTextColor ) );
+        initTextView( R.id.rightThreeCellCommentId ).setTextColor( resources.getColor( R.color.transpGrayTextColor ) );
+    }
+
+    public void enableComponent(){
+        Resources resources= SFFSApplication.getAppContext().getResources();
+        initTextView( R.id.leftThreeCellValueId ).setTextColor( resources.getColor( R.color.shokoColor ) );
+        initTextView( R.id.leftThreeCellCommentId ).setTextColor( resources.getColor( R.color.splashTextColor ) );
+        initTextView( R.id.middleThreeCellValueId ).setTextColor( resources.getColor( R.color.shokoColor ) );
+        initTextView( R.id.middleThreeCellCommentId ).setTextColor( resources.getColor( R.color.splashTextColor ) );
+        initTextView( R.id.rightThreeCellValueId ).setTextColor( resources.getColor( R.color.shokoColor ) );
+        initTextView( R.id.rightThreeCellCommentId ).setTextColor( resources.getColor( R.color.splashTextColor ) );
+    }
+
 }

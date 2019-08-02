@@ -31,5 +31,7 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:+'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.github.lawloretienne:discreteslider:0.0.9'
+    implementation 'com.github.stack07142:DiscreteSeekBar:1.0.1'
+//    implementation 'com.github.lawloretienne:discreteslider:0.0.9'
+
 }

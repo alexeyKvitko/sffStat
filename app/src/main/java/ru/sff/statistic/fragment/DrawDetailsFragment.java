@@ -154,11 +154,11 @@ public class DrawDetailsFragment extends BaseFragment {
 
         initTextView( R.id.detailsDrawPayAmountLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.detailsDrawPayAmountValueId, AppConstants.ROTONDA_BOLD,
-                AppUtils.getFormatedString( mDrawInfo.getPaidAmount() ) );
+                AppUtils.getFormatedString( mDrawInfo.getPaidAmount() )+" руб." );
 
         initTextView( R.id.detailsDrawPrizeAmountLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.detailsDrawPrizeAmountValueId, AppConstants.ROTONDA_BOLD,
-                AppUtils.getFormatedString( mDrawInfo.getSuperPrize() ) );
+                AppUtils.getFormatedString( mDrawInfo.getSuperPrize() )+" руб." );
 
 
         CustomAnimation.transitionAnimation( getView().findViewById( R.id.pleaseWaitContainerId ),

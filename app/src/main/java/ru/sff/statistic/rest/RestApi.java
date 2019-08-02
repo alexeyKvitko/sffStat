@@ -22,8 +22,14 @@ public interface RestApi {
     @GET(APP_API+"getBootstrapModel")
     Call< ApiResponse< BootstrapModel > > getBootstrapModel( @Header("Authorization") String authorization );
 
-    @GET(APP_API+"getAllResults")
-    Call< ApiResponse< BallsInfo > > fetchAllResults( @Header("Authorization") String authorization );
+
+    @GET(APP_API+"getResultsByDraw/{startDraw}/{endDraw}")
+    Call< ApiResponse< BallsInfo > > fetchResultsByDraw( @Header("Authorization") String authorization,
+                                                         @Path("startDraw") Integer startDraw, @Path("endDraw") Integer endDraw );
+
+    @GET(APP_API+"getLotoDrawsByDrawsBetween/{startDraw}/{endDraw}")
+    Call<ApiResponse< List< LotoModel > > > getLotoDrawsByDrawsBetween( @Header("Authorization") String authorization,
+                                                         @Path("startDraw") Integer startDraw, @Path("endDraw") Integer endDraw );
 
     @GET(APP_API+"getLotoDrawsByYear/{year}")
     Call< ApiResponse< List< LotoModel > > > getLotoDrawsByYear( @Header("Authorization") String authorization

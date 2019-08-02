@@ -1,11 +1,14 @@
 package ru.sff.statistic.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -15,7 +18,7 @@ import java.util.Locale;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.SFFSApplication;
-import ru.sff.statistic.model.MagnetNumber;
+import ru.sff.statistic.model.MagnetModel;
 
 public abstract class AppUtils {
 
@@ -26,6 +29,13 @@ public abstract class AppUtils {
                 SFFSApplication.getAppContext().getSystemService( Context.CONNECTIVITY_SERVICE );
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    public static void hideKeyboardFrom( Context context, View view ) {
+        InputMethodManager imm = ( InputMethodManager ) context.getSystemService( Activity.INPUT_METHOD_SERVICE );
+        if ( imm.isAcceptingText() ) {
+            imm.hideSoftInputFromWindow( view.getWindowToken(), 0 );
+        }
     }
 
 
@@ -148,16 +158,16 @@ public abstract class AppUtils {
         return times;
     }
 
-    public static MagnetNumber getMaxMagnetNumber(List< MagnetNumber > magnetNumbers){
+    public static MagnetModel getMaxMagnetNumber( List< MagnetModel > magnetModels ){
         int max = 0;
-        MagnetNumber maxMagnetNumber =  null;
-        for( MagnetNumber magnetNumber :magnetNumbers ){
-            if( magnetNumber.getCount() > max ){
-                max = magnetNumber.getCount();
-                maxMagnetNumber = magnetNumber;
+        MagnetModel maxMagnetModel =  null;
+        for( MagnetModel magnetModel : magnetModels ){
+            if( magnetModel.getCount() > max ){
+                max = magnetModel.getCount();
+                maxMagnetModel = magnetModel;
             }
         }
-        return maxMagnetNumber;
+        return maxMagnetModel;
     }
 
 }
