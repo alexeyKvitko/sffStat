@@ -18,55 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="264dp"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/statByDrawRequestTitleId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:text="Показать результаты за"
-                android:textColor="@color/grayTextColor"
-                android:textSize="16dp" />
 
-            <LinearLayout
-                android:id="@+id/statByDrawRequestCountId"
+            <ru.sff.statistic.component.DiscretSlider
+                android:id="@+id/drawCountSliderId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginStart="20dp"
                 android:elevation="1dp"
-                android:orientation="vertical">
-
-                <ru.sff.statistic.component.ThreeCellStat
-                    android:id="@+id/statByDrawRequestLabelId"
-                    android:background="@drawable/border_left_yellow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingStart="4dp" />
-
-
-                <io.github.stack07142.discreteseekbar.DiscreteSeekBar
-                    android:id="@+id/statByDrawSliderId"
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginTop="8dp"
-                    app:discrete_seekbar_maxValue="180"
-                    app:discrete_seekbar_minValue="0"
-                    app:discrete_seekbar_sectionCount="44"
-                    app:discrete_seekbar_thumbColor="@color/shokoColor"
-                    app:discrete_seekbar_thumbDefaultSize="8dp"
-                    app:discrete_seekbar_thumbPressedSize="12dp"
-                    app:discrete_seekbar_tickMarkTextColor="@color/transpGrayTextColor"
-                    app:discrete_seekbar_tickMarkTextSize="12sp"
-                    app:discrete_seekbar_tickMarkTopMargin="18dp"
-                    app:discrete_seekbar_trackColor="@color/lotoYellowTextColor"
-                    app:discrete_seekbar_trackTouchEnable="true"
-                    app:discrete_seekbar_trackWidth="2dp"
-                    app:discrete_seekbar_value="36" />
-            </LinearLayout>
+                android:orientation="vertical"/>
 
             <LinearLayout
                 android:id="@+id/statByDrawRequestFromToId"
@@ -98,7 +56,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="С тиража"
+                        android:hint="@string/from_draw_label"
                         app:errorEnabled="false"
                         app:errorTextAppearance="@style/errorText">
 
@@ -121,7 +79,7 @@
                         android:layout_marginTop="4dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="По тираж"
+                        android:hint="@string/to_draw_label"
                         app:errorEnabled="false"
                         app:errorTextAppearance="@style/errorText">
 

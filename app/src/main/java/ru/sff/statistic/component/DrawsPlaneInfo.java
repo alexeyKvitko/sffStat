@@ -104,18 +104,19 @@ public class DrawsPlaneInfo extends BaseComponent {
         mTotalPaidAmount = findViewById( R.id.twoCellPaidAmountId );
         mEvenOdd = findViewById( R.id.twoCellEvenOddId );
 
-        initTextView( R.id.drawTitleId ).setTypeface( AppConstants.ROTONDA_BOLD );
-        initTextView( R.id.oftenDigitId ).setTypeface( AppConstants.ROTONDA_BOLD );
-        initTextView( R.id.lessDigitId ).setTypeface( AppConstants.ROTONDA_BOLD );
-        initTextView( R.id.middleDigitId ).setTypeface( AppConstants.ROTONDA_BOLD );
-        initTextView( R.id.resultOnTableId ).setTypeface( AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.drawTitleId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.oftenDigitId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.lessDigitId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.middleDigitId,AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.resultOnTableId,AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.avgSumLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.totalTicketLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.totalPaidAmountLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.drawResultsLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.evenOddLabelId, AppConstants.ROTONDA_BOLD );
+
         initTextView( R.id.tableOrientationId, AppConstants.ROBOTO_CONDENCED );
         initTextView( R.id.fallingNumbersLabelId, AppConstants.ROBOTO_CONDENCED );
-
         initTextView( R.id.biggerButtonId, AppConstants.ROBOTO_CONDENCED );
         initTextView( R.id.lessButtonId, AppConstants.ROBOTO_CONDENCED );
         initTextView( R.id.middleButtonId, AppConstants.ROBOTO_CONDENCED );
@@ -131,19 +132,22 @@ public class DrawsPlaneInfo extends BaseComponent {
     }
 
     private void initBasketImage(){
+        restoreToDefaultBasketImage();
         if ( GlobalManager.getStoredBallSet().size() > 0 ){
             Drawable basketSelect = SFFSApplication.getAppContext().getResources()
                                     .getDrawable( R.drawable.ic_basket_shoko_18dp );
             for(String key : GlobalManager.getStoredBallSet().keySet() ){
                 int imageId = AppConstants.FAKE_ID;
-                if ( AppConstants.BALL_SET_TOTAL_BIGGER.equals( key ) ){
+                if ( AppUtils.getStoredBallSetKey( AppConstants.BALL_SET_BIGGER ).equals( key ) ){
                     imageId = R.id.basketBiggerAllImageId;
-                } else if ( AppConstants.BALL_SET_TOTAL_LESS.equals( key ) ){
+                } else if ( AppUtils.getStoredBallSetKey( AppConstants.BALL_SET_LESS ).equals( key ) ){
                     imageId = R.id.basketLessAllImageId;
-                } else if ( AppConstants.BALL_SET_TOTAL_MIDDLE.equals( key ) ){
+                } else if ( AppUtils.getStoredBallSetKey( AppConstants.BALL_SET_MIDDLE ).equals( key ) ){
                     imageId = R.id.basketMiddleAllImageId;
                 }
-                ((ImageView) findViewById( imageId )).setImageDrawable( basketSelect );
+                if ( AppConstants.FAKE_ID != imageId ){
+                    ((ImageView) findViewById( imageId )).setImageDrawable( basketSelect );
+                }
             }
         }
     }
@@ -159,6 +163,7 @@ public class DrawsPlaneInfo extends BaseComponent {
     @Override
     public void onClick( View view ) {
         CustomAnimation.bounceAnimation( view );
+
         switch ( view.getId() ) {
             case R.id.biggerButtonId:
                 mBiggerShow = !mBiggerShow;
@@ -174,18 +179,18 @@ public class DrawsPlaneInfo extends BaseComponent {
                 break;
             case R.id.addToBasketBiggerAllId:
                 CustomAnimation.clickAnimation( view );
-                addBallSetToBasket( R.id.addToBasketBiggerAllId, AppConstants.BALL_SET_TOTAL_BIGGER,
+                addBallSetToBasket( R.id.addToBasketBiggerAllId, AppUtils.getStoredBallSetKey( AppConstants.BALL_SET_BIGGER ),
                         mBallsInfo.getMoreOften(), BallSetType.BIGGER );
                 break;
             case R.id.addToBasketLessAllId:
                 CustomAnimation.clickAnimation( view );
-                addBallSetToBasket( R.id.addToBasketLessAllId,
-                        AppConstants.BALL_SET_TOTAL_LESS, mBallsInfo.getLessOfter(), BallSetType.LESS );
+                addBallSetToBasket( R.id.addToBasketLessAllId,AppUtils.getStoredBallSetKey( AppConstants.BALL_SET_LESS )
+                                                , mBallsInfo.getLessOfter(), BallSetType.LESS );
                 break;
             case R.id.addToBasketMiddleAllId:
                 CustomAnimation.clickAnimation( view );
-                addBallSetToBasket( R.id.addToBasketMiddleAllId,
-                        AppConstants.BALL_SET_TOTAL_MIDDLE, mBallsInfo.getMiddleOften(), BallSetType.MIDDLE );
+                addBallSetToBasket( R.id.addToBasketMiddleAllId,AppUtils.getStoredBallSetKey( AppConstants.BALL_SET_MIDDLE )
+                                    , mBallsInfo.getMiddleOften(), BallSetType.MIDDLE );
                 break;
         }
         List<BallSetType> ballSetTypeList = new LinkedList<>(  );
@@ -220,6 +225,18 @@ public class DrawsPlaneInfo extends BaseComponent {
         }
     }
 
+    private void restoreToDefaultBasketImage(){
+        Drawable defaultBasketImg = SFFSApplication.getAppContext().getResources()
+                .getDrawable( R.drawable.ic_basket_grey600_18dp );
+
+        (( ImageView ) (( LinearLayout) findViewById( R.id.addToBasketBiggerAllId ) )
+                                            .getChildAt( 0 )).setImageDrawable( defaultBasketImg );
+        (( ImageView ) (( LinearLayout) findViewById( R.id.addToBasketLessAllId ) )
+                .getChildAt( 0 )).setImageDrawable( defaultBasketImg );
+        (( ImageView ) (( LinearLayout) findViewById( R.id.addToBasketMiddleAllId ) )
+                .getChildAt( 0 )).setImageDrawable( defaultBasketImg );
+    }
+
     private void setBallSetButton(int buttonId, boolean btnEnable ){
         TextView btn = findViewById( buttonId );
         Resources res = SFFSApplication.getAppContext().getResources();
@@ -236,7 +253,10 @@ public class DrawsPlaneInfo extends BaseComponent {
 
     private void populateDrawsPlane() {
         mBallTable = findViewById( R.id.fiveNineTableId );
+        mBallTable.clearTable();
         mBallTable.setBallsInfo( mBallsInfo );
+
+        initTextView( R.id.avgSumValueId, AppConstants.ROTONDA_BOLD ).setText( mBallsInfo.getAvgBallSumm()+"" );
 
         mBiggerBallSet = findViewById( R.id.biggerBallSetId );
         mBiggerBallSet.setBallSet( mBallsInfo.getMoreOften(), BallSetType.BIGGER );
@@ -250,6 +270,8 @@ public class DrawsPlaneInfo extends BaseComponent {
         mDrawRange.setTwoCellValue( "с № " + mBallsInfo.getFirstDraw(), mBallsInfo.getFirstDrawDate(),
                 "по № " + mBallsInfo.getLastDraw(), mBallsInfo.getLastDrawDate() );
 
+        Integer drawCount = (Integer.valueOf( mBallsInfo.getLastDraw() ) - Integer.valueOf( mBallsInfo.getFirstDraw() ) )+1 ;
+
         mEvenOdd.setTwoCellValue(  AppUtils.getFormatedString( Long.valueOf( mBallsInfo.getEvenOdd().getEvenCount() ) ),
                 mActivity.getString( R.string.even_label ),
                 AppUtils.getFormatedString( Long.valueOf( mBallsInfo.getEvenOdd().getOddCount() ) ),
@@ -258,13 +280,13 @@ public class DrawsPlaneInfo extends BaseComponent {
         mTotalTicket.setTwoCellValue(  AppUtils.getFormatedString( mBallsInfo.getTotalDrawInfo().getPersonCount() ),
                 mActivity.getString( R.string.all_draws_label ),
                 AppUtils.getFormatedString(
-                        mBallsInfo.getTotalDrawInfo().getPersonCount() / Integer.valueOf( mBallsInfo.getLastDraw() ) ),
+                        mBallsInfo.getTotalDrawInfo().getPersonCount() / drawCount ),
                 mActivity.getString( R.string.per_draw_label ) );
 
         mTotalPaidAmount.setTwoCellValue(  AppUtils.getFormatedString( mBallsInfo.getTotalDrawInfo().getPaidAmount() ),
                 mActivity.getString( R.string.all_draws_label ),
                 AppUtils.getFormatedString(
-                        mBallsInfo.getTotalDrawInfo().getPaidAmount() / Integer.valueOf( mBallsInfo.getLastDraw() ) ),
+                        mBallsInfo.getTotalDrawInfo().getPaidAmount() / drawCount ),
                 mActivity.getString( R.string.per_draw_label ) );
 
         WinTable winTable = findViewById( R.id.winTableAllResultsId );
@@ -273,7 +295,7 @@ public class DrawsPlaneInfo extends BaseComponent {
                 mBallsInfo.getTotalDrawInfo().getFourGuessedWin(),
                 mBallsInfo.getTotalDrawInfo().getThreeGuessedWin(),
                 mBallsInfo.getTotalDrawInfo().getTwoGuessedWin() );
-
+        initBasketImage();
         CustomAnimation.transitionAnimation( mPleaseWait, mScrollView );
     }
 

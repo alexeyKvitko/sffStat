@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/discretSliderTitleId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/by_date_label"
+        android:textColor="@color/grayTextColor"
+        android:textSize="16dp" />
+
+    <LinearLayout
+        android:id="@+id/discretSliderContainerId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="20dp"
+        android:elevation="1dp"
+        android:orientation="vertical">
+
+        <ru.sff.statistic.component.ThreeCellStat
+            android:id="@+id/discretSliderLabelId"
+            android:background="@drawable/border_left_yellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="12dp" />
+
+        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+            android:id="@+id/discretSliderId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dsb_indicatorColor="@color/shokoColor"
+            app:dsb_trackColor="@color/ballYellow"
+            app:dsb_rippleColor="@color/shokoColor"
+            app:dsb_trackHeight="2dp"
+            app:dsb_scrubberHeight="0dp"
+            app:dsb_progressColor="@color/ballYellow"
+            />
+    </LinearLayout>
+
+</LinearLayout>

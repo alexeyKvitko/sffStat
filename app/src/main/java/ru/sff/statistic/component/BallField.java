@@ -107,7 +107,8 @@ public class BallField extends LinearLayout implements View.OnClickListener {
     public void onClick( View view ) {
         CustomAnimation.bounceAnimation( view );
         ( new Handler() ).postDelayed( () -> {
-            Intent intent = new Intent( AppConstants.BALL_SELECT_MESSAGE );
+            Intent intent = new Intent( AppConstants.ROUTE_ACTION_MESSAGE );
+            intent.putExtra( AppConstants.ROUTE_ACTION_TYPE, AppConstants.BALL_SELECT_ACTION );
             intent.putExtra( AppConstants.BALL_SELECT_ACTION, mBall );
             SFFSApplication.getAppContext().sendBroadcast( intent );
         }, 300 );

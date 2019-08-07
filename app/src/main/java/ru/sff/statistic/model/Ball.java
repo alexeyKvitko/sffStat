@@ -38,6 +38,7 @@ public class Ball implements Serializable, Comparable, Cloneable {
         this.ballType = ballType;
     }
 
+
     @Override
     public int compareTo( Object o ) {
         int res = this.ballRepeat - ( ( Ball ) o ).getBallRepeat();

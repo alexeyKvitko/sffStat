@@ -25,6 +25,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected boolean mIsReady;
 
+
     //TEXT VIEW
     protected TextView initTextView( int textId, Typeface typeface, Integer style, String text ) {
         TextView textView = getView().findViewById( textId );
@@ -122,25 +123,21 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         super.onPause();
     }
 
+
     class FloatMenuActionReceiver extends BroadcastReceiver {
         @Override
         public void onReceive( Context context, Intent intent ) {
-            if ( mFragment instanceof AllResultsFragment ) {
-                String floatMenuAction = intent.getStringExtra( AppConstants.FLOAT_MENU_ACTION );
-                switch ( floatMenuAction ) {
-                    case AppConstants.FLOAT_MENU_CHANGE_VIEW_TYPE:
+            String floatMenuAction = intent.getStringExtra( AppConstants.FLOAT_MENU_ACTION );
+            switch ( floatMenuAction ) {
+                case AppConstants.FLOAT_MENU_CHANGE_VIEW_TYPE:
+                    if ( mFragment instanceof AllResultsFragment ) {
                         ( ( AllResultsFragment ) mFragment ).changeViewType();
-                        break;
-                    case AppConstants.FLOAT_MENU_SHOW_BASKET:
-                        ( ( AllResultsFragment ) mFragment ).showBallSetBasket();
-                        break;
-                    default:
-                        break;
-                }
-
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
-
 
 }

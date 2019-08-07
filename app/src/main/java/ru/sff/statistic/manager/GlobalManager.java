@@ -1,8 +1,11 @@
 package ru.sff.statistic.manager;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.model.Ball;
@@ -20,10 +23,8 @@ public class GlobalManager {
     private static BallSetType[] ballSetTypes;
     private static Integer[] fieldOrientation;
     private static String resultViewType;
-    private static Map<String, StoredBallSet > storedBallSet;
+    private static SortedMap<String, StoredBallSet > storedBallSet;
     private static CachedRequestByDraw cachedRequestByDraw;
-
-
 
     private GlobalManager() {
     }
@@ -33,8 +34,16 @@ public class GlobalManager {
     }
 
     public static void initialize(){
-        storedBallSet = new HashMap<>();
-                setBallSetTypes( new BallSetType[]{BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE } );
+        storedBallSet = new TreeMap<>( ( String keyOne, String keyTwo ) -> {
+                keyOne = keyOne.substring( keyOne.indexOf("(" )+1,keyOne.indexOf( ")" )  ).trim();
+                keyTwo = keyTwo.substring( keyTwo.indexOf("(" )+1,keyTwo.indexOf( ")" )  ).trim();
+                String[] keysOne = keyOne.split( "-" );
+                String[] keysTwo = keyTwo.split( "-" );
+                int deltaOne = Integer.valueOf( keysOne[1] ) - Integer.valueOf( keysOne[0] );
+                int deltaTwo = Integer.valueOf( keysTwo[1] ) - Integer.valueOf( keysTwo[0] );
+                return deltaTwo-deltaOne;
+        } );
+        setBallSetTypes( new BallSetType[]{BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE } );
         setFieldOrientation( AppConstants.BALL_FROM_1 );
         setResultViewType( AppConstants.VIEW_TYPE_FALLING_COUNT );
         setCachedRequestByDraw( null );
@@ -94,6 +103,9 @@ public class GlobalManager {
     }
 
     public static CachedRequestByDraw getCachedRequestByDraw() {
+        if (cachedRequestByDraw == null ){
+            cachedRequestByDraw = new CachedRequestByDraw();
+        }
         return cachedRequestByDraw;
     }
 

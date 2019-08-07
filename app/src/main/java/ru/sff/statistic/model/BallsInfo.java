@@ -10,6 +10,8 @@ public class BallsInfo implements Serializable {
     private int lastDraw;
     private String firstDrawDate;
     private String lastDrawDate;
+    private int avgBallSumm;
+    private int oftenBallSumm;
     private Ball[] moreOften = new Ball[6];
     private Ball[] lessOfter= new Ball[6];;
     private Ball[] middleOften= new Ball[6];;
@@ -48,6 +50,22 @@ public class BallsInfo implements Serializable {
 
     public void setLastDrawDate( String lastDrawDate ) {
         this.lastDrawDate = lastDrawDate;
+    }
+
+    public int getAvgBallSumm() {
+        return avgBallSumm;
+    }
+
+    public void setAvgBallSumm( int avgBallSumm ) {
+        this.avgBallSumm = avgBallSumm;
+    }
+
+    public int getOftenBallSumm() {
+        return oftenBallSumm;
+    }
+
+    public void setOftenBallSumm( int oftenBallSumm ) {
+        this.oftenBallSumm = oftenBallSumm;
     }
 
     public Ball[] getMoreOften() {

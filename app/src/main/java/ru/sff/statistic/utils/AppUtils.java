@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.SFFSApplication;
+import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.MagnetModel;
 
 public abstract class AppUtils {
@@ -36,6 +37,13 @@ public abstract class AppUtils {
         if ( imm.isAcceptingText() ) {
             imm.hideSoftInputFromWindow( view.getWindowToken(), 0 );
         }
+    }
+
+    public  static String getStoredBallSetKey(String ballSet ){
+        String drawPeriod = AppConstants.FAKE_ID == GlobalManager.getCachedRequestByDraw().getEndDraw() ?
+                "1-"+GlobalManager.getPlayedDraws().toString()
+                : GlobalManager.getCachedRequestByDraw().getStartDraw()+ "-" + GlobalManager.getCachedRequestByDraw().getEndDraw();
+        return String.format( ballSet, drawPeriod );
     }
 
 

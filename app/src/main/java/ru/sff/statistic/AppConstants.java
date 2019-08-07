@@ -12,8 +12,8 @@ public abstract class AppConstants {
     public static final Typeface ROBOTO_BLACK = Typeface.createFromAsset( SFFSApplication.getAppContext().getAssets(), "font/Roboto-Black.ttf" );
 
     public static final String FLOAT_MENU_MESSAGE = "ru.sff.statistic.component.FLOAT_MENU_MESSAGE";
-    public static final String BALL_SELECT_MESSAGE = "ru.sff.statistic.component.BALL_SELECT_MESSAGE";
-    public static final String DRAW_SELECT_MESSAGE = "ru.sff.statistic.component.DRAW_SELECT_MESSAGE";
+    public static final String ROUTE_ACTION_MESSAGE = "ru.sff.statistic.component.ROUTE_ACTION_MESSAGE";
+    public static final String ROUTE_ACTION_TYPE = "ru.sff.statistic.component.ROUTE_ACTION_TYPE";
 
     public static final String FLOAT_MENU_ACTION = "ru.sff.statistic.component.FLOAT_MENU_ACTION";
     public static final String BALL_SELECT_ACTION = "ru.sff.statistic.component.BALL_SELECT_ACTION";
@@ -23,14 +23,17 @@ public abstract class AppConstants {
 
     public static final String SHOW_ALL_DRAW_SCREEN = "ru.sff.statistic.SHOW_ALL_DRAW_SCREEN";
     public static final String SHOW_BY_DRAW_SCREEN = "ru.sff.statistic.SHOW_BY_DRAW_SCREEN";
+    public static final String SHOW_BY_DATE_SCREEN = "ru.sff.statistic.SHOW_BY_DATE_SCREEN";
     public static final String ROUTE_ACTION = "ru.sff.statistic.ROUTE_ACTION";
 
     public static final String VIEW_TYPE_PERCENT = "view_type_percent";
     public static final String VIEW_TYPE_FALLING_COUNT = "view_type_falling_count";
 
-    public static final String BALL_SET_TOTAL_BIGGER = "ВСЕ_ТИРАЖИ_ЧВЧ";
-    public static final String BALL_SET_TOTAL_LESS = "ВСЕ_ТИРАЖИ_РВЧ";
-    public static final String BALL_SET_TOTAL_MIDDLE = "ВСЕ_ТИРАЖИ_СРД";
+    public static final String BALL_SET_TOTAL = "ВСЕ_ТИРАЖИ";
+
+    public static final String BALL_SET_BIGGER = "ЧАСТО ( %s )";
+    public static final String BALL_SET_LESS = "МЕНЬШЕ ( %s )";
+    public static final String BALL_SET_MIDDLE = "СРЕДНЕЕ ( %s )";
 
     public static final String AUTH_BEARER = "Bearer ";
 
@@ -62,6 +65,31 @@ public abstract class AppConstants {
         put("ПТ","Пятница");
         put("СБ","Суббота");
         put("ВС","Воскресенье");
+    }};
+
+    public static final Map<Integer, String> ALL_DAY_OF_WEEK = new HashMap<Integer, String>(){{
+        put(1,"Понедельник");
+        put(2,"Вторник");
+        put(3,"Среда");
+        put(4,"Четверг");
+        put(5,"Пятница");
+        put(6,"Суббота");
+        put(7,"Воскресенье");
+    }};
+
+    public static final Map<Integer, String> ALL_OF_MONTH = new HashMap<Integer, String>(){{
+        put(1,"Январь");
+        put(2,"Февраль");
+        put(3,"Март");
+        put(4,"Апрель");
+        put(5,"Май");
+        put(6,"Июнь");
+        put(7,"Июль");
+        put(8,"Август");
+        put(9,"Сентябрь");
+        put(10,"Октябрь");
+        put(11,"Ноябрь");
+        put(12,"Декабрь");
     }};
 
     public static final int HEADER_ACTION_REMOVE = -1;

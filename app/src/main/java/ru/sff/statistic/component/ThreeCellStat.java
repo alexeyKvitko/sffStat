@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -32,6 +33,12 @@ public class ThreeCellStat extends BaseComponent {
     public void setLeftCell( String leftCellValue, String leftCellComment ){
         initTextView( R.id.leftThreeCellValueId, AppConstants.ROTONDA_BOLD ).setText( leftCellValue );
         initTextView( R.id.leftThreeCellCommentId, AppConstants.ROBOTO_CONDENCED ).setText( leftCellComment );
+    }
+
+    public void setEmpty(String emptyMsg){
+        TextView emptyText =  initTextView( R.id.leftThreeCellCommentId, AppConstants.ROBOTO_CONDENCED );
+        emptyText.setText( emptyMsg );
+        emptyText.setTextColor( SFFSApplication.getAppContext().getResources().getColor( R.color.grayTextColor ) );
     }
 
     public void setMiddleCell( String middleCellValue, String middleCellComment ){

@@ -43,7 +43,8 @@ public interface RestApi {
     Call< ApiResponse< DrawDetails > > getDrawDetails( @Header("Authorization") String authorization
             , @Path("draw") Integer draw);
 
-    @GET(APP_API+"getDigitInfo/{digit}")
+    @GET(APP_API+"getDigitInfo/{digit}/{startDraw}/{endDraw}")
     Call< ApiResponse< DigitInfo > > getDigitInfo( @Header("Authorization") String authorization
-            , @Path("digit") Integer digit);
+            , @Path("digit") Integer digit, @Path("startDraw") Integer startDraw,
+                                                                @Path("endDraw") Integer endDraw);
 }

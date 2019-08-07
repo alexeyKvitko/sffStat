@@ -28,8 +28,6 @@ public class AllResultsFragment extends TabbedFragment {
 
     private static final String TAG = "AllResultsFragment";
 
-    private OnMenuOptionSelectListener mListener;
-
 
     public AllResultsFragment() {
     }
@@ -61,42 +59,9 @@ public class AllResultsFragment extends TabbedFragment {
         mDrawsPlaneFragment.changeViewType();
     }
 
-    @Override
-    public void onAttach( Context context ) {
-        super.onAttach( context );
-        if ( context instanceof OnMenuOptionSelectListener ) {
-            mListener = ( OnMenuOptionSelectListener ) context;
-        } else {
-            throw new RuntimeException( context.toString()
-                    + " must implement OnMenuOptionSelectListener" );
-        }
-    }
+
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
-    public void onClick( View view ) {
-
-    }
-
-    public void showBallSetBasket() {
-        if ( mListener != null ) {
-            mListener.onBallSetBasketShow();
-        }
-    }
-
-    public interface OnMenuOptionSelectListener {
-        // TODO: Update argument type and name
-        void onBallSetBasketShow();
-
-    }
-
-
-
-
+    public void onClick( View view ) {}
 
 }

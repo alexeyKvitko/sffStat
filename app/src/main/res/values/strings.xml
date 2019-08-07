@@ -6,8 +6,9 @@
     <string name="four_five_label">45</string>
     <string name="loto_6_45">Гослото «6 из 45»</string>
     <string name="statistics">Статистика</string>
-    <string name="all_draws_label">За все время игры</string>
+    <string name="all_draws_label">За все тиражи</string>
     <string name="by_draws_label">По тиражам</string>
+    <string name="by_date_header_label">По датам</string>
     <string name="basket_view_title">Выбранные наборы</string>
     <string name="draw_details_title">Результаты тиража №</string>
     <string name="digit_details_title">Статистика по шару №</string>
@@ -49,6 +50,16 @@
     <string name="combination_label">Комбинация</string>
     <string name="error_required_field">Поле обязательно для заполнения</string>
     <string name="button_show">Показать</string>
+    <string name="avg_sum_label">Средняя сумма шаров</string>
+    <string name="show_result_by_draw">Показать результаты за</string>
+    <string name="from_draw_label">С тиража</string>
+    <string name="to_draw_label">По тираж</string>
+    <string name="by_date_label">По дню в месяце</string>
+    <string name="by_month_label">По месяцу</string>
+    <string name="by_day_week_label">По дню недели</string>
+    <string name="by_day_month_label">По дню и месяцу</string>
+    <string name="day_label">День</string>
+    <string name="month_label">Месяц</string>
 
 
 </resources>

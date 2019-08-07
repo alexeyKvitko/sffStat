@@ -11,8 +11,11 @@ import androidx.annotation.Nullable;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
+import ru.sff.statistic.model.HeaderModel;
 
 public class AppHeader extends LinearLayout {
+
+    private HeaderModel mHeader;
 
     public AppHeader( Context context ) {
         super( context );
@@ -31,16 +34,19 @@ public class AppHeader extends LinearLayout {
         ( ( TextView ) findViewById( R.id.lotoTypeId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
     }
 
-    public void setHeader( int emojiId, int titleId ) {
-        setHeader( emojiId, SFFSApplication.getAppContext().getResources().getString( titleId ) );
+
+    public void setHeader( HeaderModel header ) {
+        mHeader = header;
+        if ( header!= null ){
+            ( ( TextView ) findViewById( R.id.lotoTypeId ) )
+                    .setText( header.getTitle() != null ? header.getTitle() : "" );
+            ( ( ImageView ) findViewById( R.id.emojiId ) )
+                    .setImageDrawable( SFFSApplication.getAppContext()
+                            .getResources().getDrawable( header.getEmogii()) );
+        }
     }
 
-    public void setHeader( int emojiId, String title ) {
-        ( ( TextView ) findViewById( R.id.lotoTypeId ) )
-                .setText( title );
-        ( ( ImageView ) findViewById( R.id.emojiId ) )
-                .setImageDrawable( SFFSApplication.getAppContext()
-                        .getResources().getDrawable( emojiId ) );
-
+    public HeaderModel getHeaderModel() {
+        return mHeader;
     }
 }

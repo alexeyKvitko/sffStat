@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.component.AppHeader;
 import ru.sff.statistic.component.FloatMenu;
 import ru.sff.statistic.fragment.AllResultsFragment;
@@ -20,23 +21,22 @@ import ru.sff.statistic.fragment.BallSetBasketFragment;
 import ru.sff.statistic.fragment.DigitInfoFragment;
 import ru.sff.statistic.fragment.DrawDetailsFragment;
 import ru.sff.statistic.fragment.LotoDrawsFragment;
+import ru.sff.statistic.fragment.StatByDateFragment;
 import ru.sff.statistic.fragment.StatByDrawFragment;
 import ru.sff.statistic.model.Ball;
+import ru.sff.statistic.model.HeaderModel;
 
 
-public class RouteActivity extends BaseActivity implements
-        AllResultsFragment.OnMenuOptionSelectListener, LotoDrawsFragment.OnDrawDetailsClickListener {
+public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnDrawDetailsClickListener {
 
-    private IntentFilter mBallSelectIntentFilter = new IntentFilter( AppConstants.BALL_SELECT_MESSAGE );
-    private BallSelectReceiver mBallSelectReceiver = new BallSelectReceiver();
-
-    private IntentFilter mDrawSelectIntentFilter = new IntentFilter( AppConstants.DRAW_SELECT_MESSAGE );
-    private DrawSelectReceiver mDrawSelectReceiver = new DrawSelectReceiver();
+    private IntentFilter mBallSelectIntentFilter = new IntentFilter( AppConstants.ROUTE_ACTION_MESSAGE );
+    private RouteActionReceiver mRouteActionReceiver = new RouteActionReceiver();
 
     private AppHeader mHeader;
     private ImageView mBackBtn;
     private FloatMenu mFloatMenu;
     private String mRouteAction;
+    private HeaderModel mPrevHeader;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -45,34 +45,40 @@ public class RouteActivity extends BaseActivity implements
         initialize();
     }
 
-    private void initialize(){
+    private void initialize() {
         mRouteAction = this.getIntent().getStringExtra( AppConstants.ROUTE_ACTION );
         mActivityContainer = findViewById( R.id.routeActivityLayoutId );
         mHeader = findViewById( R.id.routeHeaderId );
         mFloatMenu = findViewById( R.id.routeFloatMenuId );
         mBackBtn = findViewById( R.id.routeBackBtnId );
-        switch (  mRouteAction  ){
+        switch ( mRouteAction ) {
             case AppConstants.SHOW_ALL_DRAW_SCREEN:
                 addReplaceFragment( AllResultsFragment.newInstance(), R.drawable.emoji_look, R.string.all_draws_label );
                 break;
             case AppConstants.SHOW_BY_DRAW_SCREEN:
                 addReplaceFragment( StatByDrawFragment.newInstance(), R.drawable.emoji_look, R.string.by_draws_label );
                 break;
+            case AppConstants.SHOW_BY_DATE_SCREEN:
+                addReplaceFragment( StatByDateFragment.newInstance(), R.drawable.emoji_look, R.string.by_date_header_label );
+                break;
         }
 
     }
 
     protected void addReplaceFragment( Fragment newFragment, int emojiId, int titleId ) {
-        mHeader.setHeader( emojiId, titleId );
+        mPrevHeader = mHeader.getHeaderModel();
+        mHeader.setHeader( new HeaderModel( emojiId,
+                SFFSApplication.getAppContext().getResources().getString( titleId ) ) );
         addReplaceFragment( newFragment );
     }
 
     protected void addReplaceFragment( Fragment newFragment, int emojiId, String title ) {
-        mHeader.setHeader( emojiId, title );
+        mPrevHeader = mHeader.getHeaderModel();
+        mHeader.setHeader( new HeaderModel( emojiId, title ) );
         addReplaceFragment( newFragment );
     }
 
-    protected void addReplaceFragment( Fragment newFragment  ) {
+    protected void addReplaceFragment( Fragment newFragment ) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations( R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out );
         if ( getSupportFragmentManager().getFragments().size() == 0 ) {
@@ -84,9 +90,9 @@ public class RouteActivity extends BaseActivity implements
         fragmentTransaction.commit();
     }
 
-    @Override
-    public void onBallSetBasketShow() {
-        addReplaceFragment( BallSetBasketFragment.newInstance(),R.drawable.emoji_look, R.string.basket_view_title );
+
+    public void ballSetBasketShow() {
+        addReplaceFragment( BallSetBasketFragment.newInstance(), R.drawable.emoji_look, R.string.basket_view_title );
     }
 
     public ImageView getBackBtn() {
@@ -96,60 +102,66 @@ public class RouteActivity extends BaseActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver( mBallSelectReceiver );
-        unregisterReceiver( mDrawSelectReceiver );
-
+        unregisterReceiver( mRouteActionReceiver );
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver( mBallSelectReceiver, mBallSelectIntentFilter );
-        registerReceiver( mDrawSelectReceiver, mDrawSelectIntentFilter );
+        registerReceiver( mRouteActionReceiver, mBallSelectIntentFilter );
     }
 
     @Override
     public void onDrawDetailsClick( Integer draw ) {
-        addReplaceFragment( DrawDetailsFragment.newInstance( draw ),R.drawable.emoji_look,
-                getResources().getString( R.string.draw_details_title )+" "+draw.toString() );
+        addReplaceFragment( DrawDetailsFragment.newInstance( draw ), R.drawable.emoji_look,
+                getResources().getString( R.string.draw_details_title ) + " " + draw.toString() );
     }
 
-    public void showDigitInfoFragment( Ball ball ){
+    public void showDigitInfoFragment( Ball ball ) {
         addReplaceFragment( DigitInfoFragment.newInstance( ball ) );
     }
 
     @Override
     public void onBackPressed() {
+        mHeader.setHeader( mPrevHeader );
         mHeader.setVisibility( View.VISIBLE );
         mFloatMenu.setVisibility( View.VISIBLE );
         super.onBackPressed();
     }
 
-    class BallSelectReceiver extends BroadcastReceiver {
+    class RouteActionReceiver extends BroadcastReceiver {
         @Override
         public void onReceive( Context context, Intent intent ) {
-            Ball ball = ( Ball ) intent.getSerializableExtra( AppConstants.BALL_SELECT_ACTION );
-                if ( ball != null ){
-                    showDigitInfoFragment( ball );
-                }
+            String routeAction = intent.getStringExtra( AppConstants.ROUTE_ACTION_TYPE );
+            switch ( routeAction ) {
+                case AppConstants.BALL_SELECT_ACTION:
+                    Ball ball = ( Ball ) intent.getSerializableExtra( AppConstants.BALL_SELECT_ACTION );
+                    if ( ball != null ) {
+                        showDigitInfoFragment( ball );
+                    }
+                    break;
+                case AppConstants.DRAW_SELECT_ACTION:
+                    Integer draw = intent.getIntExtra( AppConstants.DRAW_SELECT_ACTION, AppConstants.FAKE_ID );
+                    if ( AppConstants.FAKE_ID != draw ) {
+                        mHeader.setVisibility( View.VISIBLE );
+                        mFloatMenu.setVisibility( View.VISIBLE );
+                        onDrawDetailsClick( draw );
+                    }
+                    break;
+                case AppConstants.FLOAT_MENU_ACTION:
+                    ballSetBasketShow();
+                    break;
             }
-   }
 
-    class DrawSelectReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive( Context context, Intent intent ) {
-            Integer draw =  intent.getIntExtra( AppConstants.DRAW_SELECT_ACTION, AppConstants.FAKE_ID );
-            if ( AppConstants.FAKE_ID != draw ){
-                mHeader.setVisibility( View.VISIBLE );
-                mFloatMenu.setVisibility( View.VISIBLE );
-                onDrawDetailsClick( draw );
-            }
         }
     }
 
-    public void hidePanelWihMenu(){
+    public void hidePanelWihMenu() {
         mHeader.setVisibility( View.GONE );
         mFloatMenu.setVisibility( View.GONE );
     }
 
+    public AppHeader getAppHeader() {
+        return mHeader;
+    }
 }

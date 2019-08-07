@@ -32,6 +32,7 @@ dependencies {
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.github.stack07142:DiscreteSeekBar:1.0.1'
+    implementation 'org.adw.library:discrete-seekbar:1.0.1'
 //    implementation 'com.github.lawloretienne:discreteslider:0.0.9'
 
 }

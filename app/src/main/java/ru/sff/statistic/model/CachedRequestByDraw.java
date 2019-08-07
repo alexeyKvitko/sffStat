@@ -3,6 +3,8 @@ package ru.sff.statistic.model;
 import java.io.Serializable;
 import java.util.List;
 
+import ru.sff.statistic.AppConstants;
+
 public class CachedRequestByDraw implements Serializable {
 
     private int startDraw;
@@ -11,6 +13,10 @@ public class CachedRequestByDraw implements Serializable {
     private BallsInfo ballsInfo;
     private List< LotoModel > lotoModelDraws;
 
+    public CachedRequestByDraw() {
+        startDraw = AppConstants.FAKE_ID;
+        endDraw = AppConstants.FAKE_ID;
+    }
 
     public int getStartDraw() {
         return startDraw;

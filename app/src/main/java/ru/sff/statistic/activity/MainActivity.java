@@ -14,6 +14,7 @@ import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.component.AppHeader;
+import ru.sff.statistic.model.HeaderModel;
 import ru.sff.statistic.utils.CustomAnimation;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -33,7 +34,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void initialize() {
         mActivityContainer = findViewById( R.id.mainActivityLayoutId );
         AppHeader mainHeader = findViewById( R.id.mainHeaderId );
-        mainHeader.setHeader( R.drawable.emoji_think, R.string.loto_6_45 );
+        mainHeader.setHeader( new HeaderModel( R.drawable.emoji_think,
+                    SFFSApplication.getAppContext().getResources().getString( R.string.loto_6_45 ) ) );
         ( ( TextView ) findViewById( R.id.queryAllDrawsId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
         ( ( TextView ) findViewById( R.id.queryByDrawsId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
         ( ( TextView ) findViewById( R.id.queryByDateId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
@@ -80,6 +82,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.requestByDrawId :
                 params.put( AppConstants.ROUTE_ACTION, AppConstants.SHOW_BY_DRAW_SCREEN );
+                startNewActivity( RouteActivity.class, params );
+                break;
+            case R.id.requestByDateId :
+                params.put( AppConstants.ROUTE_ACTION, AppConstants.SHOW_BY_DATE_SCREEN );
                 startNewActivity( RouteActivity.class, params );
                 break;
         }

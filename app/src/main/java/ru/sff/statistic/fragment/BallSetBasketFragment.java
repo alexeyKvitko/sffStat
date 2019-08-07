@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.activity.RouteActivity;
 import ru.sff.statistic.component.SixBallSet;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.BallsInfo;
@@ -27,6 +29,8 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
 
     private RecyclerView mBasketRecView;
     private BasketAdapter mBasketAdapter;
+
+    protected ImageView mBackButton;
     
     public BallSetBasketFragment() {}
 
@@ -47,6 +51,14 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
         return inflater.inflate( R.layout.fragment_ball_set_basket, container, false );
     }
 
+    @Override
+    public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
+        super.onActivityCreated( savedInstanceState );
+        mBackButton = ( ( RouteActivity ) getActivity() ).getBackBtn();
+        mBackButton.setOnClickListener( ( View view ) -> {
+            getActivity().onBackPressed();
+        } );
+    }
 
     private void initRecView() {
         if ( mBasketRecView == null ) {
@@ -94,6 +106,7 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
             mBasketRecView = null;
         }
         mBasketAdapter = null;
+        mBackButton.setOnClickListener( null );
     }
 
 

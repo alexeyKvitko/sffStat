@@ -79,7 +79,8 @@ public class SixBallSet extends BaseComponent {
     @Override
     public void onClick( View view ) {
         CustomAnimation.clickAnimation( view );
-        Intent intent = new Intent( AppConstants.BALL_SELECT_MESSAGE );
+        Intent intent = new Intent( AppConstants.ROUTE_ACTION_MESSAGE );
+        intent.putExtra( AppConstants.ROUTE_ACTION_TYPE, AppConstants.BALL_SELECT_ACTION );
         intent.putExtra( AppConstants.BALL_SELECT_ACTION, (( ColorBall) view).getBall() );
         SFFSApplication.getAppContext().sendBroadcast( intent );
     }

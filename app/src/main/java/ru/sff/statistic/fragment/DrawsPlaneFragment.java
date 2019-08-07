@@ -49,7 +49,8 @@ public class DrawsPlaneFragment extends BaseFragment {
     public View onCreateView( LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState ) {
         // Inflate the layout for this fragment
-        return inflater.inflate( R.layout.fragment_draws_plane, container, false );
+        View view = inflater.inflate( R.layout.fragment_draws_plane, container, false );
+        return view;
     }
 
     @Override

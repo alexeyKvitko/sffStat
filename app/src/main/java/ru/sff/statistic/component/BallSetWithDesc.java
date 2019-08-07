@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.MagnetModel;
 import ru.sff.statistic.utils.AppUtils;
@@ -44,6 +45,15 @@ public class BallSetWithDesc extends BaseComponent {
         descText.setText( "Тираж" );
         descText.setVisibility( View.VISIBLE );
     }
+
+    public void setEmptySet(String emptyMsg){
+        TextView descText = initTextView( R.id.ballSetDescId, AppConstants.ROBOTO_CONDENCED );
+        descText.setText( emptyMsg );
+        descText.setTextColor( SFFSApplication.getAppContext().getResources().getColor( R.color.grayTextColor ) );
+        descText.setVisibility( View.VISIBLE );
+        findViewById( R.id.ballSetDigitId ).setVisibility( View.GONE );
+    }
+
 
     public void setBallSetWithDigit( MagnetModel magnetModel, Integer digit ) {
         String[] balls = magnetModel.getCombination().replaceAll( "<", "" ).replaceAll( ">", "" ).split( "," );

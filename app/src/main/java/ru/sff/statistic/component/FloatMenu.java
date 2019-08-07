@@ -66,7 +66,8 @@ public class FloatMenu extends RelativeLayout {
 
 
     private void sendMenuMessage(String message){
-        Intent intent = new Intent( AppConstants.FLOAT_MENU_MESSAGE );
+        Intent intent = new Intent( AppConstants.ROUTE_ACTION_MESSAGE );
+        intent.putExtra( AppConstants.ROUTE_ACTION_TYPE, AppConstants.FLOAT_MENU_ACTION );
         intent.putExtra( AppConstants.FLOAT_MENU_ACTION, message );
         SFFSApplication.getAppContext().sendBroadcast( intent );
         mFloatMenu.collapse();

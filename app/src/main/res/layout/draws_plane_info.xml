@@ -157,6 +157,28 @@
         android:background="@color/deviderColor" />
 
     <TextView
+        android:id="@+id/avgSumLabelId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/avg_sum_label"
+        android:textColor="@color/grayTextColor"
+        android:visibility="gone"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/avgSumValueId"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="24dp"
+        android:textColor="@color/shokoColor"
+        android:textSize="18dp" />
+
+
+    <TextView
         android:id="@+id/evenOddLabelId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
