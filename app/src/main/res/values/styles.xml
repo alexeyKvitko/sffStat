@@ -51,4 +51,10 @@
         <item name="colorControlActivated">@color/transpGrayTextColor</item>
     </style>
 
+    <style name="NumberPickerStyle">
+        <item name="android:textSize">22dp</item>
+        <item name="android:textColorPrimary">@color/shokoColor</item>
+        <item name="android:colorControlNormal" tools:targetApi="lollipop">@color/ballYellow</item>
+    </style>
+
 </resources>

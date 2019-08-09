@@ -1,27 +1,16 @@
 package ru.sff.statistic.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.tabs.TabLayout;
-
-import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
-import ru.sff.statistic.SFFSApplication;
-import ru.sff.statistic.activity.RouteActivity;
 import ru.sff.statistic.manager.GlobalManager;
+import ru.sff.statistic.model.DrawRequestType;
+import ru.sff.statistic.model.RequestByDraw;
 
 
 public class AllResultsFragment extends TabbedFragment {
@@ -52,7 +41,10 @@ public class AllResultsFragment extends TabbedFragment {
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
         GlobalManager.setCachedRequestByDraw( null );
-        initTabs( AppConstants.FAKE_ID, AppConstants.FAKE_ID );
+        RequestByDraw requestByDraw =  new RequestByDraw();
+        requestByDraw.setDrawRequestType( DrawRequestType.ALL_DRAW );
+        fetchDrawData( requestByDraw );
+
     }
 
     public void changeViewType() {

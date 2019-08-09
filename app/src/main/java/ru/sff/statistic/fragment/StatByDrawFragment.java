@@ -23,7 +23,10 @@ import ru.sff.statistic.component.DiscretSlider;
 import ru.sff.statistic.component.ThreeCellStat;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.CachedRequestByDraw;
+import ru.sff.statistic.model.DrawRequestType;
 import ru.sff.statistic.model.HeaderModel;
+import ru.sff.statistic.model.RequestByDate;
+import ru.sff.statistic.model.RequestByDraw;
 import ru.sff.statistic.utils.AppUtils;
 import ru.sff.statistic.utils.CustomAnimation;
 
@@ -117,7 +120,7 @@ public class StatByDrawFragment extends TabbedFragment {
             mFromDraw = getCachedRequestByDraw().getStartDraw();
             mToDraw = getCachedRequestByDraw().getEndDraw();
             mFirstRequest = false;
-            initTabs( mFromDraw, mToDraw );
+            initTabs();
         }
 
         setEnableRequestFromTo( false );
@@ -200,13 +203,11 @@ public class StatByDrawFragment extends TabbedFragment {
         GlobalManager.getCachedRequestByDraw().setBallsInfo( null );
         GlobalManager.getCachedRequestByDraw().setLotoModelDraws( null );
         AppUtils.hideKeyboardFrom( getActivity(), mRequestFromTo );
-        if ( mFirstRequest ){
-            initTabs( mFromDraw, mToDraw );
-            mFirstRequest = false;
-        } else {
-            mDrawsPlaneFragment.getDrawsPlaneInfo().feetchDrawResults( mFromDraw, mToDraw );
-            mLotoDrawsFragment.feetchLotoDraw( mFromDraw, mToDraw );
-        }
+        RequestByDraw requestByDraw = new RequestByDraw();
+        requestByDraw.setDrawRequestType(  DrawRequestType.DRAW_BETWEEN );
+        requestByDraw.setStartDraw( mFromDraw );
+        requestByDraw.setEndDraw( mToDraw );
+        fetchDrawData( requestByDraw );
         mRequestContainerShown = false;
         int byDraw = 1+( mToDraw-mFromDraw);
         (( RouteActivity ) getActivity()).getAppHeader().setHeader( new HeaderModel( R.drawable.emoji_look, "по "+byDraw+" тиражам" ) );

@@ -17,32 +17,20 @@ import ru.sff.statistic.component.DrawsPlaneInfo;
 
 public class DrawsPlaneFragment extends BaseFragment {
 
-    private static final String START_DRAW = "start_draw";
-    private static final String END_DRAW = "end_draw";
+//    private static final String START_DRAW = "start_draw";
+//    private static final String END_DRAW = "end_draw";
 
     private DrawsPlaneInfo mDrawsPlaneInfo;
 
-    private int mStartDraw;
-    private int mEndDraw;
-
     public DrawsPlaneFragment() {}
 
-    public static DrawsPlaneFragment newInstance(int startDraw, int endDraw) {
-        DrawsPlaneFragment fragment = new DrawsPlaneFragment();
-        Bundle args = new Bundle();
-        args.putInt( START_DRAW, startDraw );
-        args.putInt( END_DRAW, endDraw );
-        fragment.setArguments( args );
-        return fragment;
+    public static DrawsPlaneFragment newInstance() {
+        return new DrawsPlaneFragment();
     }
 
     @Override
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        if ( getArguments() != null ) {
-            mStartDraw = getArguments().getInt( START_DRAW );
-            mEndDraw = getArguments().getInt( END_DRAW );
-        }
     }
 
     @Override
@@ -59,7 +47,7 @@ public class DrawsPlaneFragment extends BaseFragment {
         mDrawsPlaneInfo = getView().findViewById( R.id.allDrawsPanelInfoId );
         mDrawsPlaneInfo.setActivity( getActivity(), getView().findViewById( R.id.pleaseWaitContainerId ),
                 getView().findViewById( R.id.scrollContainerId ));
-        mDrawsPlaneInfo.feetchDrawResults( mStartDraw, mEndDraw );
+        mDrawsPlaneInfo.populateDrawsPlane();
     }
 
     public DrawsPlaneInfo getDrawsPlaneInfo() {

@@ -58,6 +58,7 @@
     <string name="by_month_label">По месяцу</string>
     <string name="by_day_week_label">По дню недели</string>
     <string name="by_day_month_label">По дню и месяцу</string>
+    <string name="by_period">За период</string>
     <string name="day_label">День</string>
     <string name="month_label">Месяц</string>
 

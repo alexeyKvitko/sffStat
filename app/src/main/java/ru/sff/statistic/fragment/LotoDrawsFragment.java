@@ -30,6 +30,8 @@ import ru.sff.statistic.component.ArrowSelector;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
+import ru.sff.statistic.model.Ball;
+import ru.sff.statistic.model.DrawRequestType;
 import ru.sff.statistic.model.LotoModel;
 import ru.sff.statistic.recycleview.LotoDrawAdapter;
 import ru.sff.statistic.recycleview.StickyRecyclerView;
@@ -43,8 +45,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
 
     private static final String TAG = "LotoDrawsFragment";
 
-    private static final String START_DRAW = "start_draw";
-    private static final String END_DRAW = "end_draw";
+    private static final String HEADER_ANIMATED = "header_animated";
 
     private static final int REC_VIEW_CARD_HEIGHT = 24;
     private static final int HEADER_EXPAND_MARGIN_TOP = 94;
@@ -69,19 +70,16 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     private Integer mMonthIndex = 0;
     private Integer mYearIndex = 0;
 
-    private int mStartDraw;
-    private int mEndDraw;
     private boolean mHeaderAnimated;
 
 
     public LotoDrawsFragment() {
     }
 
-    public static LotoDrawsFragment newInstance( int startDraw, int endDraw ) {
+    public static LotoDrawsFragment newInstance( boolean headerAnimated ) {
         LotoDrawsFragment fragment = new LotoDrawsFragment();
         Bundle args = new Bundle();
-        args.putInt( START_DRAW, startDraw );
-        args.putInt( END_DRAW, endDraw );
+        args.putBoolean( HEADER_ANIMATED, headerAnimated );
         fragment.setArguments( args );
         return fragment;
     }
@@ -90,15 +88,14 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         if ( getArguments() != null ) {
-            mStartDraw = getArguments().getInt( START_DRAW );
-            mEndDraw = getArguments().getInt( END_DRAW );
+            mHeaderAnimated = getArguments().getBoolean( HEADER_ANIMATED);
         }
     }
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState ) {
-        mIsReady = false;
+        mIsReady = true;
         return inflater.inflate( R.layout.fragment_loto_draws, container, false );
     }
 
@@ -106,13 +103,11 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
         initialize();
-        feetchLotoDraw( mStartDraw, mEndDraw );
+        populateLotoDraws();
     }
 
     private void initialize() {
         initTextView( R.id.periodLabelId, AppConstants.ROTONDA_BOLD );
-
-        mHeaderAnimated = AppConstants.FAKE_ID == mEndDraw;
 
         mHeaderContainer = getView().findViewById( R.id.headerSelectPeriodId );
         mMonthArrowSelector = getView().findViewById( R.id.monthArrowSelectorId );
@@ -136,7 +131,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
             if ( !mSelectedMonth.equals( mMonthArrowSelector.getValue() ) ||
                     !mSelectedtYear.equals( Integer.valueOf( mYearArrowSelector.getValue() ) ) ) {
                 mRefresh.setRefreshing( true );
-                feetchLotoDraw( mStartDraw, mEndDraw );
+                new GetLotoDraws().execute(  );
             } else {
                 mRefresh.setRefreshing( false );
             }
@@ -144,16 +139,6 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
 
     }
 
-    public void feetchLotoDraw( int startDraw, int endDraw ) {
-        if ( GlobalManager.getCachedRequestByDraw() != null
-                        && GlobalManager.getCachedRequestByDraw().getLotoModelDraws() != null ) {
-            mLotoModelDraws = GlobalManager.getCachedRequestByDraw().getLotoModelDraws();
-            mIsReady = true;
-            populateLotoDraws();
-        } else {
-            new GetLotoDraws().execute( startDraw, endDraw );
-        }
-    }
 
     @Override
     public void onAttach( Context context ) {
@@ -216,8 +201,9 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     public void onClick( View view ) {
     }
 
-    private void populateLotoDraws() {
+    public void populateLotoDraws() {
         if ( mIsReady ) {
+            mLotoModelDraws = GlobalManager.getCachedRequestByDraw().getLotoModelDraws();
             initAdapter();
             initRecView();
         }
@@ -295,7 +281,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
         void onDrawDetailsClick( Integer draw );
     }
 
-    private class GetLotoDraws extends AsyncTask< Integer, Void, String > {
+    private class GetLotoDraws extends AsyncTask< Void, Void, String > {
 
         @Override
         protected void onPreExecute() {
@@ -303,7 +289,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
         }
 
         @Override
-        protected String doInBackground( Integer... draws ) {
+        protected String doInBackground( Void... args ) {
             String result = null;
             try {
                 mSelectedMonth = mMonthArrowSelector.getValue();
@@ -311,17 +297,9 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
                 mMonthIndex = mMonthArrowSelector.getCurrentIndex();
                 mYearIndex = mYearArrowSelector.getCurrentIndex();
                 Call< ApiResponse< List< LotoModel > > > resultCall = null;
-                if ( AppConstants.FAKE_ID == draws[ 1 ] ) {
-                    resultCall = RestController
-                            .getApi().getLotoDrawsByMonthAndYear( AppConstants.AUTH_BEARER
+                resultCall = RestController.getApi().getLotoDrawsByMonthAndYear( AppConstants.AUTH_BEARER
                                             + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
                                     mSelectedMonth, mSelectedtYear );
-                } else {
-                    resultCall = RestController
-                            .getApi().getLotoDrawsByDrawsBetween( AppConstants.AUTH_BEARER
-                                            + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                                    draws[ 0 ], draws[ 1 ] );
-                }
                 Response< ApiResponse< List< LotoModel > > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {
@@ -355,4 +333,5 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
             populateLotoDraws();
         }
     }
+
 }

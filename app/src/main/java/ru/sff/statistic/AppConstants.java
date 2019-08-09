@@ -40,6 +40,7 @@ public abstract class AppConstants {
     public static final int FAKE_ID = -1;
 
     public static final String FULL_DATE_FORMAT = "dd MMMM yyyy в HH:mm";
+    public static final String DATE_FORMAT = "dd MMMM yyyy";
 
     public static final String PICTURE_DIR = "stoloto";
     public static final String SNAPSHOT_FILENAME = "lotoapp";
@@ -91,6 +92,9 @@ public abstract class AppConstants {
         put(11,"Ноябрь");
         put(12,"Декабрь");
     }};
+
+    public static final String[] ALL_MONTH_SFX = new String[] { "Января","Февраля","Марта","Апреля",
+            "Мая","Июня","Июля","Августа","Сентября","Октября","Ноября","Декабря"};
 
     public static final int HEADER_ACTION_REMOVE = -1;
     public static final int HEADER_ACTION_RESTORE = 1;

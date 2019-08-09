@@ -9,7 +9,8 @@ public class RequestByDate implements Serializable {
     private int day;
     private int month;
     private int dayOfWeek;
-    private int dayOfMonth;
+    private int dayNumber;
+    private int monthNumber;
     private String startDay;
     private String endDay;
 
@@ -53,12 +54,20 @@ public class RequestByDate implements Serializable {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public int getDayOfMonth() {
-        return dayOfMonth;
+    public int getDayNumber() {
+        return dayNumber;
     }
 
-    public void setDayOfMonth( int dayOfMonth ) {
-        this.dayOfMonth = dayOfMonth;
+    public void setDayNumber( int dayNumber ) {
+        this.dayNumber = dayNumber;
+    }
+
+    public int getMonthNumber() {
+        return monthNumber;
+    }
+
+    public void setMonthNumber( int monthNumber ) {
+        this.monthNumber = monthNumber;
     }
 
     public String getStartDay() {

@@ -8,156 +8,107 @@
     android:background="@drawable/main_background"
     tools:context=".fragment.StatByDateFragment">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/statByDateRequestContainerId"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ru.sff.statistic.component.DiscretSlider
-                android:id="@+id/daySliderId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <ru.sff.statistic.component.DiscretSlider
-                android:id="@+id/monthSliderId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <ru.sff.statistic.component.DiscretSlider
-                android:id="@+id/dayWeekSliderId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
             <LinearLayout
-                android:id="@+id/statByDayMonthRequesId"
+                android:id="@+id/statByDateRequestContainerId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="18dp"
-                android:elevation="1dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/statByDayMonthTitleId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/by_day_month_label"
-                    android:textColor="@color/transpGrayTextColor"
-                    android:textSize="16dp" />
+                <ru.sff.statistic.component.DiscretSlider
+                    android:id="@+id/daySliderId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                <ru.sff.statistic.component.ThreeCellStat
-                    android:id="@+id/statByDayMonthLabelId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingTop="8dp"
-                    android:paddingStart="12dp" />
+                <ru.sff.statistic.component.DiscretSlider
+                    android:id="@+id/monthSliderId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <ru.sff.statistic.component.DiscretSlider
+                    android:id="@+id/dayWeekSliderId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <ru.sff.statistic.component.DoubleSlider
+                    android:id="@+id/periodSliderId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
+                    android:id="@+id/statByDayPeriodRequesId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="24dp"
-                    android:focusableInTouchMode="true"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="18dp"
+                    android:elevation="1dp"
+                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/statByDayTextLayoutId"
-                        style="@style/AppInputLayout"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/statByPeriodTitleId"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1"
-                        android:hint="@string/day_label"
-                        app:errorEnabled="false"
-                        app:errorTextAppearance="@style/errorText">
+                        android:text="@string/by_period"
+                        android:textColor="@color/transpGrayTextColor"
+                        android:textSize="16dp" />
 
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/statByDayValueId"
-                            style="@style/AppEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:maxLength="2"
-                            android:theme="@style/editTextTheme" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/statByMonthTextLayoutId"
-                        style="@style/AppInputLayout"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/statPeriodValueId"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_weight="1"
-                        android:hint="@string/month_label"
-                        app:errorEnabled="false"
-                        app:errorTextAppearance="@style/errorText">
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="24dp"
+                        android:background="@drawable/border_bottom"
+                        android:textColor="@color/shokoColor"
+                        android:textSize="16dp" />
 
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/statByMonthValueId"
-                            style="@style/AppEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:maxLength="4"
-                            android:theme="@style/editTextTheme" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/statByMonthErrorFieldId"
-                    style="@style/errorText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/error_required_field"
-                    android:visibility="gone" />
-
             </LinearLayout>
+
+            <Button
+                android:id="@+id/statByDateRequestFormId"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginVertical="12dp"
+                android:background="@drawable/button_yellow"
+                android:elevation="6dp"
+                android:text="@string/button_show"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/statByDateShowFormId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="38dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="2dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_chevron_down_circle_shocko_18dp" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="12dp"
+                android:background="@color/deviderColor" />
+
         </LinearLayout>
-
-        <Button
-            android:id="@+id/statByDateRequestFormId"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="32dp"
-            android:layout_marginVertical="12dp"
-            android:background="@drawable/button_yellow"
-            android:elevation="6dp"
-            android:text="@string/button_show"
-            android:textColor="@android:color/white" />
-
-        <ImageView
-            android:id="@+id/statByDateShowFormId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="38dp"
-            android:layout_marginBottom="8dp"
-            android:elevation="2dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_chevron_down_circle_shocko_18dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="12dp"
-            android:background="@color/deviderColor" />
-
-    </LinearLayout>
-
+    </ScrollView>
 </FrameLayout>
 
 

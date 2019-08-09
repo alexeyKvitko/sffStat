@@ -33,6 +33,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.github.stack07142:DiscreteSeekBar:1.0.1'
     implementation 'org.adw.library:discrete-seekbar:1.0.1'
+    implementation 'com.borax12.materialdaterangepicker:library:2.0'
 //    implementation 'com.github.lawloretienne:discreteslider:0.0.9'
 
 }

@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,19 +18,14 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Response;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.manager.GlobalManager;
-import ru.sff.statistic.modal.ModalMessage;
-import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BallsInfo;
 import ru.sff.statistic.model.StoredBallSet;
-import ru.sff.statistic.rest.RestController;
 import ru.sff.statistic.utils.AppUtils;
 import ru.sff.statistic.utils.CustomAnimation;
 
@@ -83,15 +75,6 @@ public class DrawsPlaneInfo extends BaseComponent {
         CustomAnimation.transitionAnimation( mScrollView, mPleaseWait );
     }
 
-    public void feetchDrawResults(Integer startDraw, Integer endDraw ){
-        if ( GlobalManager.getCachedRequestByDraw() != null
-                            && GlobalManager.getCachedRequestByDraw().getBallsInfo() != null ){
-            mBallsInfo = GlobalManager.getCachedRequestByDraw().getBallsInfo();
-            populateDrawsPlane();
-        } else {
-            new GetDrawResults().execute( startDraw, endDraw );
-        }
-    }
 
     private void initialize() {
         initBaseComponent( this );
@@ -251,7 +234,8 @@ public class DrawsPlaneInfo extends BaseComponent {
         }
     }
 
-    private void populateDrawsPlane() {
+    public void populateDrawsPlane() {
+        mBallsInfo = GlobalManager.getCachedRequestByDraw().getBallsInfo();
         mBallTable = findViewById( R.id.fiveNineTableId );
         mBallTable.clearTable();
         mBallTable.setBallsInfo( mBallsInfo );
@@ -300,51 +284,5 @@ public class DrawsPlaneInfo extends BaseComponent {
     }
 
 
-    private class GetDrawResults extends AsyncTask< Integer, Void, String > {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground( Integer... draws ) {
-            String result = null;
-            try {
-                Call< ApiResponse< BallsInfo > > resultCall = RestController
-                        .getApi().fetchResultsByDraw( AppConstants.AUTH_BEARER
-                                + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                                draws[0], draws[1] );
-                Response< ApiResponse< BallsInfo > > resultResponse = resultCall.execute();
-                if ( resultResponse.body() != null ) {
-                    if ( resultResponse.body().getStatus() == 200 ) {
-                        mBallsInfo = resultResponse.body().getResult();
-                        GlobalManager.getCachedRequestByDraw().setBallsInfo( mBallsInfo );
-                    } else {
-                        result = resultResponse.body().getMessage();
-                    }
-                } else {
-                    result = getResources().getString( R.string.internal_error );
-                }
-            } catch ( Exception e ) {
-                result = getResources().getString( R.string.internal_error );
-                Log.i( TAG, e.getMessage() );
-                e.printStackTrace();
-            }
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute( String result ) {
-            super.onPostExecute( result );
-            if ( result != null ) {
-                ModalMessage.show( mActivity, "Сообщение", new String[]{ result } );
-                ( new Handler() ).postDelayed( () -> {
-                    mActivity.onBackPressed();
-                }, 2000 );
-                return;
-            }
-            populateDrawsPlane();
-        }
-    }
 }

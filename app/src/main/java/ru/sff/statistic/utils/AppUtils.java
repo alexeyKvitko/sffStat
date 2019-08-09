@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.ParseException;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -67,6 +68,17 @@ public abstract class AppUtils {
         try {
             result = sdf.format(date );
         } catch ( Exception ex) {
+            Log.e( TAG,"Ошибка преобразования: "+ex.getMessage() );
+        }
+        return result;
+    }
+
+    public static Date parseDate(String format , String strDate ) {
+        SimpleDateFormat sdf = new SimpleDateFormat( format );
+        Date result = null;
+        try {
+            result = sdf.parse( strDate );
+        } catch ( ParseException | java.text.ParseException ex) {
             Log.e( TAG,"Ошибка преобразования: "+ex.getMessage() );
         }
         return result;
