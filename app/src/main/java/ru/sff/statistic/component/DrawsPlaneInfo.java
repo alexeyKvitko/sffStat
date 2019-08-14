@@ -25,6 +25,7 @@ import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BallsInfo;
+import ru.sff.statistic.model.RequestType;
 import ru.sff.statistic.model.StoredBallSet;
 import ru.sff.statistic.utils.AppUtils;
 import ru.sff.statistic.utils.CustomAnimation;
@@ -72,9 +73,7 @@ public class DrawsPlaneInfo extends BaseComponent {
         mActivity = activity;
         mPleaseWait = layout;
         mScrollView = scrollView;
-        CustomAnimation.transitionAnimation( mScrollView, mPleaseWait );
     }
-
 
     private void initialize() {
         initBaseComponent( this );
@@ -190,19 +189,19 @@ public class DrawsPlaneInfo extends BaseComponent {
         mBallTable.redrawTable();
     }
 
-    private void addBallSetToBasket( int basketId, String basketType, Ball[] ballSet, BallSetType ballSetType ){
+    private void addBallSetToBasket( int basketId, String basketName, Ball[] ballSet, BallSetType ballSetType ){
         ImageView basketImage = ( ImageView ) (( LinearLayout) findViewById( basketId ) ).getChildAt( 0 );
-        if ( GlobalManager.getStoredBallSet().get( basketType ) == null ){
+        if ( GlobalManager.getStoredBallSet().get( basketName ) == null ){
             StoredBallSet storedBallSet = new StoredBallSet();
             storedBallSet.setBallSets( ballSet );
             storedBallSet.setBallSetType( ballSetType );
             storedBallSet.setStoredDate( AppUtils.formatDate( AppConstants.FULL_DATE_FORMAT, new Date( ) ) );
-            storedBallSet.setBallSetName( basketType );
-            GlobalManager.getStoredBallSet().put( basketType, storedBallSet );
+            storedBallSet.setBallSetName( basketName );
+            GlobalManager.getStoredBallSet().put( basketName, storedBallSet );
             basketImage.setImageDrawable( SFFSApplication.getAppContext().getResources()
                                                 .getDrawable( R.drawable.ic_basket_shoko_18dp ) );
         } else {
-            GlobalManager.getStoredBallSet().remove( basketType );
+            GlobalManager.getStoredBallSet().remove( basketName );
             basketImage.setImageDrawable( SFFSApplication.getAppContext().getResources()
                                                 .getDrawable( R.drawable.ic_basket_grey600_18dp ) );
         }
@@ -235,7 +234,7 @@ public class DrawsPlaneInfo extends BaseComponent {
     }
 
     public void populateDrawsPlane() {
-        mBallsInfo = GlobalManager.getCachedRequestByDraw().getBallsInfo();
+        mBallsInfo = GlobalManager.getCachedResponseData().getBallsInfo();
         mBallTable = findViewById( R.id.fiveNineTableId );
         mBallTable.clearTable();
         mBallTable.setBallsInfo( mBallsInfo );
@@ -251,8 +250,17 @@ public class DrawsPlaneInfo extends BaseComponent {
         mMiddleBallSet = findViewById( R.id.middleBallSetId );
         mMiddleBallSet.setBallSet( mBallsInfo.getMiddleOften(), BallSetType.MIDDLE );
 
-        mDrawRange.setTwoCellValue( "с № " + mBallsInfo.getFirstDraw(), mBallsInfo.getFirstDrawDate(),
-                "по № " + mBallsInfo.getLastDraw(), mBallsInfo.getLastDrawDate() );
+        if ( RequestType.ALL_DRAW.equals( GlobalManager.getCachedResponseData().getLastRequest() ) ||
+                RequestType.DRAW_BETWEEN.equals( GlobalManager.getCachedResponseData().getLastRequest() )  ){
+            mDrawRange.setTwoCellValue( "с № " + mBallsInfo.getFirstDraw(), mBallsInfo.getFirstDrawDate(),
+                    "по № " + mBallsInfo.getLastDraw(), mBallsInfo.getLastDrawDate() );
+        } else {
+            String fromDate = "c "+mBallsInfo.getFirstDrawDate().substring( 0, mBallsInfo.getFirstDrawDate().length()-7 );
+            String toDate = "по "+mBallsInfo.getLastDrawDate().substring( 0, mBallsInfo.getLastDrawDate().length()-7 );
+            mDrawRange.setTwoCellValue( fromDate,"№ " + mBallsInfo.getFirstDraw(),
+                                                        toDate, "№ " + mBallsInfo.getLastDraw() );
+        }
+
 
         Integer drawCount = (Integer.valueOf( mBallsInfo.getLastDraw() ) - Integer.valueOf( mBallsInfo.getFirstDraw() ) )+1 ;
 
@@ -280,7 +288,6 @@ public class DrawsPlaneInfo extends BaseComponent {
                 mBallsInfo.getTotalDrawInfo().getThreeGuessedWin(),
                 mBallsInfo.getTotalDrawInfo().getTwoGuessedWin() );
         initBasketImage();
-        CustomAnimation.transitionAnimation( mPleaseWait, mScrollView );
     }
 
 

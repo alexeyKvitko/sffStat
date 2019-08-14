@@ -8,17 +8,22 @@
     android:background="@drawable/main_background"
     tools:context=".fragment.StatByDateFragment">
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/statByDateRequestContainerId"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/statByDateRequestContainerId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -65,8 +70,8 @@
                         android:id="@+id/statPeriodValueId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
                         android:background="@drawable/border_bottom"
                         android:textColor="@color/shokoColor"
                         android:textSize="16dp" />
@@ -74,41 +79,61 @@
 
                 </LinearLayout>
 
+
+                <Button
+                    android:id="@+id/statByDateRequestFormId"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginHorizontal="32dp"
+                    android:layout_marginVertical="12dp"
+                    android:background="@drawable/button_yellow"
+                    android:elevation="6dp"
+                    android:text="@string/button_show"
+                    android:textColor="@android:color/white" />
+
+                <ImageView
+                    android:id="@+id/statByDateShowFormId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="38dp"
+                    android:layout_marginBottom="8dp"
+                    android:elevation="2dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_chevron_down_circle_shocko_18dp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:background="@color/deviderColor" />
+
             </LinearLayout>
-
-            <Button
-                android:id="@+id/statByDateRequestFormId"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="32dp"
-                android:layout_marginVertical="12dp"
-                android:background="@drawable/button_yellow"
-                android:elevation="6dp"
-                android:text="@string/button_show"
-                android:textColor="@android:color/white" />
-
-            <ImageView
-                android:id="@+id/statByDateShowFormId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="38dp"
-                android:layout_marginBottom="8dp"
-                android:elevation="2dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_chevron_down_circle_shocko_18dp" />
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="12dp"
-                android:background="@color/deviderColor" />
-
+        </ScrollView>
         </LinearLayout>
-    </ScrollView>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pagerId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayoutId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:tabIndicatorColor="@color/backgroundColor"
+                app:tabTextColor="@color/shokoColor">
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </androidx.viewpager.widget.ViewPager>
+        <include layout="@layout/please_wait" />
+    </LinearLayout>
+
+
 </FrameLayout>
 
 

@@ -21,6 +21,10 @@ import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.MagnetModel;
+import ru.sff.statistic.model.RequestType;
+
+import static ru.sff.statistic.manager.GlobalManager.*;
+import static ru.sff.statistic.model.RequestType.BY_DAY;
 
 public abstract class AppUtils {
 
@@ -41,9 +45,32 @@ public abstract class AppUtils {
     }
 
     public  static String getStoredBallSetKey(String ballSet ){
-        String drawPeriod = AppConstants.FAKE_ID == GlobalManager.getCachedRequestByDraw().getEndDraw() ?
-                "1-"+GlobalManager.getPlayedDraws().toString()
-                : GlobalManager.getCachedRequestByDraw().getStartDraw()+ "-" + GlobalManager.getCachedRequestByDraw().getEndDraw();
+        String drawPeriod = "";
+        switch ( getCachedResponseData().getLastRequest() ){
+            case BY_DAY:
+                drawPeriod = getCachedResponseData().getRequestByDate().getDay()+" числа месяца";
+                break;
+            case BY_MONTH:
+                drawPeriod = AppConstants.ALL_OF_MONTH.get( getCachedResponseData().getRequestByDate().getMonth() )+" месяц";
+                break;
+            case BY_DAY_WEEK:
+                drawPeriod = AppConstants.ALL_DAY_OF_WEEK.get( getCachedResponseData().getRequestByDate().getDayOfWeek() )+"";
+                break;
+            case BY_DAY_MONTH:
+                drawPeriod = getCachedResponseData().getRequestByDate().getDayNumber()+" "+AppConstants.ALL_MONTH_SFX[getCachedResponseData().getRequestByDate().getMonthNumber()];
+                break;
+            case BY_PERIOD:
+                drawPeriod = getCachedResponseData().getRequestByDate().getStartDay()+" - "+
+                                            getCachedResponseData().getRequestByDate().getEndDay();
+                break;
+            case ALL_DRAW:
+                 drawPeriod = "1-"+ getPlayedDraws().toString();
+                break;
+            case DRAW_BETWEEN:
+                drawPeriod = getCachedResponseData().getRequestByDraw().getStartDraw()
+                        + "-" + getCachedResponseData().getRequestByDraw().getEndDraw();
+                break;
+        }
         return String.format( ballSet, drawPeriod );
     }
 

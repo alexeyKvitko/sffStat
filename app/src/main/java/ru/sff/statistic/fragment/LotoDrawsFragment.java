@@ -5,8 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
@@ -30,8 +28,6 @@ import ru.sff.statistic.component.ArrowSelector;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
-import ru.sff.statistic.model.Ball;
-import ru.sff.statistic.model.DrawRequestType;
 import ru.sff.statistic.model.LotoModel;
 import ru.sff.statistic.recycleview.LotoDrawAdapter;
 import ru.sff.statistic.recycleview.StickyRecyclerView;
@@ -203,7 +199,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
 
     public void populateLotoDraws() {
         if ( mIsReady ) {
-            mLotoModelDraws = GlobalManager.getCachedRequestByDraw().getLotoModelDraws();
+            mLotoModelDraws = GlobalManager.getCachedResponseData().getLotoModelDraws();
             initAdapter();
             initRecView();
         }
@@ -304,7 +300,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {
                         mLotoModelDraws = resultResponse.body().getResult();
-                        GlobalManager.getCachedRequestByDraw().setLotoModelDraws( mLotoModelDraws );
+                        GlobalManager.getCachedResponseData().setLotoModelDraws( mLotoModelDraws );
                     } else {
                         result = resultResponse.body().getMessage();
                     }

@@ -1,10 +1,15 @@
 package ru.sff.statistic.fragment;
 
 
+import android.animation.IntEvaluator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -19,17 +24,23 @@ import java.util.List;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.activity.RouteActivity;
 import ru.sff.statistic.component.DiscretSlider;
 import ru.sff.statistic.component.DoubleSlider;
+import ru.sff.statistic.manager.GlobalManager;
+import ru.sff.statistic.model.CachedResponseData;
+import ru.sff.statistic.model.HeaderModel;
 import ru.sff.statistic.model.RequestByDate;
-import ru.sff.statistic.model.RequestDateType;
+import ru.sff.statistic.model.RequestType;
 import ru.sff.statistic.utils.AppUtils;
+import ru.sff.statistic.utils.CustomAnimation;
+
+import static ru.sff.statistic.manager.GlobalManager.getCachedResponseData;
 
 
-public class StatByDateFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener {
+public class StatByDateFragment extends TabbedFragment implements DatePickerDialog.OnDateSetListener {
 
-
-    private RequestByDate mRequestByDate;
+    private static final int REQUEST_CONTAINER_COLLAPSE_HEIGHT = -( int ) AppUtils.convertDpToPixel( 552 );
 
     private DiscretSlider mDaySlider;
     private DiscretSlider mMonthSlider;
@@ -37,7 +48,13 @@ public class StatByDateFragment extends BaseFragment implements DatePickerDialog
 
     private DoubleSlider mDoubleSlider;
 
+    private LinearLayout mStatByDateRequestContainer;
+
     private TextView mPeriodValue;
+
+    private ImageView mShowRequestForm;
+    private Button mRequestButton;
+    private boolean mRequestContainerShown;
 
     public StatByDateFragment() {
     }
@@ -62,15 +79,35 @@ public class StatByDateFragment extends BaseFragment implements DatePickerDialog
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
-        mRequestByDate = new RequestByDate();
-        mRequestByDate.setRequestDateType( RequestDateType.BY_DAY );
-        mRequestByDate.setDay( Calendar.getInstance().get( Calendar.DAY_OF_MONTH ) );
-        mRequestByDate.setMonth( Calendar.getInstance().get( Calendar.MONTH ) + 1 );
-        mRequestByDate.setDayOfWeek( Calendar.getInstance().get( Calendar.DAY_OF_WEEK ) - 1 );
-        mRequestByDate.setDayNumber( mRequestByDate.getDay() );
-        mRequestByDate.setMonthNumber( mRequestByDate.getMonth() );
-        mRequestByDate.setStartDay( AppUtils.formatDate( AppConstants.DATE_FORMAT, new Date() ) );
-        mRequestByDate.setEndDay( AppUtils.formatDate( AppConstants.DATE_FORMAT, new Date() ) );
+        mRequestContainerShown = true;
+        mStatByDateRequestContainer = getView().findViewById( R.id.statByDateRequestContainerId );
+        mShowRequestForm = getView().findViewById( R.id.statByDateShowFormId );
+        mShowRequestForm.setVisibility( View.GONE );
+        mRequestButton = getView().findViewById( R.id.statByDateRequestFormId );
+        mRequestButton.setVisibility( View.VISIBLE );
+        RequestType defType = null;
+        if ( getCachedResponseData() != null
+                &&  !RequestType.DRAW_BETWEEN.equals( getCachedResponseData().getLastRequest() )
+                &&  !RequestType.ALL_DRAW.equals( getCachedResponseData().getLastRequest() )){
+            animateRequestContainer( 0, REQUEST_CONTAINER_COLLAPSE_HEIGHT );
+            mRequestContainerShown = false;
+            mRequestByDate = getCachedResponseData().getRequestByDate();
+            defType = mRequestByDate.getRequestType();
+            mRequestByDate.setRequestType( null );
+            mFirstRequest = false;
+            initTabs();
+        } else {
+            mRequestByDate = new RequestByDate();
+            defType = RequestType.BY_DAY;
+            mRequestByDate.setDay( Calendar.getInstance().get( Calendar.DAY_OF_MONTH ) );
+            mRequestByDate.setMonth( Calendar.getInstance().get( Calendar.MONTH ) + 1 );
+            mRequestByDate.setDayOfWeek( Calendar.getInstance().get( Calendar.DAY_OF_WEEK ) - 1 );
+            mRequestByDate.setDayNumber( mRequestByDate.getDay() );
+            mRequestByDate.setMonthNumber( mRequestByDate.getMonth() );
+            mRequestByDate.setStartDay( AppUtils.formatDate( AppConstants.DATE_FORMAT, new Date() ) );
+            mRequestByDate.setEndDay( AppUtils.formatDate( AppConstants.DATE_FORMAT, new Date() ) );
+        }
+
 
         initByDaySlider( mRequestByDate.getDay(),
                 getActivity().getResources().getString( R.string.by_date_label ) );
@@ -80,8 +117,9 @@ public class StatByDateFragment extends BaseFragment implements DatePickerDialog
                 getActivity().getResources().getString( R.string.by_day_week_label ) );
         initByDayMonthAndPeriod();
 
-        setThisOnClickListener( R.id.daySliderId, R.id.monthSliderId, R.id.dayWeekSliderId,
-                R.id.periodSliderId, R.id.statByDayPeriodRequesId );
+        setThisOnClickListener( R.id.daySliderId, R.id.monthSliderId, R.id.dayWeekSliderId, R.id.statByDateShowFormId,
+                R.id.periodSliderId, R.id.statByDayPeriodRequesId, R.id.statByDateRequestFormId );
+        setRequestType( defType );
     }
 
     private void initByDaySlider( int day, String title ) {
@@ -133,17 +171,33 @@ public class StatByDateFragment extends BaseFragment implements DatePickerDialog
     }
 
 
-    private boolean setRequestType( RequestDateType type ) {
-        if ( mRequestByDate.getRequestDateType().equals( type ) ) {
-            return false;
+    private void setRequestType( RequestType type ) {
+        if ( type.equals( mRequestByDate.getRequestType() ) ) {
+            return;
         }
         mDaySlider.setEnableSlider( false );
         mMonthSlider.setEnableSlider( false );
         mDayWeekSlider.setEnableSlider( false );
         mDoubleSlider.setEnableSlider( false );
         setPeriodValue( false );
-        mRequestByDate.setRequestDateType( type );
-        return true;
+        mRequestByDate.setRequestType( type );
+        switch ( type ){
+            case BY_DAY:
+                mDaySlider.setEnableSlider( true );
+                break;
+            case BY_MONTH:
+                mMonthSlider.setEnableSlider( true );
+                break;
+            case BY_DAY_WEEK:
+                mDayWeekSlider.setEnableSlider( true );
+                break;
+            case BY_DAY_MONTH:
+                mDoubleSlider.setEnableSlider( true );
+                break;
+            case BY_PERIOD:
+                setPeriodValue( true );
+                break;
+        }
     }
 
     private void showPeriodPicker() {
@@ -169,46 +223,102 @@ public class StatByDateFragment extends BaseFragment implements DatePickerDialog
         periodDialog.show( getActivity().getFragmentManager(), "Выбор периода" );
     }
 
-    private void postStatByDateRequest(){
+    private void postStatByDateRequest() {
+        mRequestByDraw = null;
         mRequestByDate.setDay( mDaySlider.getSliderValue() );
         mRequestByDate.setMonth( mMonthSlider.getSliderValue() );
+        mRequestByDate.setDayOfWeek( mDayWeekSlider.getSliderValue() );
         mRequestByDate.setDayNumber( mDoubleSlider.getSliderOneValue() );
         mRequestByDate.setMonthNumber( mDoubleSlider.getSliderTwoValue() );
+
+        if ( GlobalManager.getCachedResponseData() == null ) {
+            GlobalManager.setCachedResponseData( new CachedResponseData() );
+        }
+        GlobalManager.getCachedResponseData().setLastRequest( mRequestByDate.getRequestType() );
+        GlobalManager.getCachedResponseData().setRequestByDate( mRequestByDate );
+        GlobalManager.getCachedResponseData().setRequestByDraw( null );
+        animateRequestContainer( 0, REQUEST_CONTAINER_COLLAPSE_HEIGHT );
+        setAppHeader();
+        mRequestContainerShown = false;
+    }
+
+    private void setAppHeader() {
+        String header = "По Датам";
+        switch ( mRequestByDate.getRequestType() ) {
+            case BY_DAY:
+                header = "за " + mRequestByDate.getDay() + " день месяца";
+                break;
+            case BY_MONTH:
+                header = "за " + AppConstants.ALL_OF_MONTH.get( mRequestByDate.getMonth() ) + " месяц";
+                break;
+            case BY_DAY_WEEK:
+                header = "по " + AppConstants.ALL_DAY_OF_WEEK_SFX.get( mRequestByDate.getDayOfWeek() );
+                break;
+            case BY_DAY_MONTH:
+                header = "за " + mRequestByDate.getDayNumber() + " " + AppConstants.ALL_MONTH_SFX[ mRequestByDate.getMonthNumber() ];
+                break;
+            case BY_PERIOD:
+                header = "c " + mRequestByDate.getStartDay() + " по " + mRequestByDate.getEndDay();
+                break;
+            default:
+                break;
+
+        }
+        ( ( RouteActivity ) getActivity() ).getAppHeader().setHeader( new HeaderModel( R.drawable.emoji_look, header ) );
+    }
+
+    private void animateRequestContainer( int start, int end ) {
+        LinearLayout.LayoutParams layoutParams = ( LinearLayout.LayoutParams ) mStatByDateRequestContainer.getLayoutParams();
+        if ( start > end ) {
+            CustomAnimation.transitionAnimation( mRequestButton, mShowRequestForm );
+        } else {
+            CustomAnimation.transitionAnimation( mShowRequestForm, mRequestButton );
+        }
+        ValueAnimator valAnimator = ValueAnimator.ofObject( new IntEvaluator(), start, end );
+        valAnimator.addUpdateListener( ( ValueAnimator animator ) -> {
+            int val = ( Integer ) animator.getAnimatedValue();
+            layoutParams.topMargin = val;
+            mStatByDateRequestContainer.setLayoutParams( layoutParams );
+            if ( REQUEST_CONTAINER_COLLAPSE_HEIGHT == end && val <= end ) {
+                CustomAnimation.transitionAnimation( getView().findViewById( R.id.pagerId ), getView().findViewById( R.id.pleaseWaitContainerId ) );
+                fetchDateData( mRequestByDate );
+            }
+        } );
+        valAnimator.setDuration( 300 );
+        valAnimator.start();
     }
 
     @Override
     public void onClick( View view ) {
         switch ( view.getId() ) {
             case R.id.daySliderId:
-                if ( setRequestType( RequestDateType.BY_DAY ) ) {
-                    mDaySlider.setEnableSlider( true );
-                }
+                setRequestType( RequestType.BY_DAY );
                 break;
             case R.id.monthSliderId:
-                if ( setRequestType( RequestDateType.BY_MONTH ) ) {
-                    mMonthSlider.setEnableSlider( true );
-                }
+                setRequestType( RequestType.BY_MONTH );
                 break;
             case R.id.dayWeekSliderId:
-                if ( setRequestType( RequestDateType.BY_DAY_WEEK ) ) {
-                    mDayWeekSlider.setEnableSlider( true );
-                }
+                setRequestType( RequestType.BY_DAY_WEEK );
                 break;
             case R.id.periodSliderId:
-                if ( setRequestType( RequestDateType.BY_DAY_MONTH ) ) {
-                    mDoubleSlider.setEnableSlider( true );
-                }
+                setRequestType( RequestType.BY_DAY_MONTH );
+                break;
+            case R.id.statByDayPeriodRequesId:
+                setRequestType( RequestType.BY_PERIOD );
                 break;
             case R.id.statPeriodValueId:
                 showPeriodPicker();
                 break;
-            case R.id.statByDayPeriodRequesId:
-                if ( setRequestType( RequestDateType.BY_PERIOD ) ) {
-                    setPeriodValue( true );
+            case R.id.statByDateRequestFormId:
+                if ( mRequestContainerShown ) {
+                    postStatByDateRequest();
                 }
                 break;
-            case R.id.statByDateRequestFormId:
-                postStatByDateRequest();
+            case R.id.statByDateShowFormId:
+                if ( !mRequestContainerShown ) {
+                    animateRequestContainer( REQUEST_CONTAINER_COLLAPSE_HEIGHT, 0 );
+                    mRequestContainerShown = true;
+                }
                 break;
             default:
                 break;
@@ -219,8 +329,8 @@ public class StatByDateFragment extends BaseFragment implements DatePickerDialog
     @Override
     public void onDateSet( DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd ) {
         Date startDate = new GregorianCalendar( year, monthOfYear, dayOfMonth ).getTime();
-        Date endDate =  new GregorianCalendar( yearEnd, monthOfYearEnd, dayOfMonthEnd ).getTime();
-        if ( endDate.before( startDate ) ){
+        Date endDate = new GregorianCalendar( yearEnd, monthOfYearEnd, dayOfMonthEnd ).getTime();
+        if ( endDate.before( startDate ) ) {
             Date tempDate = startDate;
             startDate = endDate;
             endDate = tempDate;

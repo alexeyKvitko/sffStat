@@ -9,8 +9,9 @@ import androidx.annotation.Nullable;
 
 import ru.sff.statistic.R;
 import ru.sff.statistic.manager.GlobalManager;
-import ru.sff.statistic.model.DrawRequestType;
+import ru.sff.statistic.model.CachedResponseData;
 import ru.sff.statistic.model.RequestByDraw;
+import ru.sff.statistic.model.RequestType;
 
 
 public class AllResultsFragment extends TabbedFragment {
@@ -40,11 +41,21 @@ public class AllResultsFragment extends TabbedFragment {
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
-        GlobalManager.setCachedRequestByDraw( null );
         RequestByDraw requestByDraw =  new RequestByDraw();
-        requestByDraw.setDrawRequestType( DrawRequestType.ALL_DRAW );
-        fetchDrawData( requestByDraw );
+        requestByDraw.setRequestDrawType( RequestType.ALL_DRAW );
+        if ( GlobalManager.getCachedResponseData() != null
+                    && RequestType.ALL_DRAW.equals( GlobalManager.getCachedResponseData().getLastRequest() ) ){
+            mFirstRequest = false;
+            initTabs();
+        } else {
+            GlobalManager.setCachedResponseData( new CachedResponseData() );
+            GlobalManager.getCachedResponseData().setLastRequest( RequestType.ALL_DRAW );
+            GlobalManager.getCachedResponseData().setRequestByDraw( requestByDraw );
+            GlobalManager.getCachedResponseData().setRequestByDate( null );
+            GlobalManager.getCachedResponseData().setLastRequest( RequestType.ALL_DRAW );
 
+            fetchDrawData( requestByDraw );
+        }
     }
 
     public void changeViewType() {

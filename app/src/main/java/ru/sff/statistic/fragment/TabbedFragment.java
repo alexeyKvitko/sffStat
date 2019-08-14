@@ -26,11 +26,12 @@ import ru.sff.statistic.activity.RouteActivity;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
-import ru.sff.statistic.model.DrawRequestType;
 import ru.sff.statistic.model.RequestByDate;
 import ru.sff.statistic.model.RequestByDraw;
+import ru.sff.statistic.model.RequestType;
 import ru.sff.statistic.model.ResponseData;
 import ru.sff.statistic.rest.RestController;
+import ru.sff.statistic.utils.CustomAnimation;
 
 public abstract class TabbedFragment extends BaseFragment{
 
@@ -61,6 +62,7 @@ public abstract class TabbedFragment extends BaseFragment{
 
     protected void fetchDrawData( RequestByDraw requestByDraw ){
         mRequestByDraw = requestByDraw;
+        CustomAnimation.transitionAnimation( getView().findViewById( R.id.pagerId ), getView().findViewById( R.id.pleaseWaitContainerId ) );
         new GetLotoDrawResults().execute();
     }
 
@@ -70,11 +72,11 @@ public abstract class TabbedFragment extends BaseFragment{
     }
 
     protected void initTabs(  ){
-        if ( !mFirstRequest ){
-            mDrawsPlaneFragment.getDrawsPlaneInfo().populateDrawsPlane();
-            mLotoDrawsFragment.populateLotoDraws();
-            mFirstRequest = false;
-        }
+//        if ( !mFirstRequest ){
+//            mDrawsPlaneFragment.getDrawsPlaneInfo().populateDrawsPlane();
+//            mLotoDrawsFragment.populateLotoDraws();
+//            mFirstRequest = false;
+//        }
         mResultPagerAdapter = new ResultPagerAdapter( getChildFragmentManager() );
         mPager = getView().findViewById( R.id.pagerId );
         mPager.setAdapter( mResultPagerAdapter );
@@ -124,9 +126,9 @@ public abstract class TabbedFragment extends BaseFragment{
                 case 1:
                     boolean animatedHeader = false;
                     if ( mRequestByDraw != null ){
-                        animatedHeader = DrawRequestType.ALL_DRAW.equals(  mRequestByDraw.getDrawRequestType() );
+                        animatedHeader = RequestType.ALL_DRAW.equals(  mRequestByDraw.getRequestDrawType() );
                     }
-                    mLotoDrawsFragment = LotoDrawsFragment.newInstance( animatedHeader );
+                        mLotoDrawsFragment = LotoDrawsFragment.newInstance( animatedHeader );
                     return mLotoDrawsFragment;
                 default:
                     return null;
@@ -169,8 +171,9 @@ public abstract class TabbedFragment extends BaseFragment{
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {
                         ResponseData responseData = resultResponse.body().getResult();
-                        GlobalManager.getCachedRequestByDraw().setBallsInfo( responseData.getBallsInfo() );
-                        GlobalManager.getCachedRequestByDraw().setLotoModelDraws( responseData.getLotoDraws() );
+                        GlobalManager.getCachedResponseData().setBallsInfo( responseData.getBallsInfo() );
+                        GlobalManager.getCachedResponseData().setLotoModelDraws( responseData.getLotoDraws() );
+                        GlobalManager.getCachedResponseData().setTotalDraw( responseData.getTotalDraw() );
                     } else {
                         result = resultResponse.body().getMessage();
                     }
@@ -195,6 +198,8 @@ public abstract class TabbedFragment extends BaseFragment{
                 }, 2000 );
                 return;
             }
+            CustomAnimation.transitionAnimation( getView().findViewById( R.id.pleaseWaitContainerId ),
+                    getView().findViewById( R.id.pagerId ) );
             initTabs();
         }
     }

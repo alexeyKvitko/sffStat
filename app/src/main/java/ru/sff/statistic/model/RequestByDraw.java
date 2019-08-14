@@ -4,16 +4,25 @@ import java.io.Serializable;
 
 public class RequestByDraw implements Serializable {
 
-    private DrawRequestType drawRequestType;
+    private RequestType requestDrawType;
+    private int ball;
     private int startDraw;
     private int endDraw;
 
-    public DrawRequestType getDrawRequestType() {
-        return drawRequestType;
+    public RequestType getRequestDrawType() {
+        return requestDrawType;
     }
 
-    public void setDrawRequestType(DrawRequestType drawRequestType) {
-        this.drawRequestType = drawRequestType;
+    public void setRequestDrawType( RequestType requestDrawType ) {
+        this.requestDrawType = requestDrawType;
+    }
+
+    public int getBall() {
+        return ball;
+    }
+
+    public void setBall( int ball ) {
+        this.ball = ball;
     }
 
     public int getStartDraw() {

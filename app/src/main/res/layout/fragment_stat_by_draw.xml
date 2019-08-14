@@ -135,6 +135,8 @@
 
         </LinearLayout>
 
+        <include layout="@layout/please_wait" />
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pagerId"
             android:layout_width="match_parent"

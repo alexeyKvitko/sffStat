@@ -1,7 +1,5 @@
 package ru.sff.statistic.manager;
 
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -11,7 +9,7 @@ import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BootstrapModel;
-import ru.sff.statistic.model.CachedRequestByDraw;
+import ru.sff.statistic.model.CachedResponseData;
 import ru.sff.statistic.model.StoredBallSet;
 
 public class GlobalManager {
@@ -24,7 +22,7 @@ public class GlobalManager {
     private static Integer[] fieldOrientation;
     private static String resultViewType;
     private static SortedMap<String, StoredBallSet > storedBallSet;
-    private static CachedRequestByDraw cachedRequestByDraw;
+    private static CachedResponseData cachedResponseData;
 
     private GlobalManager() {
     }
@@ -46,7 +44,7 @@ public class GlobalManager {
         setBallSetTypes( new BallSetType[]{BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE } );
         setFieldOrientation( AppConstants.BALL_FROM_1 );
         setResultViewType( AppConstants.VIEW_TYPE_FALLING_COUNT );
-        setCachedRequestByDraw( null );
+        setCachedResponseData( null );
     }
 
     public static BallSetType[] getBallSetTypes() {
@@ -102,14 +100,11 @@ public class GlobalManager {
         return result;
     }
 
-    public static CachedRequestByDraw getCachedRequestByDraw() {
-        if (cachedRequestByDraw == null ){
-            cachedRequestByDraw = new CachedRequestByDraw();
-        }
-        return cachedRequestByDraw;
+    public static CachedResponseData getCachedResponseData() {
+        return cachedResponseData;
     }
 
-    public static void setCachedRequestByDraw( CachedRequestByDraw cachedRequestByDraw ) {
-        GlobalManager.cachedRequestByDraw = cachedRequestByDraw;
+    public static void setCachedResponseData( CachedResponseData cachedResponseData ) {
+        GlobalManager.cachedResponseData = cachedResponseData;
     }
 }

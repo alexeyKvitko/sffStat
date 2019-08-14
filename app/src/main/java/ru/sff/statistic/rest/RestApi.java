@@ -45,10 +45,13 @@ public interface RestApi {
     Call< ApiResponse< DrawDetails > > getDrawDetails( @Header("Authorization") String authorization
             , @Path("draw") Integer draw);
 
-    @GET(APP_API+"getDigitInfo/{digit}/{startDraw}/{endDraw}")
-    Call< ApiResponse< DigitInfo > > getDigitInfo( @Header("Authorization") String authorization
-            , @Path("digit") Integer digit, @Path("startDraw") Integer startDraw,
-                                                                @Path("endDraw") Integer endDraw);
+    @POST(APP_API+"getDigitInfoByDraw")
+    Call< ApiResponse< DigitInfo > > getDigitInfoByDraw( @Header("Authorization") String authorization
+            , @Body RequestByDraw requestByDraw );
+
+    @POST(APP_API+"getDigitInfoByDate")
+    Call< ApiResponse< DigitInfo > > getDigitInfoByDate( @Header("Authorization") String authorization
+            , @Body RequestByDate requestByDate );
 
     @POST(APP_API+"getStatisticByDraw")
     Call< ApiResponse< ResponseData > > getStatisticByDraw( @Header("Authorization") String authorization

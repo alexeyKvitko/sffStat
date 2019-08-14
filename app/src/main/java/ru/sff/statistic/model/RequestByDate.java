@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 public class RequestByDate implements Serializable {
 
-    private RequestDateType requestDateType;
+    private RequestType requestType;
+    private int ball;
     private AmPm amPm;
     private int day;
     private int month;
@@ -14,12 +15,20 @@ public class RequestByDate implements Serializable {
     private String startDay;
     private String endDay;
 
-    public RequestDateType getRequestDateType() {
-        return requestDateType;
+    public RequestType getRequestType() {
+        return requestType;
     }
 
-    public void setRequestDateType( RequestDateType requestDateType ) {
-        this.requestDateType = requestDateType;
+    public void setRequestType( RequestType requestType ) {
+        this.requestType = requestType;
+    }
+
+    public int getBall() {
+        return ball;
+    }
+
+    public void setBall( int ball ) {
+        this.ball = ball;
     }
 
     public AmPm getAmPm() {

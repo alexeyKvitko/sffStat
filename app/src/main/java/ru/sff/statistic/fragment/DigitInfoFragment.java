@@ -101,16 +101,16 @@ public class DigitInfoFragment extends BaseFragment {
         mFragmentContainer = getView().findViewById( R.id.digitInfoScrollViewId );
         mFragmentContainer.setVisibility( View.GONE );
         mPleaseWait.setVisibility( View.VISIBLE );
+        if ( GlobalManager.getCachedResponseData().getRequestByDraw() != null ){
+            GlobalManager.getCachedResponseData().getRequestByDraw().setBall(  mBall.getBallNumber() );
+        } else if ( GlobalManager.getCachedResponseData().getRequestByDate() != null ){
+            GlobalManager.getCachedResponseData().getRequestByDate().setBall(  mBall.getBallNumber() );
+        }
         new GetDigitInfo().execute();
         initTextView( R.id.digitInfoNumberId, AppConstants.ROTONDA_BOLD, mBall.getBallNumber() + "" );
         initTextView( R.id.digitInfoRepeatLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.digitInfoLastLabelId, AppConstants.ROTONDA_BOLD );
-        TwoCellStat repeatCount = getView().findViewById( R.id.twoCellRepeatCountId );
-        Integer drawCount = AppConstants.FAKE_ID == GlobalManager.getCachedRequestByDraw().getEndDraw() ?
-                GlobalManager.getPlayedDraws() : 1 + (GlobalManager.getCachedRequestByDraw().getEndDraw()- GlobalManager.getCachedRequestByDraw().getStartDraw());
-        String percentRepeat = ( mBall.getBallRepeat() * 100 / drawCount ) + "";
-        repeatCount.setTwoCellValue( mBall.getBallRepeat() + "",
-                AppUtils.getTimes( mBall.getBallRepeat() ), percentRepeat, "%" );
+
         ( ( RouteActivity ) getActivity() ).getBackBtn().setOnClickListener( ( View view ) -> {
             CustomAnimation.clickAnimation( view );
             getActivity().onBackPressed();
@@ -121,6 +121,12 @@ public class DigitInfoFragment extends BaseFragment {
         if ( mDigitInfo.getLastFallDay() != null ) {
             initTextView( R.id.digitInfoLastValueId, AppConstants.ROTONDA_BOLD, mDigitInfo.getLastFallDay() + ", " );
         }
+
+        TwoCellStat repeatCount = getView().findViewById( R.id.twoCellRepeatCountId );
+        int ballRepeat = mDigitInfo.getDigitDraws().size();
+        String percentRepeat = ( ballRepeat * 100 / GlobalManager.getCachedResponseData().getTotalDraw() ) + "";
+        repeatCount.setTwoCellValue( ballRepeat + "", AppUtils.getTimes( ballRepeat ), percentRepeat, "%" );
+
         initTextView( R.id.digitInfoDateTimeValueId, AppConstants.ROTONDA_BOLD, mDigitInfo.getLastFall().getDrawDate() );
 
         ThreeCellStat threeCellDate = getView().findViewById( R.id.threeCellDigitInfoDateId );
@@ -329,11 +335,16 @@ public class DigitInfoFragment extends BaseFragment {
         protected String doInBackground( Void... args ) {
             String result = null;
             try {
-                Call< ApiResponse< DigitInfo > > resultCall = RestController
-                        .getApi().getDigitInfo( AppConstants.AUTH_BEARER
+                Call< ApiResponse< DigitInfo > > resultCall = null;
+                if ( GlobalManager.getCachedResponseData().getRequestByDraw() != null) {
+                    resultCall = RestController.getApi().getDigitInfoByDraw( AppConstants.AUTH_BEARER
                                         + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                                mBall.getBallNumber(), GlobalManager.getCachedRequestByDraw().getStartDraw()
-                                                        , GlobalManager.getCachedRequestByDraw().getEndDraw() );
+                                                 GlobalManager.getCachedResponseData().getRequestByDraw() );
+                } else if ( GlobalManager.getCachedResponseData().getRequestByDate() != null) {
+                    resultCall = RestController .getApi().getDigitInfoByDate( AppConstants.AUTH_BEARER
+                                            + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
+                                    GlobalManager.getCachedResponseData().getRequestByDate() );
+                }
                 Response< ApiResponse< DigitInfo > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {

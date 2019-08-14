@@ -32,7 +32,7 @@ public abstract class AppConstants {
     public static final String BALL_SET_TOTAL = "ВСЕ_ТИРАЖИ";
 
     public static final String BALL_SET_BIGGER = "ЧАСТО ( %s )";
-    public static final String BALL_SET_LESS = "МЕНЬШЕ ( %s )";
+    public static final String BALL_SET_LESS = "РЕДКО ( %s )";
     public static final String BALL_SET_MIDDLE = "СРЕДНЕЕ ( %s )";
 
     public static final String AUTH_BEARER = "Bearer ";
@@ -76,6 +76,16 @@ public abstract class AppConstants {
         put(5,"Пятница");
         put(6,"Суббота");
         put(7,"Воскресенье");
+    }};
+
+    public static final Map<Integer, String> ALL_DAY_OF_WEEK_SFX = new HashMap<Integer, String>(){{
+        put(1,"Понедельникам");
+        put(2,"Вторникам");
+        put(3,"Средам");
+        put(4,"Четвергам");
+        put(5,"Пятницам");
+        put(6,"Субботам");
+        put(7,"Воскресеньям");
     }};
 
     public static final Map<Integer, String> ALL_OF_MONTH = new HashMap<Integer, String>(){{
