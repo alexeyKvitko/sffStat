@@ -19,12 +19,10 @@ import java.util.Locale;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.SFFSApplication;
-import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.MagnetModel;
-import ru.sff.statistic.model.RequestType;
 
-import static ru.sff.statistic.manager.GlobalManager.*;
-import static ru.sff.statistic.model.RequestType.BY_DAY;
+import static ru.sff.statistic.manager.GlobalManager.getCachedResponseData;
+import static ru.sff.statistic.manager.GlobalManager.getPlayedDraws;
 
 public abstract class AppUtils {
 
@@ -48,7 +46,7 @@ public abstract class AppUtils {
         String drawPeriod = "";
         switch ( getCachedResponseData().getLastRequest() ){
             case BY_DAY:
-                drawPeriod = getCachedResponseData().getRequestByDate().getDay()+" числа месяца";
+                drawPeriod = "по " + getCachedResponseData().getRequestByDate().getDay() + " числам";
                 break;
             case BY_MONTH:
                 drawPeriod = AppConstants.ALL_OF_MONTH.get( getCachedResponseData().getRequestByDate().getMonth() )+" месяц";
@@ -57,7 +55,7 @@ public abstract class AppUtils {
                 drawPeriod = AppConstants.ALL_DAY_OF_WEEK.get( getCachedResponseData().getRequestByDate().getDayOfWeek() )+"";
                 break;
             case BY_DAY_MONTH:
-                drawPeriod = getCachedResponseData().getRequestByDate().getDayNumber()+" "+AppConstants.ALL_MONTH_SFX[getCachedResponseData().getRequestByDate().getMonthNumber()];
+                drawPeriod = getCachedResponseData().getRequestByDate().getDayNumber()+" "+AppConstants.ALL_MONTH_SFX[getCachedResponseData().getRequestByDate().getMonthNumber()-1];
                 break;
             case BY_PERIOD:
                 drawPeriod = getCachedResponseData().getRequestByDate().getStartDay()+" - "+
@@ -69,6 +67,14 @@ public abstract class AppUtils {
             case DRAW_BETWEEN:
                 drawPeriod = getCachedResponseData().getRequestByDraw().getStartDraw()
                         + "-" + getCachedResponseData().getRequestByDraw().getEndDraw();
+                break;
+            case BY_SUM:
+                drawPeriod = "S "+getCachedResponseData().getRequestBySOB().getBegin()
+                        + "-" + getCachedResponseData().getRequestBySOB().getEnd();
+                break;
+            case BALL_BETWEEN:
+                drawPeriod = getCachedResponseData().getRequestBySOB().getBegin()
+                        + ":" + getCachedResponseData().getRequestBySOB().getEnd();
                 break;
         }
         return String.format( ballSet, drawPeriod );
@@ -181,6 +187,36 @@ public abstract class AppUtils {
             times = "раза";
         }
         return times;
+    }
+
+    public static String getDraws( int source ){
+        String draws = " тиражей";
+        if ( source > 4 && source < 21 ){
+            return source + draws;
+        }
+        int lastDigit = Integer.valueOf( (source+"").substring( (source+"").length()-1 ) );
+        if ( lastDigit == 1 ){
+            draws = " тираж";
+        }
+        if ( lastDigit > 1 && lastDigit < 5 ){
+            draws = " тиража";
+        }
+        return source+draws;
+    }
+
+    public static String getDrawsSfx( int source ){
+        String draws = " тиражей";
+        if ( source > 4 && source < 21 ){
+            return draws;
+        }
+        int lastDigit = Integer.valueOf( (source+"").substring( (source+"").length()-1 ) );
+        if ( lastDigit == 1 ){
+            draws = " тираж";
+        }
+        if ( lastDigit > 1 && lastDigit < 5 ){
+            draws = " тиража";
+        }
+        return draws;
     }
 
 

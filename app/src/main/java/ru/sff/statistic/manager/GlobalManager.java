@@ -1,5 +1,6 @@
 package ru.sff.statistic.manager;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -21,7 +22,8 @@ public class GlobalManager {
     private static BallSetType[] ballSetTypes;
     private static Integer[] fieldOrientation;
     private static String resultViewType;
-    private static SortedMap<String, StoredBallSet > storedBallSet;
+    private static int lastMenuHeight;
+    private static Map< String, StoredBallSet > storedBallSet;
     private static CachedResponseData cachedResponseData;
 
     private GlobalManager() {
@@ -31,17 +33,9 @@ public class GlobalManager {
         return GLOBAL_MANAGER;
     }
 
-    public static void initialize(){
-        storedBallSet = new TreeMap<>( ( String keyOne, String keyTwo ) -> {
-                keyOne = keyOne.substring( keyOne.indexOf("(" )+1,keyOne.indexOf( ")" )  ).trim();
-                keyTwo = keyTwo.substring( keyTwo.indexOf("(" )+1,keyTwo.indexOf( ")" )  ).trim();
-                String[] keysOne = keyOne.split( "-" );
-                String[] keysTwo = keyTwo.split( "-" );
-                int deltaOne = Integer.valueOf( keysOne[1] ) - Integer.valueOf( keysOne[0] );
-                int deltaTwo = Integer.valueOf( keysTwo[1] ) - Integer.valueOf( keysTwo[0] );
-                return deltaTwo-deltaOne;
-        } );
-        setBallSetTypes( new BallSetType[]{BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE } );
+    public static void initialize() {
+        storedBallSet = new HashMap<>();
+        setBallSetTypes( new BallSetType[]{ BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE } );
         setFieldOrientation( AppConstants.BALL_FROM_1 );
         setResultViewType( AppConstants.VIEW_TYPE_FALLING_COUNT );
         setCachedResponseData( null );
@@ -72,7 +66,6 @@ public class GlobalManager {
     }
 
 
-
     public static Map< String, StoredBallSet > getStoredBallSet() {
         return storedBallSet;
     }
@@ -81,23 +74,31 @@ public class GlobalManager {
         GlobalManager.bootstrapModel = bootstrapModel;
     }
 
-    public static Integer getPlayedDraws(){
+    public static Integer getPlayedDraws() {
         return bootstrapModel.getPlayedDraws();
     }
 
-    public static List< Ball > getPlayedBalls(){
+    public static List< Ball > getPlayedBalls() {
         return bootstrapModel.getPlayedBalls();
     }
 
-    public static Ball getBallByNumber( Integer ballNumber ){
+    public static Ball getBallByNumber( Integer ballNumber ) {
         Ball result = null;
-        for( Ball ball : bootstrapModel.getPlayedBalls() ){
-            if( ballNumber.equals( ball.getBallNumber() ) ){
+        for ( Ball ball : bootstrapModel.getPlayedBalls() ) {
+            if ( ballNumber.equals( ball.getBallNumber() ) ) {
                 result = ball;
                 break;
             }
         }
         return result;
+    }
+
+    public static int getLastMenuHeight() {
+        return lastMenuHeight;
+    }
+
+    public static void setLastMenuHeight( int lastMenuHeight ) {
+        GlobalManager.lastMenuHeight = lastMenuHeight;
     }
 
     public static CachedResponseData getCachedResponseData() {

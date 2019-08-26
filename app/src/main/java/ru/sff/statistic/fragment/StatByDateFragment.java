@@ -40,8 +40,6 @@ import static ru.sff.statistic.manager.GlobalManager.getCachedResponseData;
 
 public class StatByDateFragment extends TabbedFragment implements DatePickerDialog.OnDateSetListener {
 
-    private static final int REQUEST_CONTAINER_COLLAPSE_HEIGHT = -( int ) AppUtils.convertDpToPixel( 552 );
-
     private DiscretSlider mDaySlider;
     private DiscretSlider mMonthSlider;
     private DiscretSlider mDayWeekSlider;
@@ -55,6 +53,7 @@ public class StatByDateFragment extends TabbedFragment implements DatePickerDial
     private ImageView mShowRequestForm;
     private Button mRequestButton;
     private boolean mRequestContainerShown;
+
 
     public StatByDateFragment() {
     }
@@ -87,9 +86,9 @@ public class StatByDateFragment extends TabbedFragment implements DatePickerDial
         mRequestButton.setVisibility( View.VISIBLE );
         RequestType defType = null;
         if ( getCachedResponseData() != null
-                &&  !RequestType.DRAW_BETWEEN.equals( getCachedResponseData().getLastRequest() )
-                &&  !RequestType.ALL_DRAW.equals( getCachedResponseData().getLastRequest() )){
-            animateRequestContainer( 0, REQUEST_CONTAINER_COLLAPSE_HEIGHT );
+                &&  RequestType.isDateRequest( getCachedResponseData().getLastRequest() ) ){
+            GlobalManager.getInstance().getLastMenuHeight();
+            animateRequestContainer( 0, mMenuHeight );
             mRequestContainerShown = false;
             mRequestByDate = getCachedResponseData().getRequestByDate();
             defType = mRequestByDate.getRequestType();
@@ -151,21 +150,17 @@ public class StatByDateFragment extends TabbedFragment implements DatePickerDial
         }
         initTextView( R.id.statByPeriodTitleId, AppConstants.ROTONDA_BOLD );
         mPeriodValue = initTextView( R.id.statPeriodValueId, AppConstants.ROTONDA_BOLD );
+        mPeriodValue.setOnClickListener( this );
         setPeriodValue( false );
     }
 
     private void setPeriodValue( boolean enabled ) {
+        int visible = enabled ? View.VISIBLE : View.GONE;
+        mPeriodValue.setVisibility( visible );
         if ( enabled ) {
-            mPeriodValue.setTextColor( getActivity().getResources().getColor( R.color.shokoColor ) );
-            initTextView( R.id.statByPeriodTitleId ).setTextColor( getActivity().getResources().getColor( R.color.grayTextColor ) );
-            mPeriodValue.setBackground( getActivity().getResources().getDrawable( R.drawable.border_bottom ) );
-            mPeriodValue.setOnClickListener( this );
+            initTextView( R.id.statByPeriodTitleId ).setBackground( getActivity().getResources().getDrawable( R.drawable.border_left_yellow ) );
         } else {
-            int color = getActivity().getResources().getColor( R.color.transpGrayTextColor );
-            mPeriodValue.setTextColor( color );
-            initTextView( R.id.statByPeriodTitleId ).setTextColor( color );
-            mPeriodValue.setOnClickListener( null );
-            mPeriodValue.setBackground( null );
+            initTextView( R.id.statByPeriodTitleId ).setBackground( null );
         }
         mPeriodValue.setText( "C " + mRequestByDate.getStartDay() + " по " + mRequestByDate.getEndDay() );
     }
@@ -237,7 +232,11 @@ public class StatByDateFragment extends TabbedFragment implements DatePickerDial
         GlobalManager.getCachedResponseData().setLastRequest( mRequestByDate.getRequestType() );
         GlobalManager.getCachedResponseData().setRequestByDate( mRequestByDate );
         GlobalManager.getCachedResponseData().setRequestByDraw( null );
-        animateRequestContainer( 0, REQUEST_CONTAINER_COLLAPSE_HEIGHT );
+        mMenuHeight = -(mStatByDateRequestContainer.getMeasuredHeight()- (int) AppUtils.convertDpToPixel( 38 ));
+        GlobalManager.getInstance().setLastMenuHeight( mMenuHeight );
+        CustomAnimation.transitionAnimation( getView().findViewById( R.id.pagerId ), getView().findViewById( R.id.pleaseWaitContainerId ) );
+        fetchDateData( mRequestByDate );
+        animateRequestContainer( 0, mMenuHeight );
         setAppHeader();
         mRequestContainerShown = false;
     }
@@ -279,10 +278,6 @@ public class StatByDateFragment extends TabbedFragment implements DatePickerDial
             int val = ( Integer ) animator.getAnimatedValue();
             layoutParams.topMargin = val;
             mStatByDateRequestContainer.setLayoutParams( layoutParams );
-            if ( REQUEST_CONTAINER_COLLAPSE_HEIGHT == end && val <= end ) {
-                CustomAnimation.transitionAnimation( getView().findViewById( R.id.pagerId ), getView().findViewById( R.id.pleaseWaitContainerId ) );
-                fetchDateData( mRequestByDate );
-            }
         } );
         valAnimator.setDuration( 300 );
         valAnimator.start();
@@ -316,7 +311,7 @@ public class StatByDateFragment extends TabbedFragment implements DatePickerDial
                 break;
             case R.id.statByDateShowFormId:
                 if ( !mRequestContainerShown ) {
-                    animateRequestContainer( REQUEST_CONTAINER_COLLAPSE_HEIGHT, 0 );
+                    animateRequestContainer( mMenuHeight, 0 );
                     mRequestContainerShown = true;
                 }
                 break;

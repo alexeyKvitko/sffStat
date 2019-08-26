@@ -27,10 +27,10 @@
                 android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/menuRowOneId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="vertical">
+                android:layout_marginTop="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -103,10 +103,86 @@
             </LinearLayout>
 
             <LinearLayout
+            android:id="@+id/menuRowTwoId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/requestByDateId"
+                    android:layout_width="match_parent"
+                    android:layout_height="144dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/menu_frame_one"
+                    android:orientation="vertical"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="86dp"
+                        android:layout_height="86dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        app:srcCompat="@drawable/menu_date" />
+
+                    <TextView
+                        android:id="@+id/queryByDateId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:text="ПО ДАТАМ"
+                        android:textColor="@color/splashTextColor"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/requestByAmountId"
+                    android:layout_width="match_parent"
+                    android:layout_height="144dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/menu_frame_one"
+                    android:orientation="vertical"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="86dp"
+                        android:layout_height="86dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        app:srcCompat="@drawable/menu_amount" />
+
+                    <TextView
+                        android:id="@+id/queryByAmountId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:text="ПО СУММАМ"
+                        android:textColor="@color/splashTextColor"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menuRowThreeId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -114,7 +190,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/requestByDateId"
+                        android:id="@+id/requestByTurnId"
                         android:layout_width="match_parent"
                         android:layout_height="144dp"
                         android:layout_marginStart="24dp"
@@ -130,21 +206,21 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="12dp"
                             android:gravity="center"
-                            app:srcCompat="@drawable/menu_date" />
+                            app:srcCompat="@drawable/menu_turn" />
 
                         <TextView
-                            android:id="@+id/queryByDateId"
+                            android:id="@+id/queryByTurnId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="8dp"
-                            android:text="ПО ДАТАМ"
+                            android:text="ПОЛНЫЙ КРУГ"
                             android:textColor="@color/splashTextColor"
                             android:textSize="14dp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/requestByAmountId"
+                        android:id="@+id/ballAnalisId"
                         android:layout_width="match_parent"
                         android:layout_height="144dp"
                         android:layout_marginStart="12dp"
@@ -160,15 +236,15 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="12dp"
                             android:gravity="center"
-                            app:srcCompat="@drawable/menu_amount" />
+                            app:srcCompat="@drawable/menu_analis" />
 
                         <TextView
-                            android:id="@+id/queryByAmountId"
+                            android:id="@+id/queryByAnalisId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="8dp"
-                            android:text="ПО СУММАМ"
+                            android:text="АНАЛИЗ"
                             android:textColor="@color/splashTextColor"
                             android:textSize="14dp" />
 
@@ -177,7 +253,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
         </LinearLayout>
 
     </LinearLayout>

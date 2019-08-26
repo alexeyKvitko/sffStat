@@ -29,6 +29,7 @@ import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.LotoModel;
+import ru.sff.statistic.model.RequestType;
 import ru.sff.statistic.recycleview.LotoDrawAdapter;
 import ru.sff.statistic.recycleview.StickyRecyclerView;
 import ru.sff.statistic.rest.RestController;
@@ -84,7 +85,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         if ( getArguments() != null ) {
-            mHeaderAnimated = getArguments().getBoolean( HEADER_ANIMATED);
+            mHeaderAnimated = getArguments().getBoolean( HEADER_ANIMATED );
         }
     }
 
@@ -123,15 +124,22 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
         if ( mHeaderAnimated ) {
             mHeaderContainer.setVisibility( View.VISIBLE );
         }
-        mRefresh.setOnRefreshListener( () -> {
-            if ( !mSelectedMonth.equals( mMonthArrowSelector.getValue() ) ||
-                    !mSelectedtYear.equals( Integer.valueOf( mYearArrowSelector.getValue() ) ) ) {
-                mRefresh.setRefreshing( true );
-                new GetLotoDraws().execute(  );
-            } else {
+        if ( RequestType.ALL_DRAW.equals( GlobalManager.getCachedResponseData().getLastRequest() ) ) {
+            mRefresh.setOnRefreshListener( () -> {
+                if ( !mSelectedMonth.equals( mMonthArrowSelector.getValue() ) ||
+                        !mSelectedtYear.equals( Integer.valueOf( mYearArrowSelector.getValue() ) ) ) {
+                    mRefresh.setRefreshing( true );
+                    new GetLotoDraws().execute();
+                } else {
+                    mRefresh.setRefreshing( false );
+                }
+            } );
+        } else {
+            mRefresh.setOnRefreshListener( () -> {
                 mRefresh.setRefreshing( false );
-            }
-        } );
+            } );
+        }
+
 
     }
 
@@ -294,8 +302,8 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
                 mYearIndex = mYearArrowSelector.getCurrentIndex();
                 Call< ApiResponse< List< LotoModel > > > resultCall = null;
                 resultCall = RestController.getApi().getLotoDrawsByMonthAndYear( AppConstants.AUTH_BEARER
-                                            + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                                    mSelectedMonth, mSelectedtYear );
+                                + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
+                        mSelectedMonth, mSelectedtYear );
                 Response< ApiResponse< List< LotoModel > > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {

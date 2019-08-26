@@ -54,6 +54,8 @@ public class DrawsPlaneInfo extends BaseComponent {
     private RelativeLayout mPleaseWait;
     private ScrollView mScrollView;
 
+    private TextView mTitle;
+
 
     private FiveNineTable mBallTable;
 
@@ -86,7 +88,7 @@ public class DrawsPlaneInfo extends BaseComponent {
         mTotalPaidAmount = findViewById( R.id.twoCellPaidAmountId );
         mEvenOdd = findViewById( R.id.twoCellEvenOddId );
 
-        initTextView( R.id.drawTitleId, AppConstants.ROTONDA_BOLD );
+        mTitle = initTextView( R.id.drawTitleId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.oftenDigitId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.lessDigitId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.middleDigitId,AppConstants.ROTONDA_BOLD );
@@ -197,6 +199,7 @@ public class DrawsPlaneInfo extends BaseComponent {
             storedBallSet.setBallSetType( ballSetType );
             storedBallSet.setStoredDate( AppUtils.formatDate( AppConstants.FULL_DATE_FORMAT, new Date( ) ) );
             storedBallSet.setBallSetName( basketName );
+            storedBallSet.setDrawCount( AppUtils.getDraws( GlobalManager.getCachedResponseData().getTotalDraw() ) );
             GlobalManager.getStoredBallSet().put( basketName, storedBallSet );
             basketImage.setImageDrawable( SFFSApplication.getAppContext().getResources()
                                                 .getDrawable( R.drawable.ic_basket_shoko_18dp ) );
@@ -238,6 +241,7 @@ public class DrawsPlaneInfo extends BaseComponent {
         mBallTable = findViewById( R.id.fiveNineTableId );
         mBallTable.clearTable();
         mBallTable.setBallsInfo( mBallsInfo );
+        mTitle.setText( AppUtils.getDraws( GlobalManager.getCachedResponseData().getTotalDraw() ) );
 
         initTextView( R.id.avgSumValueId, AppConstants.ROTONDA_BOLD ).setText( mBallsInfo.getAvgBallSumm()+"" );
 
@@ -250,17 +254,15 @@ public class DrawsPlaneInfo extends BaseComponent {
         mMiddleBallSet = findViewById( R.id.middleBallSetId );
         mMiddleBallSet.setBallSet( mBallsInfo.getMiddleOften(), BallSetType.MIDDLE );
 
-        if ( RequestType.ALL_DRAW.equals( GlobalManager.getCachedResponseData().getLastRequest() ) ||
-                RequestType.DRAW_BETWEEN.equals( GlobalManager.getCachedResponseData().getLastRequest() )  ){
-            mDrawRange.setTwoCellValue( "с № " + mBallsInfo.getFirstDraw(), mBallsInfo.getFirstDrawDate(),
-                    "по № " + mBallsInfo.getLastDraw(), mBallsInfo.getLastDrawDate() );
-        } else {
+        if ( RequestType.isDateRequest( GlobalManager.getCachedResponseData().getLastRequest() ) ){
             String fromDate = "c "+mBallsInfo.getFirstDrawDate().substring( 0, mBallsInfo.getFirstDrawDate().length()-7 );
             String toDate = "по "+mBallsInfo.getLastDrawDate().substring( 0, mBallsInfo.getLastDrawDate().length()-7 );
             mDrawRange.setTwoCellValue( fromDate,"№ " + mBallsInfo.getFirstDraw(),
-                                                        toDate, "№ " + mBallsInfo.getLastDraw() );
+                    toDate, "№ " + mBallsInfo.getLastDraw() );
+        } else {
+            mDrawRange.setTwoCellValue( "с № " + mBallsInfo.getFirstDraw(), mBallsInfo.getFirstDrawDate(),
+                    "по № " + mBallsInfo.getLastDraw(), mBallsInfo.getLastDrawDate() );
         }
-
 
         Integer drawCount = (Integer.valueOf( mBallsInfo.getLastDraw() ) - Integer.valueOf( mBallsInfo.getFirstDraw() ) )+1 ;
 

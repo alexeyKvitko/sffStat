@@ -6,19 +6,19 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/discretSliderTitleId"
-        android:background="@drawable/border_left_yellow"
+        android:id="@+id/rangeSliderTitleId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/border_left_yellow"
         android:paddingStart="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/by_date_label"
+        android:text="@string/by_sum_label"
         android:textColor="@color/splashTextColor"
         android:textSize="16dp" />
 
     <LinearLayout
-        android:id="@+id/discretSliderContainerId"
+        android:id="@+id/rangeSliderContainerId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -27,23 +27,29 @@
         android:orientation="vertical">
 
         <ru.sff.statistic.component.ThreeCellStat
-            android:id="@+id/discretSliderLabelId"
+            android:id="@+id/rangeSliderLabelId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:paddingStart="12dp" />
 
-        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
-            android:id="@+id/discretSliderId"
+        <com.innovattic.rangeseekbar.RangeSeekBar
+            android:id="@+id/rangeSliderId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:dsb_indicatorColor="@color/shokoColor"
-            app:dsb_trackColor="@color/ballYellow"
-            app:dsb_rippleColor="@color/shokoColor"
-            app:dsb_trackHeight="2dp"
-            app:dsb_scrubberHeight="0dp"
-            app:dsb_progressColor="@color/ballYellow"
-            />
+            app:rsb_initialMinThumbValue="21"
+            app:rsb_initialMaxThumbValue="255"
+            app:rsb_max="255"
+            app:rsb_trackColor="@color/ballYellow"
+            app:rsb_trackSelectedColor="@color/shokoColor"
+            app:rsb_trackThickness="2dp"
+            app:rsb_trackSelectedThickness="2dp"
+            app:rsb_maxThumbDrawable="@drawable/ic_seeker_shoko_12dp"
+            app:rsb_minThumbDrawable="@drawable/ic_seeker_shoko_12dp"
+            app:rsb_sidePadding = "24dp"
+            android:background="@color/transparentBackground" />
+
+
     </LinearLayout>
 
 </LinearLayout>

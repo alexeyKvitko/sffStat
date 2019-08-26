@@ -60,6 +60,7 @@ public class LotoDrawAdapter extends CommonBaseAdapter< LotoModel > {
             holder.lotoDrawNum.setText( lotoModelDraw.getDraw().toString() );
             holder.lotoDrawDateTime.setText( lotoModelDraw.getDrawDate() );
             holder.lotoDrawPrize.setText( lotoModelDraw.getSuperPrize() );
+            holder.lotoDrawSum.setText( lotoModelDraw.getSum().toString() );
 
         }
         holder.lotoDrawMonthTitle.setVisibility( monthTitleVisibility );
@@ -76,6 +77,7 @@ public class LotoDrawAdapter extends CommonBaseAdapter< LotoModel > {
         public TextView lotoDrawNum;
         public TextView lotoDrawDateTime;
         public TextView lotoDrawPrize;
+        public TextView lotoDrawSum;
 
         public LotoDrawDataObjectHolder( final View itemView) {
             super(itemView);
@@ -87,6 +89,8 @@ public class LotoDrawAdapter extends CommonBaseAdapter< LotoModel > {
             lotoDrawNum.setTypeface( AppConstants.ROTONDA_BOLD );
             lotoDrawDateTime = itemView.findViewById( R.id.lotoDrawDateTimeId );
             lotoDrawDateTime.setTypeface(  AppConstants.ROBOTO_CONDENCED );
+            lotoDrawSum = itemView.findViewById( R.id.lotoDrawSumId );
+            lotoDrawSum.setTypeface(  AppConstants.ROBOTO_CONDENCED );
             lotoDrawPrize = itemView.findViewById( R.id.lotoDrawPrizeValueId );
             lotoDrawPrize.setTypeface( AppConstants.ROTONDA_BOLD );
             TextView prizeLabel = itemView.findViewById( R.id.lotoDrawPrizeLabelId );

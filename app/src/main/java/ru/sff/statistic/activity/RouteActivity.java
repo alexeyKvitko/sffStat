@@ -23,6 +23,8 @@ import ru.sff.statistic.fragment.DrawDetailsFragment;
 import ru.sff.statistic.fragment.LotoDrawsFragment;
 import ru.sff.statistic.fragment.StatByDateFragment;
 import ru.sff.statistic.fragment.StatByDrawFragment;
+import ru.sff.statistic.fragment.StatBySumFragment;
+import ru.sff.statistic.fragment.TurnOverFrament;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.HeaderModel;
 
@@ -60,6 +62,12 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
                 break;
             case AppConstants.SHOW_BY_DATE_SCREEN:
                 addReplaceFragment( StatByDateFragment.newInstance(), R.drawable.emoji_look, R.string.by_date_header_label );
+                break;
+            case AppConstants.SHOW_BY_SUM_SCREEN:
+                addReplaceFragment( StatBySumFragment.newInstance(), R.drawable.emoji_look, R.string.by_date_header_sum );
+                break;
+            case AppConstants.SHOW_BY_TURN_SCREEN:
+                addReplaceFragment( TurnOverFrament.newInstance(), R.drawable.emoji_look, R.string.turn_header );
                 break;
         }
 

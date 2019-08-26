@@ -6,6 +6,7 @@ public class StoredBallSet {
     private String storedDate;
     private BallSetType ballSetType;
     private String ballSetName;
+    private String drawCount;
 
     public Ball[] getBallSets() {
         return ballSets;
@@ -37,5 +38,13 @@ public class StoredBallSet {
 
     public void setBallSetName( String ballSetName ) {
         this.ballSetName = ballSetName;
+    }
+
+    public String getDrawCount() {
+        return drawCount;
+    }
+
+    public void setDrawCount( String drawCount ) {
+        this.drawCount = drawCount;
     }
 }

@@ -24,6 +24,8 @@ public abstract class AppConstants {
     public static final String SHOW_ALL_DRAW_SCREEN = "ru.sff.statistic.SHOW_ALL_DRAW_SCREEN";
     public static final String SHOW_BY_DRAW_SCREEN = "ru.sff.statistic.SHOW_BY_DRAW_SCREEN";
     public static final String SHOW_BY_DATE_SCREEN = "ru.sff.statistic.SHOW_BY_DATE_SCREEN";
+    public static final String SHOW_BY_SUM_SCREEN = "ru.sff.statistic.SHOW_BY_SUM_SCREEN";
+    public static final String SHOW_BY_TURN_SCREEN = "ru.sff.statistic.SHOW_BY_TURN_SCREEN";
     public static final String ROUTE_ACTION = "ru.sff.statistic.ROUTE_ACTION";
 
     public static final String VIEW_TYPE_PERCENT = "view_type_percent";
@@ -38,6 +40,11 @@ public abstract class AppConstants {
     public static final String AUTH_BEARER = "Bearer ";
 
     public static final int FAKE_ID = -1;
+    public static final int MIN_SUM = 21;
+    public static final int MAX_SUM = 255;
+
+    public static final int MIN_BALL= 1;
+    public static final int MAX_BALL = 45;
 
     public static final String FULL_DATE_FORMAT = "dd MMMM yyyy в HH:mm";
     public static final String DATE_FORMAT = "dd MMMM yyyy";

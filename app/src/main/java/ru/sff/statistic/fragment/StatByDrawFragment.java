@@ -34,8 +34,6 @@ import static ru.sff.statistic.manager.GlobalManager.getCachedResponseData;
 
 public class StatByDrawFragment extends TabbedFragment {
 
-    private static final int REQUEST_CONTAINER_COLLAPSE_HEIGHT = -( int ) AppUtils.convertDpToPixel( 232 );
-
     private static final String TAG = "StatByDrawFragment";
 
     private LinearLayout mStatByDrawRequestContainer;
@@ -46,6 +44,7 @@ public class StatByDrawFragment extends TabbedFragment {
     private LinearLayout mRequestFromToContainer;
     private AppCompatEditText mFromDrawValue;
     private AppCompatEditText mToDrawValue;
+    private TextView mFromToTitle;
 
     private ImageView mShowRequestForm;
     private Button mRequestButton;
@@ -97,6 +96,7 @@ public class StatByDrawFragment extends TabbedFragment {
         mDrawCountSlider.initSlider( 1, 45, mLastDrawCount, getView().getResources()
                 .getString( R.string.show_result_by_draw ), DiscretSlider.DISCRET_SLIDER_DRAW );
 
+        mFromToTitle = initTextView( R.id.fromToDrawTitleId , AppConstants.ROTONDA_BOLD );
         mRequestFromTo = getView().findViewById( R.id.statByDrawRequestFromToLabelId );
         mRequestFromToContainer = getView().findViewById( R.id.statByDrawRequestFromToId );
         mRequestFromTo.setLeftCell( "", "Тираж с " );
@@ -105,8 +105,9 @@ public class StatByDrawFragment extends TabbedFragment {
         mFromDrawValue = initEditText( R.id.fromDrawValueId, AppConstants.ROBOTO_CONDENCED );
         mToDrawValue = initEditText( R.id.toDrawValueId, AppConstants.ROBOTO_CONDENCED );
         if ( getCachedResponseData() != null
-                && RequestType.DRAW_BETWEEN.equals( getCachedResponseData().getLastRequest() ) ) {
-            animateRequestContainer( 0, REQUEST_CONTAINER_COLLAPSE_HEIGHT );
+                && RequestType.isDrawRequest( getCachedResponseData().getLastRequest() ) ) {
+            mMenuHeight = GlobalManager.getInstance().getLastMenuHeight();
+            animateRequestContainer( 0, mMenuHeight );
             mRequestContainerShown = false;
             mFromDraw = getCachedResponseData().getRequestByDraw().getStartDraw();
             mToDraw = getCachedResponseData().getRequestByDraw().getEndDraw();
@@ -121,25 +122,29 @@ public class StatByDrawFragment extends TabbedFragment {
 
         setEnableRequestFromTo( false );
 
-        setThisOnClickListener( R.id.drawCountSliderId, R.id.statByDrawRequestFromToId,
+        setThisOnClickListener( R.id.drawCountSliderId, R.id.fromToDrawTitleId,
                 R.id.statByDrawRequestFormId, R.id.statByDrawShowFormId );
     }
 
 
     private void setEnableRequestFromTo( boolean enabled ) {
+        int visible = enabled ? View.VISIBLE : View.GONE;
+        getView().findViewById( R.id.statByDrawRequestFromToId ).setVisibility( visible );
         if ( enabled ) {
-            mRequestFromTo.setBackground( getActivity().getResources().getDrawable( R.drawable.border_left_yellow ) );
+            mFromToTitle.setBackground( getActivity().getResources().getDrawable( R.drawable.border_left_yellow ) );
+            mFromToTitle.setTextColor( getActivity().getResources().getColor( R.color.shokoColor ) );
             mRequestFromTo.enableComponent();
             mFromDrawValue.setText( mFromDraw + "" );
             mToDrawValue.setText( mToDraw + "" );
         } else {
             AppUtils.hideKeyboardFrom( getActivity(), mRequestFromTo );
-            mRequestFromTo.setBackground( null );
             mRequestFromTo.disableComponent();
             mFromDrawValue.setText( null );
             mFromDrawValue.clearFocus();
             mToDrawValue.setText( null );
             mToDrawValue.clearFocus();
+            mFromToTitle.setBackground( null );
+            mFromToTitle.setTextColor( getActivity().getResources().getColor( R.color.transpGrayTextColor ) );
         }
         mFromDrawValue.setEnabled( enabled );
         mToDrawValue.setEnabled( enabled );
@@ -189,7 +194,9 @@ public class StatByDrawFragment extends TabbedFragment {
             }
 
         }
-        animateRequestContainer( 0, REQUEST_CONTAINER_COLLAPSE_HEIGHT );
+        mMenuHeight = -(mStatByDrawRequestContainer.getMeasuredHeight()- (int) AppUtils.convertDpToPixel( 38 ));
+        GlobalManager.getInstance().setLastMenuHeight( mMenuHeight );
+        animateRequestContainer( 0, mMenuHeight );
         if ( GlobalManager.getCachedResponseData() == null ) {
             GlobalManager.setCachedResponseData( new CachedResponseData() );
         }
@@ -220,7 +227,7 @@ public class StatByDrawFragment extends TabbedFragment {
                     setEnableRequestFromTo( false );
                 }
                 break;
-            case R.id.statByDrawRequestFromToId:
+            case R.id.fromToDrawTitleId:
                 if ( mLastDrawCountSelect ) {
                     mLastDrawCountSelect = false;
                     setEnableRequestFromTo( true );
@@ -234,7 +241,7 @@ public class StatByDrawFragment extends TabbedFragment {
                 break;
             case R.id.statByDrawShowFormId:
                 if ( !mRequestContainerShown ) {
-                    animateRequestContainer( REQUEST_CONTAINER_COLLAPSE_HEIGHT, 0 );
+                    animateRequestContainer( mMenuHeight, 0 );
                     mRequestContainerShown = true;
                 }
                 break;

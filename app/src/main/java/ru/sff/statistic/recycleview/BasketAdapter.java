@@ -51,6 +51,7 @@ public class BasketAdapter extends CommonBaseAdapter< StoredBallSet > {
         final StoredBallSet ballSet = mItemList.get( position );
         holder.basketBallSet.setBallSet( ballSet.getBallSets(), ballSet.getBallSetType() );
         holder.basketEntityName.setText( ballSet.getBallSetName() );
+        holder.basketEntityDraws.setText( ballSet.getDrawCount() );
         holder.basketEntityDate.setText( ballSet.getStoredDate() );
         holder.basketTrashImg.setOnClickListener( ( View view )->{
             CustomAnimation.clickAnimation( view );
@@ -63,6 +64,7 @@ public class BasketAdapter extends CommonBaseAdapter< StoredBallSet > {
         public SixBallSet basketBallSet;
         public LinearLayout basketTrashImg;
         public TextView basketEntityName;
+        public TextView basketEntityDraws;
         public TextView basketEntityDate;
 
         public BasketDataObjectHolder( final View itemView) {
@@ -71,6 +73,9 @@ public class BasketAdapter extends CommonBaseAdapter< StoredBallSet > {
             basketTrashImg = itemView.findViewById( R.id.removeBallSetId );
             basketEntityName = itemView.findViewById( R.id.ballSetNameId );
             basketEntityName.setTypeface( AppConstants.ROTONDA_BOLD );
+            basketEntityDraws = itemView.findViewById( R.id.ballSetDrawsId );
+            basketEntityDraws.setTypeface( AppConstants.ROBOTO_CONDENCED );
+
             basketEntityDate = itemView.findViewById( R.id.ballSetDateTimeId );
             basketEntityDate.setTypeface( AppConstants.ROBOTO_CONDENCED );
         }

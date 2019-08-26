@@ -9,6 +9,7 @@ public class CachedResponseData implements Serializable {
 
     private RequestByDate requestByDate;
     private RequestByDraw requestByDraw;
+    private RequestBySumOrBall requestBySOB;
     private RequestType lastRequest;
     private int totalDraw;
     private BallsInfo ballsInfo;
@@ -28,6 +29,14 @@ public class CachedResponseData implements Serializable {
 
     public void setRequestByDraw( RequestByDraw requestByDraw ) {
         this.requestByDraw = requestByDraw;
+    }
+
+    public RequestBySumOrBall getRequestBySOB() {
+        return requestBySOB;
+    }
+
+    public void setRequestBySOB( RequestBySumOrBall requestBySOB ) {
+        this.requestBySOB = requestBySOB;
     }
 
     public RequestType getLastRequest() {

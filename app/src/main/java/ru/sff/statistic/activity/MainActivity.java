@@ -23,6 +23,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mRequestByDraw;
     private LinearLayout mRequestByDate;
     private LinearLayout mRequestByAmount;
+    private LinearLayout mRequestByTurn;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -40,16 +41,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ( ( TextView ) findViewById( R.id.queryByDrawsId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
         ( ( TextView ) findViewById( R.id.queryByDateId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
         ( ( TextView ) findViewById( R.id.queryByAmountId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
+        ( ( TextView ) findViewById( R.id.queryByTurnId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
+        ( ( TextView ) findViewById( R.id.queryByAnalisId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
 
         mRequestAll = findViewById( R.id.requestAllDrawId );
         mRequestByDraw = findViewById( R.id.requestByDrawId );
         mRequestByDate = findViewById( R.id.requestByDateId );
         mRequestByAmount = findViewById( R.id.requestByAmountId );
+        mRequestByTurn = findViewById( R.id.requestByTurnId );
 
         mRequestAll.setOnClickListener( this );
         mRequestByDraw.setOnClickListener( this );
         mRequestByDate.setOnClickListener( this );
         mRequestByAmount.setOnClickListener( this );
+        mRequestByTurn.setOnClickListener( this );
 
     }
 
@@ -86,6 +91,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.requestByDateId :
                 params.put( AppConstants.ROUTE_ACTION, AppConstants.SHOW_BY_DATE_SCREEN );
+                startNewActivity( RouteActivity.class, params );
+                break;
+            case R.id.requestByAmountId :
+                params.put( AppConstants.ROUTE_ACTION, AppConstants.SHOW_BY_SUM_SCREEN );
+                startNewActivity( RouteActivity.class, params );
+                break;
+            case R.id.requestByTurnId :
+                params.put( AppConstants.ROUTE_ACTION, AppConstants.SHOW_BY_TURN_SCREEN );
                 startNewActivity( RouteActivity.class, params );
                 break;
         }

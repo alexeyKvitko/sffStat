@@ -26,49 +26,71 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="8dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_weight="3"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/ballSetNameId"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="3"
                     android:textColor="@color/shokoColor"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/ballSetDateTimeId"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ballSetDrawsId"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/grayTextColor"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="7"
+                    android:gravity="right"
+                    android:textColor="@color/ballYellow"
                     android:textSize="14dp" />
+
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/removeBallSetId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="7"
-                android:gravity="right">
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/ballSetDateTimeId"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="18dp"
-                    app:srcCompat="@drawable/ic_trash_can_outline_grey600_18dp" />
+                    android:layout_weight="3"
+                    android:textColor="@color/grayTextColor"
+                    android:textSize="12dp" />
+
+                <LinearLayout
+                    android:id="@+id/removeBallSetId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:gravity="right">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_marginEnd="18dp"
+                        android:gravity="top"
+                        app:srcCompat="@drawable/ic_trash_can_outline_grey600_18dp" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

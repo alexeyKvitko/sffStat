@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -22,6 +23,8 @@ public class DoubleSlider extends BaseComponent {
     private int mSliderOneValue;
     private int mSliderTwoValue;
 
+    private TextView mSliderTitle;
+
 
     public DoubleSlider( Context context ) {
         super( context );
@@ -37,7 +40,8 @@ public class DoubleSlider extends BaseComponent {
                                           int minTwoValue, int maxTwoValue, int twoValue,
                                           String title) {
         initBaseComponent( this );
-        initTextView( R.id.doubleSliderTitleId, AppConstants.ROTONDA_BOLD ).setText( title );
+        mSliderTitle = initTextView( R.id.doubleSliderTitleId, AppConstants.ROTONDA_BOLD );
+        mSliderTitle.setText( title );
 
         mSliderOneValue = oneValue;
         mSliderTwoValue = twoValue;
@@ -85,22 +89,24 @@ public class DoubleSlider extends BaseComponent {
     }
 
     public void setEnableSlider( boolean enabled ) {
+        int visible = enabled ? View.VISIBLE : View.GONE;
+        findViewById( R.id.doubleSliderContainerId ).setVisibility( visible );
         Resources resources = SFFSApplication.getAppContext().getResources();
         if ( enabled ) {
-            mSliderRequest.setBackground( resources.getDrawable( R.drawable.border_left_yellow ) );
-            int yellowColor = resources.getColor( R.color.ballYellow );
-            int shokoColor = resources.getColor( R.color.shokoColor );
-            setSliderColor( mSliderOne, yellowColor, shokoColor );
-            setSliderColor( mSliderTwo, yellowColor, shokoColor );
-            mSliderRequest.enableComponent();
-            initTextView( R.id.doubleSliderTitleId ).setTextColor( resources.getColor( R.color.grayTextColor ) );
+            mSliderTitle.setBackground( resources.getDrawable( R.drawable.border_left_yellow ) );
+//            int yellowColor = resources.getColor( R.color.ballYellow );
+//            int shokoColor = resources.getColor( R.color.shokoColor );
+//            setSliderColor( mSliderOne, yellowColor, shokoColor );
+//            setSliderColor( mSliderTwo, yellowColor, shokoColor );
+//            mSliderRequest.enableComponent();
+            mSliderTitle.setTextColor( resources.getColor( R.color.splashTextColor ) );
         } else {
-            mSliderRequest.setBackground( null );
-            mSliderRequest.disableComponent();
-            int grayColor = resources.getColor( R.color.transpGrayTextColor );
-            setSliderColor( mSliderOne, grayColor, grayColor );
-            setSliderColor( mSliderTwo, grayColor, grayColor );
-            initTextView( R.id.doubleSliderTitleId ).setTextColor( grayColor );
+            mSliderTitle.setBackground( null );
+//            mSliderRequest.disableComponent();
+//            int grayColor = resources.getColor( R.color.transpGrayTextColor );
+//            setSliderColor( mSliderOne, grayColor, grayColor );
+//            setSliderColor( mSliderTwo, grayColor, grayColor );
+            mSliderTitle.setTextColor( resources.getColor( R.color.transpGrayTextColor ) );
         }
         mSliderOne.setEnabled( enabled );
         mSliderTwo.setEnabled( enabled );

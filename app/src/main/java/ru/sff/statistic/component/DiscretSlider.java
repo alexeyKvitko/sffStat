@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 
 import androidx.annotation.Nullable;
@@ -24,6 +25,7 @@ public class DiscretSlider extends BaseComponent {
 
     private ThreeCellStat mSliderRequest;
     private DiscreteSeekBar mDiscreteSlider;
+    private TextView mSliderTitle;
     private int mSliderValue;
     private int mSliderType;
 
@@ -45,7 +47,8 @@ public class DiscretSlider extends BaseComponent {
         mDiscreteSlider.setThumbColor( SFFSApplication.getAppContext().getResources().getColor( R.color.shokoColor ),
                 SFFSApplication.getAppContext().getResources().getColor( R.color.shokoColor ) );
 
-        initTextView( R.id.discretSliderTitleId, AppConstants.ROTONDA_BOLD ).setText( title );
+        mSliderTitle = initTextView( R.id.discretSliderTitleId, AppConstants.ROTONDA_BOLD );
+        mSliderTitle.setText( title );
 
         mSliderValue = value;
         mSliderType = sliderType;
@@ -112,24 +115,26 @@ public class DiscretSlider extends BaseComponent {
     }
 
     public void setEnableSlider( boolean enabled ) {
+        int visible = enabled ? View.VISIBLE : View.GONE;
+        findViewById( R.id.discretSliderContainerId ).setVisibility( visible );
         Resources resources = SFFSApplication.getAppContext().getResources();
         if ( enabled ) {
-            mSliderRequest.setBackground( resources.getDrawable( R.drawable.border_left_yellow ) );
-            int yellowColor = resources.getColor( R.color.ballYellow );
-            int shokoColor = resources.getColor( R.color.shokoColor );
-            mDiscreteSlider.setScrubberColor( yellowColor );
-            mDiscreteSlider.setTrackColor( yellowColor );
-            mDiscreteSlider.setThumbColor( shokoColor, shokoColor );
-            mSliderRequest.enableComponent();
-            initTextView( R.id.discretSliderTitleId ).setTextColor( resources.getColor( R.color.grayTextColor ) );
+            mSliderTitle.setBackground( resources.getDrawable( R.drawable.border_left_yellow ) );
+//            int yellowColor = resources.getColor( R.color.ballYellow );
+//            int shokoColor = resources.getColor( R.color.shokoColor );
+//            mDiscreteSlider.setScrubberColor( yellowColor );
+//            mDiscreteSlider.setTrackColor( yellowColor );
+//            mDiscreteSlider.setThumbColor( shokoColor, shokoColor );
+//            mSliderRequest.enableComponent();
+            mSliderTitle.setTextColor( resources.getColor( R.color.splashTextColor ) );
         } else {
-            mSliderRequest.setBackground( null );
-            mSliderRequest.disableComponent();
-            int grayColor = resources.getColor( R.color.transpGrayTextColor );
-            mDiscreteSlider.setScrubberColor( grayColor );
-            mDiscreteSlider.setTrackColor( grayColor );
-            mDiscreteSlider.setThumbColor( grayColor, grayColor );
-            initTextView( R.id.discretSliderTitleId ).setTextColor( grayColor );
+            mSliderTitle.setBackground( null );
+//            mSliderRequest.disableComponent();
+//            int grayColor = resources.getColor( R.color.transpGrayTextColor );
+//            mDiscreteSlider.setScrubberColor( grayColor );
+//            mDiscreteSlider.setTrackColor( grayColor );
+//            mDiscreteSlider.setThumbColor( grayColor, grayColor );
+            mSliderTitle.setTextColor( resources.getColor( R.color.transpGrayTextColor ) );
         }
         mDiscreteSlider.setEnabled( enabled );
     }

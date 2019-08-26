@@ -9,10 +9,12 @@
         android:id="@+id/doubleSliderTitleId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:background="@drawable/border_left_yellow"
+        android:paddingStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/by_date_label"
-        android:textColor="@color/grayTextColor"
+        android:textColor="@color/splashTextColor"
         android:textSize="16dp" />
 
     <LinearLayout
@@ -26,7 +28,6 @@
 
         <ru.sff.statistic.component.ThreeCellStat
             android:id="@+id/doubleSliderLabelId"
-            android:background="@drawable/border_left_yellow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

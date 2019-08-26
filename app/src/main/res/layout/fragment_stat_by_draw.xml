@@ -16,31 +16,42 @@
         <LinearLayout
             android:id="@+id/statByDrawRequestContainerId"
             android:layout_width="match_parent"
-            android:layout_height="264dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ru.sff.statistic.component.DiscretSlider
                 android:id="@+id/drawCountSliderId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:elevation="1dp"
-                android:orientation="vertical"/>
+                android:elevation="1dp" />
+
+            <TextView
+                android:id="@+id/fromToDrawTitleId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_left_yellow"
+                android:paddingStart="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/show_result_by_draw_sel"
+                android:textColor="@color/splashTextColor"
+                android:textSize="16dp" />
 
             <LinearLayout
                 android:id="@+id/statByDrawRequestFromToId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="18dp"
-                android:layout_marginStart="20dp"
                 android:elevation="1dp"
                 android:orientation="vertical">
 
                 <ru.sff.statistic.component.ThreeCellStat
                     android:id="@+id/statByDrawRequestFromToLabelId"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingStart="4dp" />
+                    android:layout_gravity="center_vertical"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -49,12 +60,13 @@
                     android:layout_marginEnd="24dp"
                     android:focusableInTouchMode="true"
                     android:orientation="horizontal">
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/fromDrawTextLayoutId"
                         style="@style/AppInputLayout"
-                        android:layout_marginTop="4dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:layout_weight="1"
                         android:hint="@string/from_draw_label"
                         app:errorEnabled="false"
@@ -63,22 +75,22 @@
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/fromDrawValueId"
                             style="@style/AppEditText"
-                            android:theme="@style/editTextTheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:inputType="number"
                             android:maxLength="4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:theme="@style/editTextTheme" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/toDrawTextLayoutId"
                         style="@style/AppInputLayout"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:layout_marginTop="4dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
                         android:hint="@string/to_draw_label"
                         app:errorEnabled="false"
                         app:errorTextAppearance="@style/errorText">
@@ -86,14 +98,15 @@
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/toDrawValueId"
                             style="@style/AppEditText"
-                            android:theme="@style/editTextTheme"
-                            android:maxLength="4"
-                            android:inputType="number"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:theme="@style/editTextTheme" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/drawErrorFieldId"
                     style="@style/errorText"
@@ -105,27 +118,27 @@
 
             <Button
                 android:id="@+id/statByDrawRequestFormId"
-                android:elevation="6dp"
-                android:background="@drawable/button_yellow"
-                android:layout_marginVertical="12dp"
-                android:layout_marginHorizontal="32dp"
-                android:textColor="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:text="@string/button_show"/>
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginVertical="12dp"
+                android:background="@drawable/button_yellow"
+                android:elevation="6dp"
+                android:text="@string/button_show"
+                android:textColor="@android:color/white" />
 
             <ImageView
                 android:id="@+id/statByDrawShowFormId"
-                android:visibility="gone"
-                android:layout_marginTop="38dp"
-                android:layout_marginBottom="8dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="38dp"
+                android:layout_marginBottom="8dp"
                 android:elevation="2dp"
-                app:srcCompat="@drawable/ic_chevron_down_circle_shocko_18dp"/>
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_chevron_down_circle_shocko_18dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -135,24 +148,30 @@
 
         </LinearLayout>
 
-        <include layout="@layout/please_wait" />
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/pagerId"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayoutId"
+            <include layout="@layout/please_wait" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/pagerId"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:tabIndicatorColor="@color/backgroundColor"
-                app:tabTextColor="@color/shokoColor">
+                android:layout_height="match_parent">
 
-            </com.google.android.material.tabs.TabLayout>
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayoutId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:tabIndicatorColor="@color/backgroundColor"
+                    app:tabTextColor="@color/shokoColor">
 
-        </androidx.viewpager.widget.ViewPager>
+                </com.google.android.material.tabs.TabLayout>
+
+            </androidx.viewpager.widget.ViewPager>
+        </LinearLayout>
 
     </LinearLayout>
 

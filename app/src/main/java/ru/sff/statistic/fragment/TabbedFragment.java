@@ -28,6 +28,7 @@ import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.RequestByDate;
 import ru.sff.statistic.model.RequestByDraw;
+import ru.sff.statistic.model.RequestBySumOrBall;
 import ru.sff.statistic.model.RequestType;
 import ru.sff.statistic.model.ResponseData;
 import ru.sff.statistic.rest.RestController;
@@ -45,8 +46,11 @@ public abstract class TabbedFragment extends BaseFragment{
     protected LotoDrawsFragment mLotoDrawsFragment;
     protected RequestByDraw mRequestByDraw;
     protected RequestByDate mRequestByDate;
+    protected RequestBySumOrBall mRequestBySOB;
 
     protected boolean mFirstRequest;
+
+    protected int mMenuHeight;
 
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
@@ -55,19 +59,34 @@ public abstract class TabbedFragment extends BaseFragment{
         mBackButton.setOnClickListener( ( View view ) -> {
             getActivity().onBackPressed();
         } );
-        mRequestByDraw = null;
-        mRequestByDate = null;
+        clearRequests();
         mFirstRequest = true;
     }
 
+    private void clearRequests(){
+        mRequestByDraw = null;
+        mRequestByDate = null;
+        mRequestBySOB = null;
+    }
+
     protected void fetchDrawData( RequestByDraw requestByDraw ){
+        clearRequests();
         mRequestByDraw = requestByDraw;
         CustomAnimation.transitionAnimation( getView().findViewById( R.id.pagerId ), getView().findViewById( R.id.pleaseWaitContainerId ) );
         new GetLotoDrawResults().execute();
     }
 
     protected void fetchDateData( RequestByDate requestByDate ){
+        clearRequests();
+        CustomAnimation.transitionAnimation( getView().findViewById( R.id.pagerId ), getView().findViewById( R.id.pleaseWaitContainerId ) );
         mRequestByDate = requestByDate;
+        new GetLotoDrawResults().execute();
+    }
+
+    protected void fetchSOBData( RequestBySumOrBall requestBySOB ){
+        clearRequests();
+        CustomAnimation.transitionAnimation( getView().findViewById( R.id.pagerId ), getView().findViewById( R.id.pleaseWaitContainerId ) );
+        mRequestBySOB = requestBySOB;
         new GetLotoDrawResults().execute();
     }
 
@@ -144,7 +163,6 @@ public abstract class TabbedFragment extends BaseFragment{
     }
 
     private class GetLotoDrawResults extends AsyncTask< Void, Void, String > {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -163,6 +181,10 @@ public abstract class TabbedFragment extends BaseFragment{
                     resultCall = RestController.getApi().getStatisticByDate( AppConstants.AUTH_BEARER
                                     + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
                             mRequestByDate );
+                } else if( mRequestBySOB != null ){
+                    resultCall = RestController.getApi().getStatisticBySOB( AppConstants.AUTH_BEARER
+                                    + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
+                            mRequestBySOB );
                 }
                 if ( resultCall == null ){
                     return null;

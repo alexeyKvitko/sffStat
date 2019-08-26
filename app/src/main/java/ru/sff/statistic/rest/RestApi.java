@@ -16,8 +16,10 @@ import ru.sff.statistic.model.DigitInfo;
 import ru.sff.statistic.model.DrawDetails;
 import ru.sff.statistic.model.DrawInfo;
 import ru.sff.statistic.model.LotoModel;
+import ru.sff.statistic.model.LotoTurn;
 import ru.sff.statistic.model.RequestByDate;
 import ru.sff.statistic.model.RequestByDraw;
+import ru.sff.statistic.model.RequestBySumOrBall;
 import ru.sff.statistic.model.ResponseData;
 
 public interface RestApi {
@@ -60,4 +62,12 @@ public interface RestApi {
     @POST(APP_API+"getStatisticByDate")
     Call< ApiResponse< ResponseData > > getStatisticByDate( @Header("Authorization") String authorization
             , @Body RequestByDate requestByDate );
+
+    @POST(APP_API+"getStatisticBySOB")
+    Call< ApiResponse< ResponseData > > getStatisticBySOB( @Header("Authorization") String authorization
+            , @Body RequestBySumOrBall requestBySOB );
+
+    @GET(APP_API+"getLotoTurns/{draw}")
+    Call< ApiResponse< List< LotoTurn > > > getLotoTurns( @Header("Authorization") String authorization
+            , @Path("draw") Integer draw);
 }

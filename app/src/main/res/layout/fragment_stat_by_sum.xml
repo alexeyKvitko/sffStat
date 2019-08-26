@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/statBySumFragmentId"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    tools:context=".fragment.StatBySumFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/statBySumRequestContainerId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ru.sff.statistic.component.RangeSlider
+                android:id="@+id/sumSliderId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="1dp"/>
+
+            <ru.sff.statistic.component.RangeSlider
+                android:id="@+id/ballSliderId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="1dp"/>
+
+            <Button
+                android:id="@+id/statBySumRequestFormId"
+                android:elevation="6dp"
+                android:background="@drawable/button_yellow"
+                android:layout_marginVertical="12dp"
+                android:layout_marginHorizontal="32dp"
+                android:textColor="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/button_show"/>
+
+            <ImageView
+                android:id="@+id/statBySumShowFormId"
+                android:visibility="gone"
+                android:layout_marginTop="38dp"
+                android:layout_marginBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="2dp"
+                app:srcCompat="@drawable/ic_chevron_down_circle_shocko_18dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="12dp"
+                android:background="@color/deviderColor" />
+        </LinearLayout>
+
+        <include layout="@layout/please_wait" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pagerId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayoutId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:tabIndicatorColor="@color/backgroundColor"
+                app:tabTextColor="@color/shokoColor">
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </androidx.viewpager.widget.ViewPager>
+
+    </LinearLayout>
+</FrameLayout>
