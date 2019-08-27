@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
@@ -36,6 +37,9 @@ public class StatByDrawFragment extends TabbedFragment {
 
     private static final String TAG = "StatByDrawFragment";
 
+    private static final String START_DRAW = "start_draw";
+    private static final String END_DRAW = "end_draw";
+
     private LinearLayout mStatByDrawRequestContainer;
 
     private DiscretSlider mDrawCountSlider;
@@ -55,13 +59,18 @@ public class StatByDrawFragment extends TabbedFragment {
 
     private boolean mLastDrawCountSelect;
     private boolean mRequestContainerShown;
-    private boolean mFirstRequest;
+    private boolean mInitFromArg;
 
     public StatByDrawFragment() {
     }
 
-    public static StatByDrawFragment newInstance() {
-        return new StatByDrawFragment();
+    public static StatByDrawFragment newInstance(Integer startDraw, Integer endDraw) {
+        StatByDrawFragment fragment = new StatByDrawFragment();
+        Bundle args = new Bundle();
+        args.putInt( START_DRAW, startDraw);
+        args.putInt( END_DRAW, endDraw);
+        fragment.setArguments( args );
+        return fragment;
     }
 
     @Override
@@ -78,13 +87,12 @@ public class StatByDrawFragment extends TabbedFragment {
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
+        mInitFromArg = false;
         mLastDrawCount = 10;
         mToDraw = GlobalManager.getPlayedDraws();
         mFromDraw = GlobalManager.getPlayedDraws() - 9;
-
-        mLastDrawCountSelect = true;
+        mLastDrawCountSelect = false;
         mRequestContainerShown = true;
-        mFirstRequest = true;
 
         mShowRequestForm = getView().findViewById( R.id.statByDrawShowFormId );
         mShowRequestForm.setVisibility( View.GONE );
@@ -112,7 +120,6 @@ public class StatByDrawFragment extends TabbedFragment {
             mFromDraw = getCachedResponseData().getRequestByDraw().getStartDraw();
             mToDraw = getCachedResponseData().getRequestByDraw().getEndDraw();
             mLastDrawCount = mToDraw - mFromDraw + 1;
-            mFirstRequest = false;
             initTabs();
         } else {
             mLastDrawCountSelect = true;
@@ -124,6 +131,15 @@ public class StatByDrawFragment extends TabbedFragment {
 
         setThisOnClickListener( R.id.drawCountSliderId, R.id.fromToDrawTitleId,
                 R.id.statByDrawRequestFormId, R.id.statByDrawShowFormId );
+        if ( getArguments() != null && AppConstants.FAKE_ID != getArguments().getInt( START_DRAW ) ){
+            mInitFromArg = true;
+            setEnableRequestFromTo( true );
+            mDrawCountSlider.setEnableSlider( false );
+            mLastDrawCountSelect = false;
+            mFromDrawValue.setText( getArguments().getInt( START_DRAW )+"" );
+            mToDrawValue.setText( getArguments().getInt( END_DRAW )+"" );
+            postByDrawRequest();
+        }
     }
 
 
@@ -167,6 +183,7 @@ public class StatByDrawFragment extends TabbedFragment {
         valAnimator.setDuration( 300 );
         valAnimator.start();
     }
+
 
     private void postByDrawRequest() {
         if ( mLastDrawCountSelect ) {

@@ -66,6 +66,7 @@
     <string name="by_period">За период</string>
     <string name="day_label">День</string>
     <string name="month_label">Месяц</string>
+    <string name="left_digit_label">Номера тиражей, в которых осталось</string>
 
 
 </resources>

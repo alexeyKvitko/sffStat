@@ -3,6 +3,7 @@ package ru.sff.statistic.recycleview;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -10,17 +11,16 @@ import java.util.LinkedList;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
-import ru.sff.statistic.component.SixBallSet;
-import ru.sff.statistic.component.ThreeCellStat;
-import ru.sff.statistic.component.TwoCellStat;
+import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.model.LotoTurn;
 import ru.sff.statistic.utils.AppUtils;
+import ru.sff.statistic.utils.CustomAnimation;
 
 public class LotoTurnAdapter extends CommonBaseAdapter< LotoTurn > {
 
     private static final String CLASS_TAG = "LotoTurnAdapter";
 
-    private LotoTurnDataObjectHolder.LotoTurnTrashListener mListener;
+    private LotoTurnDataObjectHolder.LotoTurnDrawListener mListener;
 
 
     public LotoTurnAdapter( LinkedList< LotoTurn > mItemList ) {
@@ -36,7 +36,7 @@ public class LotoTurnAdapter extends CommonBaseAdapter< LotoTurn > {
         return dataObjectHolder;
     }
 
-    public void setLotoTurnTrashListener( LotoTurnDataObjectHolder.LotoTurnTrashListener listener ) {
+    public void setLotoTurnDrawListener( LotoTurnDataObjectHolder.LotoTurnDrawListener listener ) {
         mListener = listener;
     }
 
@@ -45,32 +45,127 @@ public class LotoTurnAdapter extends CommonBaseAdapter< LotoTurn > {
     public void onBindViewHolder( final BaseDataObjectHolder h, final int position ) {
         LotoTurnAdapter.LotoTurnDataObjectHolder holder = ( LotoTurnAdapter.LotoTurnDataObjectHolder ) h;
         final LotoTurn turn = mItemList.get( position );
-        holder.lotoTurnDate.setTwoCellValue( turn.getStartDraw().getDraw().toString(), turn.getStartDraw().getDrawDate() ,
-                 turn.getEndDraw().getDraw().toString(), turn.getEndDraw().getDrawDate() );
+        holder.lotoTurnStartDraw.setText(turn.getStartDraw().getDraw().toString() );
+        holder.lotoTurnStartDate.setText(turn.getStartDraw().getDrawDate() );
+
+        holder.lotoTurnEndDraw.setText( " - " + turn.getEndDraw().getDraw().toString() );
+        holder.lotoTurnEndDate.setText( " - " + turn.getEndDraw().getDrawDate() );
         holder.lotoTurnDrawValue.setText( turn.getDrawCount().toString() );
         holder.lotoTurnDrawLabel.setText( AppUtils.getDrawsSfx( turn.getDrawCount() ) );
-        int zeroVisible = turn.getBorderZero() != null ? View.VISIBLE : View.GONE;
-        holder.lotoTurnZeroLeft.setText( turn.getBorderZero() != null ?  turn.getBorderZero().toString() : "");
+        if( turn.getBorderZero() != null ){
+            holder.lotoTurnDrawValue.setBackground( SFFSApplication.getAppContext().getResources().getDrawable( R.drawable.ball_turn_over_dis ) );
+            holder.lotoTurnDrawLabel.setTextColor( SFFSApplication.getAppContext().getResources().getColor( R.color.ballRed ) );
+            holder.lotoTurnZeroLeft.setVisibility( View.VISIBLE );
+            holder.lotoTurnZeroLeft.setText( ", не выпало чисел: " + turn.getBorderZero().toString() );
+        } else {
+            holder.lotoTurnDrawValue.setBackground( SFFSApplication.getAppContext().getResources().getDrawable( R.drawable.ball_turn_over ) );
+            holder.lotoTurnDrawLabel.setTextColor( SFFSApplication.getAppContext().getResources().getColor( R.color.splashTextColor ) );
+            holder.lotoTurnZeroLeft.setVisibility( View.GONE );
+        }
+        boolean allEmpty = true;
+        if ( turn.getLeftFiveDigitDraw() != null ){
+            holder.lotoTurnFiveContainer.setVisibility( View.VISIBLE );
+            holder.lotoTurnLeftFive.setOnClickListener( (View view) ->{
+                CustomAnimation.clickAnimation( view );
+                mListener.onLotoTurnDrawClick( turn.getStartDraw().getDraw(),
+                                                            turn.getLeftFiveDigitDraw().getDraw() );
+            } );
+            holder.lotoTurnLeftFive.setText( turn.getLeftFiveDigitDraw().getDraw().toString() );
+            allEmpty = false;
+        } else {
+            holder.lotoTurnFiveContainer.setVisibility( View.GONE );
+        }
 
+        if ( turn.getLeftThreeDigitDraw() != null ){
+            holder.lotoTurnThreeContainer.setVisibility( View.VISIBLE );
+            holder.lotoTurnLeftThree.setOnClickListener( (View view) ->{
+                CustomAnimation.clickAnimation( view );
+                mListener.onLotoTurnDrawClick( turn.getStartDraw().getDraw(),
+                                                            turn.getLeftThreeDigitDraw().getDraw() );
+            } );
+            holder.lotoTurnLeftThree.setText( turn.getLeftThreeDigitDraw().getDraw().toString() );
+            allEmpty = false;
+        } else {
+            holder.lotoTurnThreeContainer.setVisibility( View.GONE );
+        }
+
+        if ( turn.getLeftOneDigitDraw() != null ){
+            holder.lotoTurnOneContainer.setVisibility( View.VISIBLE );
+            holder.lotoTurnLeftOne.setOnClickListener( (View view) ->{
+                CustomAnimation.clickAnimation( view );
+                mListener.onLotoTurnDrawClick( turn.getStartDraw().getDraw(),
+                                                            turn.getLeftOneDigitDraw().getDraw() );
+            } );
+            holder.lotoTurnLeftOne.setText( turn.getLeftOneDigitDraw().getDraw().toString() );
+            allEmpty = false;
+        } else {
+            holder.lotoTurnOneContainer.setVisibility( View.GONE );
+        }
+        holder.lotoTurnLeftLabel.setVisibility( allEmpty ? View.GONE : View.VISIBLE);
     }
 
     public static class LotoTurnDataObjectHolder extends BaseDataObjectHolder {
 
-        public TwoCellStat lotoTurnDate;
         public TextView lotoTurnDrawValue;
         public TextView lotoTurnDrawLabel;
         public TextView lotoTurnZeroLeft;
+        public TextView lotoTurnStartDraw;
+        public TextView lotoTurnStartDate;
+        public TextView lotoTurnEndDraw;
+        public TextView lotoTurnEndDate;
+        public TextView lotoTurnLeftFive;
+        public TextView lotoTurnLeftThree;
+        public TextView lotoTurnLeftOne;
+        public TextView lotoTurnLeftLabel;
+        public LinearLayout lotoTurnFiveContainer;
+        public LinearLayout lotoTurnThreeContainer;
+        public LinearLayout lotoTurnOneContainer;
 
 
         public LotoTurnDataObjectHolder( final View itemView ) {
             super( itemView );
-            lotoTurnDate = itemView.findViewById( R.id.turnDateLabelId);
+            lotoTurnStartDraw = itemView.findViewById( R.id.turnStartDrawId );
+            lotoTurnStartDraw.setTypeface( AppConstants.ROTONDA_BOLD );
+
+            lotoTurnStartDate = itemView.findViewById( R.id.turnStartDateId );
+            lotoTurnStartDate.setTypeface( AppConstants.ROBOTO_CONDENCED );
+
+            lotoTurnEndDraw = itemView.findViewById( R.id.turnEndDrawId );
+            lotoTurnEndDraw.setTypeface( AppConstants.ROTONDA_BOLD );
+
+            lotoTurnEndDate = itemView.findViewById( R.id.turnEndDateId );
+            lotoTurnEndDate.setTypeface( AppConstants.ROBOTO_CONDENCED );
+
+            lotoTurnLeftFive = itemView.findViewById( R.id.turnLeftFiveId );
+            lotoTurnLeftFive.setTypeface( AppConstants.ROTONDA_BOLD );
+
+            lotoTurnLeftThree = itemView.findViewById( R.id.turnLeftThreeId );
+            lotoTurnLeftThree.setTypeface( AppConstants.ROTONDA_BOLD );
+
+            lotoTurnLeftOne = itemView.findViewById( R.id.turnLeftOneId );
+            lotoTurnLeftOne.setTypeface( AppConstants.ROTONDA_BOLD );
+
+            ( ( TextView ) itemView.findViewById( R.id.turnLeftFiveLabelId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
+            ( ( TextView ) itemView.findViewById( R.id.turnLeftThreeLabelId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
+            ( ( TextView ) itemView.findViewById( R.id.turnLeftOneLabelId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
+            lotoTurnLeftLabel = itemView.findViewById( R.id.turnLeftLabelId );
+            lotoTurnLeftLabel.setTypeface( AppConstants.ROTONDA_BOLD );
+
+            lotoTurnLeftFive = itemView.findViewById( R.id.turnLeftFiveId );
+            lotoTurnLeftFive.setTypeface( AppConstants.ROTONDA_BOLD );
+
             lotoTurnDrawValue = itemView.findViewById( R.id.turnDrawCountValueId );
-            lotoTurnDrawLabel = itemView.findViewById( R.id.turnDrawCountLabelId );
-            lotoTurnZeroLeft = itemView.findViewById( R.id.turnZeroLeftId );
             lotoTurnDrawValue.setTypeface( AppConstants.ROTONDA_BOLD );
+
+            lotoTurnDrawLabel = itemView.findViewById( R.id.turnDrawCountLabelId );
             lotoTurnDrawLabel.setTypeface( AppConstants.ROBOTO_CONDENCED );
+
+            lotoTurnZeroLeft = itemView.findViewById( R.id.turnZeroLeftId );
             lotoTurnZeroLeft.setTypeface( AppConstants.ROBOTO_CONDENCED );
+
+            lotoTurnFiveContainer = itemView.findViewById( R.id.turnLeftFiveContainerId );
+            lotoTurnThreeContainer = itemView.findViewById( R.id.turnLeftThreeContainerId );
+            lotoTurnOneContainer = itemView.findViewById( R.id.turnLeftOneContainerId );
         }
 
         @Override
@@ -78,8 +173,8 @@ public class LotoTurnAdapter extends CommonBaseAdapter< LotoTurn > {
             return;
         }
 
-        public interface LotoTurnTrashListener {
-            void onLotoTurnTrashClick( String entityName );
+        public interface LotoTurnDrawListener {
+            void onLotoTurnDrawClick( int startDraw, int endDraw );
         }
 
     }

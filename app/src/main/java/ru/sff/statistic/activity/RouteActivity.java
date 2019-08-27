@@ -25,11 +25,13 @@ import ru.sff.statistic.fragment.StatByDateFragment;
 import ru.sff.statistic.fragment.StatByDrawFragment;
 import ru.sff.statistic.fragment.StatBySumFragment;
 import ru.sff.statistic.fragment.TurnOverFrament;
+import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.HeaderModel;
 
 
-public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnDrawDetailsClickListener {
+public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnDrawDetailsClickListener,
+                                TurnOverFrament.OnShowDrawsClickListener{
 
     private IntentFilter mBallSelectIntentFilter = new IntentFilter( AppConstants.ROUTE_ACTION_MESSAGE );
     private RouteActionReceiver mRouteActionReceiver = new RouteActionReceiver();
@@ -58,7 +60,7 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
                 addReplaceFragment( AllResultsFragment.newInstance(), R.drawable.emoji_look, R.string.all_draws_label );
                 break;
             case AppConstants.SHOW_BY_DRAW_SCREEN:
-                addReplaceFragment( StatByDrawFragment.newInstance(), R.drawable.emoji_look, R.string.by_draws_label );
+                addReplaceFragment( StatByDrawFragment.newInstance( AppConstants.FAKE_ID, AppConstants.FAKE_ID ), R.drawable.emoji_look, R.string.by_draws_label );
                 break;
             case AppConstants.SHOW_BY_DATE_SCREEN:
                 addReplaceFragment( StatByDateFragment.newInstance(), R.drawable.emoji_look, R.string.by_date_header_label );
@@ -137,6 +139,12 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
         super.onBackPressed();
     }
 
+    @Override
+    public void onShowDrawsClick( int startDraw, int endDraw ) {
+        GlobalManager.setCachedResponseData( null );
+        addReplaceFragment( StatByDrawFragment.newInstance( startDraw, endDraw ), R.drawable.emoji_look, R.string.by_draws_label );
+    }
+
     class RouteActionReceiver extends BroadcastReceiver {
         @Override
         public void onReceive( Context context, Intent intent ) {
@@ -160,7 +168,6 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
                     ballSetBasketShow();
                     break;
             }
-
         }
     }
 

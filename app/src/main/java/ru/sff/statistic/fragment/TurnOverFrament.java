@@ -1,6 +1,7 @@
 package ru.sff.statistic.fragment;
 
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.activity.RouteActivity;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
@@ -32,14 +35,18 @@ import ru.sff.statistic.rest.RestController;
 import ru.sff.statistic.utils.CustomAnimation;
 
 
-public class TurnOverFrament extends BaseFragment {
+public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.LotoTurnDataObjectHolder.LotoTurnDrawListener {
 
     private static final String TAG = "TurnOverFrament";
 
     private RecyclerView mLotoTurnRecView;
     private LotoTurnAdapter mLotoTurnAdapter;
 
+    private ImageView mBackButton;
+
     private int mSelectedDraw;
+
+    public OnShowDrawsClickListener mListener;
 
     private List<LotoTurn> mLotoTurns;
 
@@ -69,6 +76,10 @@ public class TurnOverFrament extends BaseFragment {
         mLotoTurns = new LinkedList<>();
         CustomAnimation.transitionAnimation( getView().findViewById( R.id.lotoTurnsRVId ),
                 getView().findViewById( R.id.pleaseWaitContainerId) );
+        mBackButton = ( ( RouteActivity ) getActivity() ).getBackBtn();
+        mBackButton.setOnClickListener( ( View view ) -> {
+            getActivity().onBackPressed();
+        } );
         new GetLotoTurnResults().execute();
     }
 
@@ -86,7 +97,7 @@ public class TurnOverFrament extends BaseFragment {
         if ( mLotoTurnAdapter == null ) {
             fillLotoTurnAdapter( mLotoTurns );
         }
-//        mLotoTurnAdapter.setBasketTrashListener( this );
+        mLotoTurnAdapter.setLotoTurnDrawListener( this );
         mLotoTurnAdapter.notifyDataSetChanged();
     }
 
@@ -116,12 +127,33 @@ public class TurnOverFrament extends BaseFragment {
             mLotoTurnRecView = null;
         }
         mLotoTurnAdapter = null;
-//        mBackButton.setOnClickListener( null );
+        mBackButton.setOnClickListener( null );
+    }
+
+    public void onAttach( Context context ) {
+        super.onAttach( context );
+        if ( context instanceof OnShowDrawsClickListener ) {
+            mListener = ( OnShowDrawsClickListener ) context;
+        } else {
+            throw new RuntimeException( context.toString()
+                    + " must implement OnShowDrawsClickListener" );
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     @Override
     public void onClick( View view ) {
 
+    }
+
+    @Override
+    public void onLotoTurnDrawClick( int startDraw, int endDraw ) {
+        mListener.onShowDrawsClick( startDraw, endDraw );
     }
 
     private class GetLotoTurnResults extends AsyncTask< Void, Void, String > {
@@ -169,5 +201,9 @@ public class TurnOverFrament extends BaseFragment {
                     getView().findViewById( R.id.lotoTurnsRVId ) );
             startRecView();
         }
+    }
+
+    public interface OnShowDrawsClickListener {
+        void onShowDrawsClick( int startDraw, int endDraw );
     }
 }
