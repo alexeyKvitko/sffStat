@@ -26,6 +26,7 @@ public abstract class AppConstants {
     public static final String SHOW_BY_DATE_SCREEN = "ru.sff.statistic.SHOW_BY_DATE_SCREEN";
     public static final String SHOW_BY_SUM_SCREEN = "ru.sff.statistic.SHOW_BY_SUM_SCREEN";
     public static final String SHOW_BY_TURN_SCREEN = "ru.sff.statistic.SHOW_BY_TURN_SCREEN";
+    public static final String SHOW_BY_CONSIDER_SCREEN = "ru.sff.statistic.SHOW_BY_CONSIDER_SCREEN";
     public static final String ROUTE_ACTION = "ru.sff.statistic.ROUTE_ACTION";
 
     public static final String VIEW_TYPE_PERCENT = "view_type_percent";
@@ -42,6 +43,9 @@ public abstract class AppConstants {
     public static final int FAKE_ID = -1;
     public static final int MIN_SUM = 21;
     public static final int MAX_SUM = 255;
+
+    public static final int VERTICAL_ORIENTATION = 0;
+    public static final int HORIZONTAL_ORIENTATION = 1;
 
     public static final int MIN_BALL= 1;
     public static final int MAX_BALL = 45;
@@ -138,4 +142,5 @@ public abstract class AppConstants {
         ,45,22,7,0,3,14,33,46,23,8,1,2,13,32,47,24,9,10,11,12,31,48,25,26,27,28,29,30};
     public static final Integer[] BALL_9_LEFT = new Integer[] {48,47,46,45,44,43,42,25,24,23,22,21,20,41,26,9,8,7,6,19,40
         ,27,10,1,0,5,18,39,28,11,2,3,4,17,38,29,12,13,14,15,16,37,30,31,32,33,34,35,36};
+    
 }

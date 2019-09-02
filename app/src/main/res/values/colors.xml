@@ -33,6 +33,17 @@
     <color name="ballVialet">#822482</color>
     <color name="ballGray">#9a9a9a</color>
     <color name="ballBrown">#7b2700</color>
+    <color name="ballTurquoise">#00C5CD</color>
+    <color name="ballSpringgreen">#00CD66</color>
+    <color name="ballDarkgoldenrod">#FFB90F</color>
+    <color name="ballTomato">#FF6347</color>
+    <color name="ballTeal">#388E8E</color>
+    <color name="ballSalmon">#C67171</color>
+    <color name="ballPoppy">#FF420E</color>
+    <color name="ballStone">#336B87</color>
+    <color name="ballDesert">#BA5536</color>
+    <color name="ballSky">#375E97</color>
+    <color name="ballDeepPurple">#363237</color>
 
     <color name="white">#ffffff</color>
 

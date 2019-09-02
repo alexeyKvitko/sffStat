@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ballFieldLayoutId"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_marginHorizontal="2dp"
+    android:background="@drawable/circle"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ru.sff.statistic.component.Circle
+            android:id="@+id/ballCircleId"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/ballNumberId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/shokoColor"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/ballRepeatId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center"
+            android:textColor="@color/ballGray"
+            android:textSize="11dp" />
+
+    </FrameLayout>
+
+</LinearLayout>

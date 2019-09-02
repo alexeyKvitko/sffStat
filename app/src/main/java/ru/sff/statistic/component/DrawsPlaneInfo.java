@@ -2,9 +2,11 @@ package ru.sff.statistic.component;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -98,6 +100,7 @@ public class DrawsPlaneInfo extends BaseComponent {
         initTextView( R.id.totalPaidAmountLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.drawResultsLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.evenOddLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.lastWinDrawsId, AppConstants.ROTONDA_BOLD );
 
         initTextView( R.id.tableOrientationId, AppConstants.ROBOTO_CONDENCED );
         initTextView( R.id.fallingNumbersLabelId, AppConstants.ROBOTO_CONDENCED );
@@ -135,7 +138,6 @@ public class DrawsPlaneInfo extends BaseComponent {
             }
         }
     }
-
 
     public void changeViewType(){
         mBiggerBallSet.redrawBalls();
@@ -283,6 +285,24 @@ public class DrawsPlaneInfo extends BaseComponent {
                         mBallsInfo.getTotalDrawInfo().getPaidAmount() / drawCount ),
                 mActivity.getString( R.string.per_draw_label ) );
 
+        TwoCellStat twoCellLastWin = findViewById( R.id.twoCellLastWinId );
+        String lastWinSix = mBallsInfo.getLastSixWin() != null ? "№" + mBallsInfo.getLastSixWin().getDrawId().toString() : "нет";
+        String lastWinFive = mBallsInfo.getLastFiveWin() != null ? "№" + mBallsInfo.getLastFiveWin().getDrawId().toString() : "нет";
+        twoCellLastWin.setTwoCellValue( lastWinSix, mActivity.getString( R.string.guess_six_number ),
+                                lastWinFive, mActivity.getString( R.string.guess_five_number ) );
+        twoCellLastWin.setBorder();
+        twoCellLastWin.setOnCellValueSelectListener(( Object value ) -> {
+            Integer draw = null;
+            try {
+                draw = Integer.valueOf( ((String) value).replace( "№","" ).trim() );
+                showDrawDetails( draw);
+            } catch ( Exception e ){
+                Log.e( TAG, "Error: "+ e.getMessage() );
+                e.printStackTrace();
+            }
+        } );
+
+
         WinTable winTable = findViewById( R.id.winTableAllResultsId );
         winTable.setWinBalls( mBallsInfo.getTotalDrawInfo().getSixGuessedWin(),
                 mBallsInfo.getTotalDrawInfo().getFiveGuessedWin(),
@@ -290,6 +310,13 @@ public class DrawsPlaneInfo extends BaseComponent {
                 mBallsInfo.getTotalDrawInfo().getThreeGuessedWin(),
                 mBallsInfo.getTotalDrawInfo().getTwoGuessedWin() );
         initBasketImage();
+    }
+
+    private void showDrawDetails( Integer draw ) {
+        Intent intent = new Intent( AppConstants.ROUTE_ACTION_MESSAGE );
+        intent.putExtra( AppConstants.ROUTE_ACTION_TYPE, AppConstants.DRAW_SELECT_ACTION );
+        intent.putExtra( AppConstants.DRAW_SELECT_ACTION, draw );
+        SFFSApplication.getAppContext().sendBroadcast( intent );
     }
 
 

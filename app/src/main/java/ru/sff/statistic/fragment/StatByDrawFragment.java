@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
@@ -57,18 +56,18 @@ public class StatByDrawFragment extends TabbedFragment {
     private int mFromDraw;
     private int mToDraw;
 
-    private boolean mLastDrawCountSelect;
+    private boolean mBySliderRequest;
     private boolean mRequestContainerShown;
     private boolean mInitFromArg;
 
     public StatByDrawFragment() {
     }
 
-    public static StatByDrawFragment newInstance(Integer startDraw, Integer endDraw) {
+    public static StatByDrawFragment newInstance( Integer startDraw, Integer endDraw ) {
         StatByDrawFragment fragment = new StatByDrawFragment();
         Bundle args = new Bundle();
-        args.putInt( START_DRAW, startDraw);
-        args.putInt( END_DRAW, endDraw);
+        args.putInt( START_DRAW, startDraw );
+        args.putInt( END_DRAW, endDraw );
         fragment.setArguments( args );
         return fragment;
     }
@@ -91,7 +90,7 @@ public class StatByDrawFragment extends TabbedFragment {
         mLastDrawCount = 10;
         mToDraw = GlobalManager.getPlayedDraws();
         mFromDraw = GlobalManager.getPlayedDraws() - 9;
-        mLastDrawCountSelect = false;
+        mBySliderRequest = true;
         mRequestContainerShown = true;
 
         mShowRequestForm = getView().findViewById( R.id.statByDrawShowFormId );
@@ -104,7 +103,7 @@ public class StatByDrawFragment extends TabbedFragment {
         mDrawCountSlider.initSlider( 1, 45, mLastDrawCount, getView().getResources()
                 .getString( R.string.show_result_by_draw ), DiscretSlider.DISCRET_SLIDER_DRAW );
 
-        mFromToTitle = initTextView( R.id.fromToDrawTitleId , AppConstants.ROTONDA_BOLD );
+        mFromToTitle = initTextView( R.id.fromToDrawTitleId, AppConstants.ROTONDA_BOLD );
         mRequestFromTo = getView().findViewById( R.id.statByDrawRequestFromToLabelId );
         mRequestFromToContainer = getView().findViewById( R.id.statByDrawRequestFromToId );
         mRequestFromTo.setLeftCell( "", "Тираж с " );
@@ -112,34 +111,48 @@ public class StatByDrawFragment extends TabbedFragment {
         mRequestFromTo.setRightCell( mToDraw + "", "" );
         mFromDrawValue = initEditText( R.id.fromDrawValueId, AppConstants.ROBOTO_CONDENCED );
         mToDrawValue = initEditText( R.id.toDrawValueId, AppConstants.ROBOTO_CONDENCED );
+        setEnableRequestFromTo( false );
         if ( getCachedResponseData() != null
-                && RequestType.isDrawRequest( getCachedResponseData().getLastRequest() ) ) {
+                && RequestType.isDrawRequest( getCachedResponseData().getLastRequest() )
+                && RequestType.DRAW_BETWEEN.equals( getCachedResponseData().getLastRequest() ) ) {
             mMenuHeight = GlobalManager.getInstance().getLastMenuHeight();
-            animateRequestContainer( 0, mMenuHeight );
+            if ( getCachedResponseData().getRequestByDraw().isBySlider()  ) {
+                mBySliderRequest = true;
+                setEnableRequestFromTo( false );
+                mDrawCountSlider.setEnableSlider( true );
+            } else {
+                mBySliderRequest = false;
+//                mMenuHeight = mMenuHeight + ( int ) AppUtils.convertDpToPixel( 72 );
+                setEnableRequestFromTo( true );
+                mDrawCountSlider.setEnableSlider( false );
+            }
             mRequestContainerShown = false;
             mFromDraw = getCachedResponseData().getRequestByDraw().getStartDraw();
             mToDraw = getCachedResponseData().getRequestByDraw().getEndDraw();
             mLastDrawCount = mToDraw - mFromDraw + 1;
+            animateRequestContainer( 0, mMenuHeight );
             initTabs();
-        } else {
-            mLastDrawCountSelect = true;
-            setEnableRequestFromTo( false );
-            mDrawCountSlider.setEnableSlider( true );
         }
-
-        setEnableRequestFromTo( false );
-
-        setThisOnClickListener( R.id.drawCountSliderId, R.id.fromToDrawTitleId,
-                R.id.statByDrawRequestFormId, R.id.statByDrawShowFormId );
-        if ( getArguments() != null && AppConstants.FAKE_ID != getArguments().getInt( START_DRAW ) ){
+        if ( getArguments() != null && AppConstants.FAKE_ID != getArguments().getInt( START_DRAW ) ) {
             mInitFromArg = true;
             setEnableRequestFromTo( true );
             mDrawCountSlider.setEnableSlider( false );
-            mLastDrawCountSelect = false;
-            mFromDrawValue.setText( getArguments().getInt( START_DRAW )+"" );
-            mToDrawValue.setText( getArguments().getInt( END_DRAW )+"" );
-            postByDrawRequest();
+            mBySliderRequest = false;
+            int startDraw = getArguments().getInt( START_DRAW );
+            int endDraw = getArguments().getInt( END_DRAW );
+            mFromDrawValue.setText( startDraw + "" );
+            mToDrawValue.setText( endDraw + "" );
+            if ( GlobalManager.getCachedResponseData() != null &&
+                    RequestType.DRAW_BETWEEN.equals( GlobalManager.getCachedResponseData().getLastRequest() ) &&
+                    GlobalManager.getCachedResponseData().getRequestByDraw().getStartDraw() == startDraw &&
+                    GlobalManager.getCachedResponseData().getRequestByDraw().getEndDraw() == endDraw ) {
+                initTabs();
+            } else {
+                postByDrawRequest();
+            }
         }
+        setThisOnClickListener( R.id.drawCountSliderId, R.id.fromToDrawTitleId,
+                R.id.statByDrawRequestFormId, R.id.statByDrawShowFormId );
     }
 
 
@@ -186,14 +199,17 @@ public class StatByDrawFragment extends TabbedFragment {
 
 
     private void postByDrawRequest() {
-        if ( mLastDrawCountSelect ) {
+        boolean bySlider;
+        if ( mBySliderRequest ) {
             mLastDrawCount = mDrawCountSlider.getSliderValue();
             mToDraw = GlobalManager.getPlayedDraws();
             mFromDraw = GlobalManager.getPlayedDraws() - ( mLastDrawCount - 1 );
+            bySlider = true;
         } else {
             String errorMsg = null;
             mFromDraw = Integer.valueOf( mFromDrawValue.getText().toString() );
             mToDraw = Integer.valueOf( mToDrawValue.getText().toString() );
+            bySlider = false;
             if ( mToDraw > GlobalManager.getPlayedDraws() ) {
                 errorMsg = "Тираж " + mToDraw + " еше не состоялся !";
             }
@@ -209,9 +225,9 @@ public class StatByDrawFragment extends TabbedFragment {
                 }, 1500 );
                 return;
             }
-
         }
-        mMenuHeight = -(mStatByDrawRequestContainer.getMeasuredHeight()- (int) AppUtils.convertDpToPixel( 38 ));
+        mMenuHeight = mStatByDrawRequestContainer.getMeasuredHeight() == 0 ? -( int ) AppUtils.convertDpToPixel( 180 ) :
+                -( mStatByDrawRequestContainer.getMeasuredHeight() - ( int ) AppUtils.convertDpToPixel( 38 ) );
         GlobalManager.getInstance().setLastMenuHeight( mMenuHeight );
         animateRequestContainer( 0, mMenuHeight );
         if ( GlobalManager.getCachedResponseData() == null ) {
@@ -223,6 +239,7 @@ public class StatByDrawFragment extends TabbedFragment {
         requestByDraw.setRequestDrawType( RequestType.DRAW_BETWEEN );
         requestByDraw.setStartDraw( mFromDraw );
         requestByDraw.setEndDraw( mToDraw );
+        requestByDraw.setBySlider( bySlider );
         GlobalManager.getCachedResponseData().setLastRequest( RequestType.DRAW_BETWEEN );
         GlobalManager.getCachedResponseData().setRequestByDate( null );
         GlobalManager.getCachedResponseData().setRequestByDraw( requestByDraw );
@@ -238,15 +255,15 @@ public class StatByDrawFragment extends TabbedFragment {
     public void onClick( View view ) {
         switch ( view.getId() ) {
             case R.id.drawCountSliderId:
-                if ( !mLastDrawCountSelect ) {
-                    mLastDrawCountSelect = true;
+                if ( !mBySliderRequest ) {
+                    mBySliderRequest = true;
                     mDrawCountSlider.setEnableSlider( true );
                     setEnableRequestFromTo( false );
                 }
                 break;
             case R.id.fromToDrawTitleId:
-                if ( mLastDrawCountSelect ) {
-                    mLastDrawCountSelect = false;
+                if ( mBySliderRequest ) {
+                    mBySliderRequest = false;
                     setEnableRequestFromTo( true );
                     mDrawCountSlider.setEnableSlider( false );
                 }

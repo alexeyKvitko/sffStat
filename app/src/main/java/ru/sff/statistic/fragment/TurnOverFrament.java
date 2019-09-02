@@ -1,11 +1,14 @@
 package ru.sff.statistic.fragment;
 
 
+import android.animation.IntEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +17,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,11 +33,16 @@ import ru.sff.statistic.activity.RouteActivity;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
+import ru.sff.statistic.model.CachedResponseData;
+import ru.sff.statistic.model.HeaderModel;
 import ru.sff.statistic.model.LotoTurn;
+import ru.sff.statistic.model.RequestByDraw;
+import ru.sff.statistic.model.RequestType;
 import ru.sff.statistic.model.StoredBallSet;
 import ru.sff.statistic.recycleview.BasketAdapter;
 import ru.sff.statistic.recycleview.LotoTurnAdapter;
 import ru.sff.statistic.rest.RestController;
+import ru.sff.statistic.utils.AppUtils;
 import ru.sff.statistic.utils.CustomAnimation;
 
 
@@ -42,15 +53,24 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
     private RecyclerView mLotoTurnRecView;
     private LotoTurnAdapter mLotoTurnAdapter;
 
+    private ImageView mShowRequestForm;
+    private Button mRequestButton;
+    private LinearLayout mTurnRequestContainer;
     private ImageView mBackButton;
 
+    private AppCompatEditText mFromDrawValue;
+
     private int mSelectedDraw;
+    private int mMenuHeight;
+
+    private boolean mRequestContainerShown;
 
     public OnShowDrawsClickListener mListener;
 
-    private List<LotoTurn> mLotoTurns;
+    private List< LotoTurn > mLotoTurns;
 
-    public TurnOverFrament() {}
+    public TurnOverFrament() {
+    }
 
     public static TurnOverFrament newInstance() {
         TurnOverFrament fragment = new TurnOverFrament();
@@ -72,14 +92,65 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
-        mSelectedDraw = 1;
+        mRequestContainerShown = true;
         mLotoTurns = new LinkedList<>();
+        mShowRequestForm = getView().findViewById( R.id.turnStartDrawShowFormId );
+        mShowRequestForm.setVisibility( View.GONE );
+        mRequestButton = getView().findViewById( R.id.turnStartDrawRequestFormId );
+        mRequestButton.setVisibility( View.VISIBLE );
+        mTurnRequestContainer = getView().findViewById( R.id.turnRequestContainerId );
+        mFromDrawValue = getView().findViewById( R.id.turnStartDrawValueId );
+        mFromDrawValue.setText( "1" );
+        initTextView( R.id.turnStartDrawTitleId, AppConstants.ROTONDA_BOLD );
         CustomAnimation.transitionAnimation( getView().findViewById( R.id.lotoTurnsRVId ),
-                getView().findViewById( R.id.pleaseWaitContainerId) );
+                getView().findViewById( R.id.pleaseWaitContainerId ) );
         mBackButton = ( ( RouteActivity ) getActivity() ).getBackBtn();
         mBackButton.setOnClickListener( ( View view ) -> {
             getActivity().onBackPressed();
         } );
+        postByDrawRequest();
+//        new GetLotoTurnResults().execute();
+        setThisOnClickListener( R.id.turnStartDrawShowFormId, R.id.turnStartDrawRequestFormId );
+    }
+
+    private void animateRequestContainer( int start, int end ) {
+        LinearLayout.LayoutParams layoutParams = ( LinearLayout.LayoutParams ) mTurnRequestContainer.getLayoutParams();
+        if ( start > end ) {
+            CustomAnimation.transitionAnimation( mRequestButton, mShowRequestForm );
+        } else {
+            CustomAnimation.transitionAnimation( mShowRequestForm, mRequestButton );
+        }
+        ValueAnimator valAnimator = ValueAnimator.ofObject( new IntEvaluator(), start, end );
+        valAnimator.addUpdateListener( ( ValueAnimator animator ) -> {
+            int val = ( Integer ) animator.getAnimatedValue();
+            layoutParams.topMargin = val;
+            mTurnRequestContainer.setLayoutParams( layoutParams );
+        } );
+        valAnimator.setDuration( 300 );
+        valAnimator.start();
+    }
+
+    private void postByDrawRequest() {
+        String errorMsg = null;
+        mSelectedDraw = Integer.valueOf( mFromDrawValue.getText().toString() );
+        if ( mSelectedDraw > GlobalManager.getPlayedDraws() ) {
+            errorMsg = "Тираж " + mSelectedDraw + " еше не состоялся !";
+        }
+        if ( errorMsg != null ) {
+            final TextView error = initTextView( R.id.turnStartErrorFieldId );
+            error.setText( errorMsg );
+            error.setVisibility( View.VISIBLE );
+            ( new Handler() ).postDelayed( () -> {
+                error.setVisibility( View.GONE );
+            }, 1500 );
+            return;
+        }
+        mMenuHeight = mTurnRequestContainer.getMeasuredHeight() == 0 ? -( int ) AppUtils.convertDpToPixel( 122 ) :
+                -( mTurnRequestContainer.getMeasuredHeight() - ( int ) AppUtils.convertDpToPixel( 38 ) );
+        GlobalManager.getInstance().setLastMenuHeight( mMenuHeight );
+        animateRequestContainer( 0, mMenuHeight );
+        AppUtils.hideKeyboardFrom( getActivity(), mTurnRequestContainer );
+        mRequestContainerShown = false;
         new GetLotoTurnResults().execute();
     }
 
@@ -94,9 +165,7 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
     }
 
     private void initAdapter() {
-        if ( mLotoTurnAdapter == null ) {
-            fillLotoTurnAdapter( mLotoTurns );
-        }
+        fillLotoTurnAdapter( mLotoTurns );
         mLotoTurnAdapter.setLotoTurnDrawListener( this );
         mLotoTurnAdapter.notifyDataSetChanged();
     }
@@ -108,13 +177,15 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
             mLotoTurnAdapter.deleteAllItem();
         }
         int el = 0;
-        for ( int idx = entities.size()-1; idx >= 0; idx-- ) {
-            mLotoTurnAdapter.addItem( entities.get(idx), el );
+        for ( int idx = entities.size() - 1; idx >= 0; idx-- ) {
+            mLotoTurnAdapter.addItem( entities.get( idx ), el );
             el++;
         }
     }
 
-    private void startRecView(){
+    private void startRecView() {
+        String header = getActivity().getResources().getString( R.string.turn_header );
+        ( ( RouteActivity ) getActivity() ).getAppHeader().setHeader( new HeaderModel( R.drawable.emoji_look, String.format( header, mSelectedDraw + "" ) ) );
         initAdapter();
         initRecView();
     }
@@ -148,7 +219,19 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
 
     @Override
     public void onClick( View view ) {
-
+        switch ( view.getId() ) {
+            case R.id.turnStartDrawRequestFormId:
+                if ( mRequestContainerShown ) {
+                    postByDrawRequest();
+                }
+                break;
+            case R.id.turnStartDrawShowFormId:
+                if ( !mRequestContainerShown ) {
+                    animateRequestContainer( mMenuHeight, 0 );
+                    mRequestContainerShown = true;
+                }
+                break;
+        }
     }
 
     @Override
@@ -166,9 +249,9 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
         protected String doInBackground( Void... args ) {
             String result = null;
             try {
-                Call< ApiResponse< List< LotoTurn > > > resultCall =  RestController.getApi().getLotoTurns( AppConstants.AUTH_BEARER
-                                    + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                            mSelectedDraw );
+                Call< ApiResponse< List< LotoTurn > > > resultCall = RestController.getApi().getLotoTurns( AppConstants.AUTH_BEARER
+                                + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
+                        mSelectedDraw );
                 Response< ApiResponse< List< LotoTurn > > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {

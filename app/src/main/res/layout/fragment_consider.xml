@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/considerTableOrientationLabelId"
+            style="@style/textViewLabel"
+            android:text="@string/table_orientation"
+            android:textSize="16dp" />
+
+        <ru.sff.statistic.component.FieldOrientation
+            android:id="@+id/considerFieldOrientationId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp" />
+
+        <TextView
+            android:id="@+id/considerResultOnTableId"
+            style="@style/textViewLabel"
+            android:text="@string/result_field"/>
+
+        <ru.sff.statistic.component.FiveNineTable
+            android:id="@+id/considerFiveNineTableId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/considerBallSetLabelId"
+            style="@style/textViewLabel"
+            android:text="@string/ball_set_label"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:id="@+id/considerBallSetContainerId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="vertical"/>
+
+    </LinearLayout>
+
+</ScrollView>

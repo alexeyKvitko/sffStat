@@ -10,7 +10,10 @@
     <string name="by_draws_label">По тиражам</string>
     <string name="by_date_header_label">По датам</string>
     <string name="by_date_header_sum">По суммам</string>
-    <string name="turn_header">Тиражи, в который выпали все 45 чисел</string>
+    <string name="guess_six_number">угадано 6 номеров</string>
+    <string name="guess_five_number">угадано 5 номеров</string>
+    <string name="turn_header">Полный круг с %s - го тиража</string>
+    <string name="consider_header">Анализ комбинаций</string>
     <string name="basket_view_title">Выбранные наборы</string>
     <string name="draw_details_title">Результаты тиража №</string>
     <string name="digit_details_title">Статистика по шару №</string>
@@ -27,11 +30,13 @@
     <string name="less_digit_short">Редко выпад.</string>
     <string name="middle_digit_number">Середнячок</string>
     <string name="result_field_number">Комбинация на поле</string>
+    <string name="result_field">Поле</string>
     <string name="total_ticket_label">Число билетов в розыгрышах</string>
     <string name="total_paid_amount_label">Выплаченная сумма в розыгрышах</string>
     <string name="period_label">Период</string>
     <string name="draw_results_label">Итоги розыгрышей</string>
     <string name="table_orientation">Ориентация поля</string>
+    <string name="ball_set_label">Выбранные наборы</string>
     <string name="even_odd_label">Четные, Нечетные</string>
     <string name="fab_falling_count">Количество выпадений</string>
     <string name="fab_percent">Проценты</string>
@@ -53,8 +58,10 @@
     <string name="error_required_field">Поле обязательно для заполнения</string>
     <string name="button_show">Показать</string>
     <string name="avg_sum_label">Средняя сумма шаров</string>
+    <string name="last_win_label">Последние тиражи из набора, в которых</string>
     <string name="show_result_by_draw">За последние 1 - 45 тиражей</string>
     <string name="show_result_by_draw_sel">По выбранным тиражам</string>
+    <string name="start_turn_draw">Введите номер тиража</string>
     <string name="from_draw_label">С тиража</string>
     <string name="to_draw_label">По тираж</string>
     <string name="by_sum_label">По выпавшим суммам</string>

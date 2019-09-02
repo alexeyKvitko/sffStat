@@ -8,6 +8,9 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
@@ -29,16 +32,20 @@ public class FiveNineTable extends LinearLayout {
 
     private Context mContext;
 
+    private int mBallOrientation;
+
     public FiveNineTable( Context context ) {
         super( context );
         inflate( context, R.layout.five_nine_table, this );
         mContext = context;
+        mBallOrientation = AppConstants.VERTICAL_ORIENTATION;
     }
 
     public FiveNineTable( Context context, @Nullable AttributeSet attrs ) {
         super( context, attrs );
         inflate( context, R.layout.five_nine_table, this );
         mContext = context;
+        mBallOrientation = AppConstants.VERTICAL_ORIENTATION;
     }
 
     public void clearTable(){
@@ -51,7 +58,7 @@ public class FiveNineTable extends LinearLayout {
     }
 
     private BallField createBallView( Ball ball ){
-        BallField ballField = new BallField( mContext );
+        BallField ballField = new BallField( mContext, mBallOrientation );
         ballField.setBall( ball );
         return ballField;
     }
@@ -81,5 +88,27 @@ public class FiveNineTable extends LinearLayout {
         fillFiveNineTable();
     }
 
+    public void redrawTable( BallsInfo ballsInfo ){
+        this.mBallsInfo = ballsInfo;
+        redrawTable();
+    }
 
+    public void setBallOrientation( int ballOrientation ) {
+        this.mBallOrientation = ballOrientation;
+    }
+
+    public List<Ball> getSelectedBall(){
+         List<Ball> balls = new LinkedList<>(  );
+        for( int rowId = 0; rowId < 7; rowId++ ){
+            LinearLayout row = findViewById( ROW_IDS[ rowId ] );
+            for( int i = 0; i < row.getChildCount(); i++ ){
+                View child = row.getChildAt( i );
+                if( child instanceof BallField &&
+                        ((BallField) child).isCircleVisible() ) {
+                    balls.add( ((BallField) child).getBall() );
+                }
+            }
+        }
+         return balls;
+    }
 }

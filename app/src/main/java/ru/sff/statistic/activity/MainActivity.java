@@ -19,12 +19,6 @@ import ru.sff.statistic.utils.CustomAnimation;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-    private LinearLayout mRequestAll;
-    private LinearLayout mRequestByDraw;
-    private LinearLayout mRequestByDate;
-    private LinearLayout mRequestByAmount;
-    private LinearLayout mRequestByTurn;
-
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -44,17 +38,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ( ( TextView ) findViewById( R.id.queryByTurnId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
         ( ( TextView ) findViewById( R.id.queryByAnalisId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
 
-        mRequestAll = findViewById( R.id.requestAllDrawId );
-        mRequestByDraw = findViewById( R.id.requestByDrawId );
-        mRequestByDate = findViewById( R.id.requestByDateId );
-        mRequestByAmount = findViewById( R.id.requestByAmountId );
-        mRequestByTurn = findViewById( R.id.requestByTurnId );
-
-        mRequestAll.setOnClickListener( this );
-        mRequestByDraw.setOnClickListener( this );
-        mRequestByDate.setOnClickListener( this );
-        mRequestByAmount.setOnClickListener( this );
-        mRequestByTurn.setOnClickListener( this );
+        findViewById( R.id.requestAllDrawId ).setOnClickListener( this );
+        findViewById( R.id.requestByDrawId ).setOnClickListener( this );
+        findViewById( R.id.requestByDateId ).setOnClickListener( this );
+        findViewById( R.id.requestByAmountId ).setOnClickListener( this );
+        findViewById( R.id.requestByTurnId ).setOnClickListener( this );
+        findViewById( R.id.ballConsiderId ).setOnClickListener( this );
 
     }
 
@@ -99,6 +88,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.requestByTurnId :
                 params.put( AppConstants.ROUTE_ACTION, AppConstants.SHOW_BY_TURN_SCREEN );
+                startNewActivity( RouteActivity.class, params );
+                break;
+            case R.id.ballConsiderId :
+                params.put( AppConstants.ROUTE_ACTION, AppConstants.SHOW_BY_CONSIDER_SCREEN );
                 startNewActivity( RouteActivity.class, params );
                 break;
         }

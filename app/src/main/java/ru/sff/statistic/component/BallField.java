@@ -26,20 +26,34 @@ public class BallField extends LinearLayout implements View.OnClickListener {
     private TextView mBallNumber;
     private TextView mBallRepeat;
     private LinearLayout mBallLayout;
+    private int mOrientation;
+    private boolean mCircleVisible;
 
     public BallField(Context context) {
         super(context);
         inflate(context, R.layout.ball_field, this);
-        init();
+        init( AppConstants.VERTICAL_ORIENTATION );
+    }
+
+    public BallField(Context context, int orientation ) {
+        super(context);
+        int layout = R.layout.ball_field;
+        if ( AppConstants.HORIZONTAL_ORIENTATION == orientation ){
+            layout = R.layout.ball_field_hor;
+        }
+        inflate(context, layout, this);
+        init( orientation );
     }
 
     public BallField(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         inflate(context, R.layout.ball_field, this);
-        init();
+        init( AppConstants.VERTICAL_ORIENTATION );
     }
 
-    private void init() {
+    private void init( int orientation ) {
+        mOrientation = orientation;
+        mCircleVisible = false;
         mBallNumber = this.findViewById(R.id.ballNumberId);
         mBallRepeat = this.findViewById(R.id.ballRepeatId);
         mBallLayout = this.findViewById(R.id.ballFieldLayoutId);
@@ -54,6 +68,7 @@ public class BallField extends LinearLayout implements View.OnClickListener {
             mBallRepeat.setVisibility( View.GONE );
             mBallLayout.setBackgroundColor( SFFSApplication.getAppContext().getResources()
                                                     .getColor( R.color.transparentBackground ) );
+            this.setOnClickListener( null );
             return;
         }
         mBall = ball;
@@ -77,8 +92,13 @@ public class BallField extends LinearLayout implements View.OnClickListener {
                 setMiddleBall();
             }
         }
+        if( AppConstants.HORIZONTAL_ORIENTATION == mOrientation && mBall.getBallRepeat() == 0){
+            mBallRepeat.setVisibility( View.GONE );
+        }
+    }
 
-
+    public Ball getBall() {
+        return mBall;
     }
 
     private void setBiggerBall(){
@@ -106,12 +126,20 @@ public class BallField extends LinearLayout implements View.OnClickListener {
     @Override
     public void onClick( View view ) {
         CustomAnimation.bounceAnimation( view );
-        ( new Handler() ).postDelayed( () -> {
-            Intent intent = new Intent( AppConstants.ROUTE_ACTION_MESSAGE );
-            intent.putExtra( AppConstants.ROUTE_ACTION_TYPE, AppConstants.BALL_SELECT_ACTION );
-            intent.putExtra( AppConstants.BALL_SELECT_ACTION, mBall );
-            SFFSApplication.getAppContext().sendBroadcast( intent );
-        }, 300 );
+        if( AppConstants.HORIZONTAL_ORIENTATION == mOrientation ){
+            mCircleVisible = !mCircleVisible;
+            findViewById( R.id.ballCircleId ).setVisibility( mCircleVisible ? View.VISIBLE : View.GONE);
+        } else {
+            ( new Handler() ).postDelayed( () -> {
+                Intent intent = new Intent( AppConstants.ROUTE_ACTION_MESSAGE );
+                intent.putExtra( AppConstants.ROUTE_ACTION_TYPE, AppConstants.BALL_SELECT_ACTION );
+                intent.putExtra( AppConstants.BALL_SELECT_ACTION, mBall );
+                SFFSApplication.getAppContext().sendBroadcast( intent );
+            }, 300 );
+        }
+    }
 
+    public boolean isCircleVisible() {
+        return mCircleVisible;
     }
 }

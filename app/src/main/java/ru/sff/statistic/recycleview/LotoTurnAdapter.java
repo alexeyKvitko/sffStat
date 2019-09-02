@@ -66,9 +66,7 @@ public class LotoTurnAdapter extends CommonBaseAdapter< LotoTurn > {
         if ( turn.getLeftFiveDigitDraw() != null ){
             holder.lotoTurnFiveContainer.setVisibility( View.VISIBLE );
             holder.lotoTurnLeftFive.setOnClickListener( (View view) ->{
-                CustomAnimation.clickAnimation( view );
-                mListener.onLotoTurnDrawClick( turn.getStartDraw().getDraw(),
-                                                            turn.getLeftFiveDigitDraw().getDraw() );
+                drawRangeClick( view, turn.getStartDraw().getDraw(), turn.getLeftFiveDigitDraw().getDraw() );
             } );
             holder.lotoTurnLeftFive.setText( turn.getLeftFiveDigitDraw().getDraw().toString() );
             allEmpty = false;
@@ -79,9 +77,7 @@ public class LotoTurnAdapter extends CommonBaseAdapter< LotoTurn > {
         if ( turn.getLeftThreeDigitDraw() != null ){
             holder.lotoTurnThreeContainer.setVisibility( View.VISIBLE );
             holder.lotoTurnLeftThree.setOnClickListener( (View view) ->{
-                CustomAnimation.clickAnimation( view );
-                mListener.onLotoTurnDrawClick( turn.getStartDraw().getDraw(),
-                                                            turn.getLeftThreeDigitDraw().getDraw() );
+                drawRangeClick( view, turn.getStartDraw().getDraw(), turn.getLeftThreeDigitDraw().getDraw() );
             } );
             holder.lotoTurnLeftThree.setText( turn.getLeftThreeDigitDraw().getDraw().toString() );
             allEmpty = false;
@@ -92,16 +88,22 @@ public class LotoTurnAdapter extends CommonBaseAdapter< LotoTurn > {
         if ( turn.getLeftOneDigitDraw() != null ){
             holder.lotoTurnOneContainer.setVisibility( View.VISIBLE );
             holder.lotoTurnLeftOne.setOnClickListener( (View view) ->{
-                CustomAnimation.clickAnimation( view );
-                mListener.onLotoTurnDrawClick( turn.getStartDraw().getDraw(),
-                                                            turn.getLeftOneDigitDraw().getDraw() );
+                drawRangeClick( view, turn.getStartDraw().getDraw(), turn.getLeftOneDigitDraw().getDraw() );
             } );
             holder.lotoTurnLeftOne.setText( turn.getLeftOneDigitDraw().getDraw().toString() );
             allEmpty = false;
         } else {
             holder.lotoTurnOneContainer.setVisibility( View.GONE );
         }
+        holder.lotoTurnRangeContainer.setOnClickListener( (View view) -> {
+            drawRangeClick( view, turn.getStartDraw().getDraw(), turn.getEndDraw().getDraw() );
+        } );
         holder.lotoTurnLeftLabel.setVisibility( allEmpty ? View.GONE : View.VISIBLE);
+    }
+
+    private void drawRangeClick(View view, int startDraw, int endDraw ){
+        CustomAnimation.clickAnimation( view );
+        mListener.onLotoTurnDrawClick( startDraw, endDraw );
     }
 
     public static class LotoTurnDataObjectHolder extends BaseDataObjectHolder {
@@ -120,6 +122,7 @@ public class LotoTurnAdapter extends CommonBaseAdapter< LotoTurn > {
         public LinearLayout lotoTurnFiveContainer;
         public LinearLayout lotoTurnThreeContainer;
         public LinearLayout lotoTurnOneContainer;
+        public LinearLayout lotoTurnRangeContainer;
 
 
         public LotoTurnDataObjectHolder( final View itemView ) {
@@ -166,6 +169,7 @@ public class LotoTurnAdapter extends CommonBaseAdapter< LotoTurn > {
             lotoTurnFiveContainer = itemView.findViewById( R.id.turnLeftFiveContainerId );
             lotoTurnThreeContainer = itemView.findViewById( R.id.turnLeftThreeContainerId );
             lotoTurnOneContainer = itemView.findViewById( R.id.turnLeftOneContainerId );
+            lotoTurnRangeContainer = itemView.findViewById( R.id.turnDrawRangeId );
         }
 
         @Override

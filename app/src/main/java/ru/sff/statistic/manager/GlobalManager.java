@@ -1,6 +1,9 @@
 package ru.sff.statistic.manager;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -34,7 +37,7 @@ public class GlobalManager {
     }
 
     public static void initialize() {
-        storedBallSet = new HashMap<>();
+        storedBallSet = new LinkedHashMap<>();
         setBallSetTypes( new BallSetType[]{ BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE } );
         setFieldOrientation( AppConstants.BALL_FROM_1 );
         setResultViewType( AppConstants.VIEW_TYPE_FALLING_COUNT );
@@ -68,6 +71,12 @@ public class GlobalManager {
 
     public static Map< String, StoredBallSet > getStoredBallSet() {
         return storedBallSet;
+    }
+
+    public static List<StoredBallSet> getSortedStoredBallSet(){
+        List<StoredBallSet> sorted = new LinkedList<>( storedBallSet.values() );
+        Collections.sort( sorted );
+        return sorted;
     }
 
     public static void setBootstrapModel( BootstrapModel bootstrapModel ) {

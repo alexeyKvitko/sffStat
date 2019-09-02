@@ -1,6 +1,8 @@
 package ru.sff.statistic.model;
 
-public class StoredBallSet {
+import java.util.Comparator;
+
+public class StoredBallSet implements Comparable {
 
     private Ball[] ballSets;
     private String storedDate;
@@ -46,5 +48,16 @@ public class StoredBallSet {
 
     public void setDrawCount( String drawCount ) {
         this.drawCount = drawCount;
+    }
+
+
+
+    @Override
+    public int compareTo( Object setTwo ) {
+        String drawOne = this.drawCount;
+        String drawTwo = (( StoredBallSet ) setTwo).drawCount;
+        int countOne = Integer.valueOf( drawOne.substring( 0, drawOne.indexOf( " " ) ).trim() );
+        int countTwo = Integer.valueOf( drawTwo.substring( 0, drawOne.indexOf( " " ) ).trim() );
+        return countTwo-countOne;
     }
 }

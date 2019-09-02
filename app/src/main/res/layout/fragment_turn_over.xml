@@ -1,16 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.TurnOverFrament">
 
-    <include layout="@layout/please_wait" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lotoTurnsRVId"
-        android:layout_marginTop="8dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/turnRequestContainerId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/turnStartDrawTitleId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/start_turn_draw"
+                android:textColor="@color/splashTextColor"
+                android:textSize="16dp" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/turnStartDrawTextLayoutId"
+                style="@style/AppInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                app:errorEnabled="false"
+                app:errorTextAppearance="@style/errorText">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/turnStartDrawValueId"
+                    style="@style/AppEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:theme="@style/editTextTheme" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/turnStartErrorFieldId"
+                style="@style/errorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/error_required_field"
+                android:visibility="gone" />
+            <Button
+                android:id="@+id/turnStartDrawRequestFormId"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginVertical="12dp"
+                android:background="@drawable/button_yellow"
+                android:elevation="6dp"
+                android:text="@string/button_show"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/turnStartDrawShowFormId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="38dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="2dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_chevron_down_circle_shocko_18dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="12dp"
+                android:background="@color/deviderColor" />
+
+        </LinearLayout>
+
+        <include layout="@layout/please_wait" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lotoTurnsRVId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
 
 </FrameLayout>

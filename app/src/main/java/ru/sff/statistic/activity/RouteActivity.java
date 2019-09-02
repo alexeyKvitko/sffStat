@@ -18,6 +18,7 @@ import ru.sff.statistic.component.AppHeader;
 import ru.sff.statistic.component.FloatMenu;
 import ru.sff.statistic.fragment.AllResultsFragment;
 import ru.sff.statistic.fragment.BallSetBasketFragment;
+import ru.sff.statistic.fragment.ConsiderFragment;
 import ru.sff.statistic.fragment.DigitInfoFragment;
 import ru.sff.statistic.fragment.DrawDetailsFragment;
 import ru.sff.statistic.fragment.LotoDrawsFragment;
@@ -70,6 +71,9 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
                 break;
             case AppConstants.SHOW_BY_TURN_SCREEN:
                 addReplaceFragment( TurnOverFrament.newInstance(), R.drawable.emoji_look, R.string.turn_header );
+                break;
+            case AppConstants.SHOW_BY_CONSIDER_SCREEN:
+                addReplaceFragment( ConsiderFragment.newInstance(), R.drawable.emoji_look, R.string.consider_header );
                 break;
         }
 

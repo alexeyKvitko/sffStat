@@ -156,6 +156,30 @@
         android:layout_marginTop="16dp"
         android:background="@color/deviderColor" />
 
+
+    <TextView
+        android:id="@+id/lastWinDrawsId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/last_win_label"
+        android:textColor="@color/grayTextColor"
+        android:textSize="16dp" />
+
+    <ru.sff.statistic.component.TwoCellStat
+        android:id="@+id/twoCellLastWinId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/deviderColor" />
+
     <TextView
         android:id="@+id/avgSumLabelId"
         android:layout_width="wrap_content"

@@ -17,6 +17,8 @@ public class BallsInfo implements Serializable {
     private Ball[] middleOften= new Ball[6];;
     private List<Ball> drawBalls;
     private EvenOdd evenOdd;
+    private DrawInfo lastSixWin;
+    private DrawInfo lastFiveWin;
     private DrawInfo totalDrawInfo;
 
 
@@ -106,6 +108,22 @@ public class BallsInfo implements Serializable {
 
     public void setEvenOdd(EvenOdd evenOdd) {
         this.evenOdd = evenOdd;
+    }
+
+    public DrawInfo getLastSixWin() {
+        return lastSixWin;
+    }
+
+    public void setLastSixWin( DrawInfo lastSixWin ) {
+        this.lastSixWin = lastSixWin;
+    }
+
+    public DrawInfo getLastFiveWin() {
+        return lastFiveWin;
+    }
+
+    public void setLastFiveWin( DrawInfo lastFiveWin ) {
+        this.lastFiveWin = lastFiveWin;
     }
 
     public DrawInfo getTotalDrawInfo() {

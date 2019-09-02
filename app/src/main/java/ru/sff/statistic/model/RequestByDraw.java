@@ -8,6 +8,7 @@ public class RequestByDraw implements Serializable {
     private int ball;
     private int startDraw;
     private int endDraw;
+    private boolean bySlider;
 
     public RequestType getRequestDrawType() {
         return requestDrawType;
@@ -39,5 +40,13 @@ public class RequestByDraw implements Serializable {
 
     public void setEndDraw(int endDraw) {
         this.endDraw = endDraw;
+    }
+
+    public boolean isBySlider() {
+        return bySlider;
+    }
+
+    public void setBySlider( boolean bySlider ) {
+        this.bySlider = bySlider;
     }
 }

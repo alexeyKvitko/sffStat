@@ -72,7 +72,7 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
 
     private void initAdapter() {
         if ( mBasketAdapter == null ) {
-            fillBasketAdapter( new LinkedList<>( GlobalManager.getStoredBallSet().values() ) );
+            fillBasketAdapter( GlobalManager.getSortedStoredBallSet() );
         }
         mBasketAdapter.setBasketTrashListener( this );
         mBasketAdapter.notifyDataSetChanged();
@@ -123,7 +123,7 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
             getActivity().onBackPressed();
             return;
         }
-        fillBasketAdapter( new LinkedList<>( GlobalManager.getStoredBallSet().values() ) );
+        fillBasketAdapter( GlobalManager.getSortedStoredBallSet() );
         mBasketAdapter.notifyDataSetChanged();
     }
 }
