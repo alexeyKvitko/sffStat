@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,7 +31,9 @@ import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BallsInfo;
 import ru.sff.statistic.model.BootstrapModel;
+import ru.sff.statistic.model.PreferenceBasket;
 import ru.sff.statistic.rest.RestController;
+import ru.sff.statistic.utils.AppPreferences;
 import ru.sff.statistic.utils.AppUtils;
 
 public class SplashActivity extends AppCompatActivity {
@@ -112,6 +115,10 @@ public class SplashActivity extends AppCompatActivity {
 
     private void startMainActivity() {
         GlobalManager.getInstance().initialize();
+        Object basket = AppPreferences.getObjectPreference( AppConstants.BASKET_PREF, PreferenceBasket.class );
+        if( basket != null ){
+            GlobalManager.setStoredBallSet( ((PreferenceBasket) basket).getSharedPreferenceBasket() );
+        }
         Intent intent = new Intent( SplashActivity.this, MainActivity.class );
         intent.addFlags( Intent.FLAG_ACTIVITY_NO_ANIMATION );
         intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );

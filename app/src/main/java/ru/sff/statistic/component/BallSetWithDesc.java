@@ -54,13 +54,16 @@ public class BallSetWithDesc extends BaseComponent {
         findViewById( R.id.ballSetDigitId ).setVisibility( View.GONE );
     }
 
-
-    public void setBallSetWithDigit( MagnetModel magnetModel, Integer digit ) {
-        String[] balls = magnetModel.getCombination().replaceAll( "<", "" ).replaceAll( ">", "" ).split( "," );
-        String magnetCount = "";
-        if ( magnetModel != null ) {
-            magnetCount = " - " + magnetModel.getCount().toString() + " " + AppUtils.getTimes( magnetModel.getCount() );
+    public void setBallSetWithDigit( String[] ballSet, Integer digit ){
+        int len = ballSet.length;
+        String[] balls = new String[ len-1 ];
+        for( int i = 0; i < len-1; i++ ){
+            balls[i] =ballSet[i];
         }
+        setBallSetWithDigit( balls, digit, ballSet[len-1] );
+    }
+
+    private void setBallSetWithDigit( String[] balls, Integer digit, String magnetCount ) {
         initTextView( R.id.ballSetCountId, AppConstants.ROTONDA_BOLD ).setText( magnetCount );
         SixBallWin pairBalls = findViewById( R.id.ballSetDigitId );
         switch ( balls.length ) {
@@ -75,12 +78,22 @@ public class BallSetWithDesc extends BaseComponent {
             case 4:
                 pairBalls.setSixBallWins( Integer.valueOf( balls[ 0 ].trim() ), Integer.valueOf( balls[ 1 ].trim() ),
                         Integer.valueOf( balls[ 2 ].trim() ), Integer.valueOf( balls[ 3 ].trim() )
-                                                    , AppConstants.FAKE_ID, AppConstants.FAKE_ID );
+                        , AppConstants.FAKE_ID, AppConstants.FAKE_ID );
                 break;
             default:
                 break;
         }
         pairBalls.setActiveBall( digit );
+    }
+
+
+    public void setBallSetWithDigit( MagnetModel magnetModel, Integer digit ) {
+        String[] balls = magnetModel.getCombination().replaceAll( "<", "" ).replaceAll( ">", "" ).split( "," );
+        String magnetCount = "";
+        if ( magnetModel != null ) {
+            magnetCount = " - " + magnetModel.getCount().toString() + " " + AppUtils.getTimes( magnetModel.getCount() );
+        }
+        setBallSetWithDigit( balls, digit, magnetCount );
     }
 
     public Integer getDraw() {

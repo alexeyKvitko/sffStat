@@ -54,6 +54,10 @@ public class SixBallSet extends BaseComponent {
             for ( int i = 0; i < 6; i++ ) {
                 colors[ i ] = AppConstants.BROWN_BALL;
             }
+        } else if ( BallSetType.CUSTOM.equals( mSetType ) ) {
+            for ( int i = 0; i < 6; i++ ) {
+                colors[ i ] = AppConstants.VIALET_BALL;
+            }
         } else {
             colors = DEF_COLOR;
         }
@@ -72,6 +76,12 @@ public class SixBallSet extends BaseComponent {
     public void hideRepeatCaption(){
         for ( int i = 0; i < 6; i++ ) {
             ( ( ColorBall ) findViewById( BALL_IDX[ i ] ) ).hideCaption();
+        }
+    }
+
+    public void setWinBall(){
+        for ( int i = 0; i < 6; i++ ) {
+            ( ( ColorBall ) findViewById( BALL_IDX[ i ] ) ).setWinBall();
         }
     }
 

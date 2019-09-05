@@ -8,6 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <include layout="@layout/please_wait" />
+
+        <LinearLayout
+            android:id="@+id/considerMainLayoutId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
         <TextView
             android:id="@+id/considerTableOrientationLabelId"
             style="@style/textViewLabel"
@@ -23,7 +31,7 @@
         <TextView
             android:id="@+id/considerResultOnTableId"
             style="@style/textViewLabel"
-            android:text="@string/result_field"/>
+            android:text="@string/result_field" />
 
         <ru.sff.statistic.component.FiveNineTable
             android:id="@+id/considerFiveNineTableId"
@@ -33,17 +41,93 @@
             android:layout_marginTop="8dp" />
 
         <TextView
+            android:id="@+id/considerCombinationLabelId"
+            style="@style/textViewLabel"
+            android:text="@string/select_combination_label"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:id="@+id/considerResultContainerId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <LinearLayout
+                android:id="@+id/considerBodyId"
+                android:layout_marginHorizontal="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/considerAddToStoredId"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_yellow"
+                android:elevation="6dp"
+                android:text="@string/button_basket"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/considerGetInfoId"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_shocko"
+                android:elevation="6dp"
+                android:text="@string/button_consider"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/deviderColor" />
+
+
+        <TextView
             android:id="@+id/considerBallSetLabelId"
             style="@style/textViewLabel"
-            android:text="@string/ball_set_label"
-            android:textSize="16dp" />
+            android:text="@string/ball_set_label"/>
 
         <LinearLayout
             android:id="@+id/considerBallSetContainerId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical" />
+        </LinearLayout>
+
+
+        <ru.sff.statistic.component.LastFallInfo
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/showLastFallInBallSetId"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:orientation="vertical"/>
+            android:textColor="@color/grayTextColor"
+            android:textSize="14dp"
+            android:drawableLeft="@drawable/ic_checkbox_blank_outline_black_18dp"
+            android:drawablePadding="4dp"
+            android:text="@string/show_last_fall_label"/>
 
     </LinearLayout>
 

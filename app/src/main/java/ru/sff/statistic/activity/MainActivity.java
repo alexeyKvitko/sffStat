@@ -14,7 +14,14 @@ import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.component.AppHeader;
+import ru.sff.statistic.component.SixBallSet;
+import ru.sff.statistic.manager.GlobalManager;
+import ru.sff.statistic.model.Ball;
+import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.HeaderModel;
+import ru.sff.statistic.model.LotoModel;
+import ru.sff.statistic.model.PreferenceBasket;
+import ru.sff.statistic.utils.AppPreferences;
 import ru.sff.statistic.utils.CustomAnimation;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -38,15 +45,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ( ( TextView ) findViewById( R.id.queryByTurnId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
         ( ( TextView ) findViewById( R.id.queryByAnalisId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
 
+
         findViewById( R.id.requestAllDrawId ).setOnClickListener( this );
         findViewById( R.id.requestByDrawId ).setOnClickListener( this );
         findViewById( R.id.requestByDateId ).setOnClickListener( this );
         findViewById( R.id.requestByAmountId ).setOnClickListener( this );
         findViewById( R.id.requestByTurnId ).setOnClickListener( this );
         findViewById( R.id.ballConsiderId ).setOnClickListener( this );
-
     }
-
 
     protected void startNewActivity( Class< ? > newClass ) {
         startNewActivity( newClass, null );
@@ -63,6 +69,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         startActivity( intent );
         overridePendingTransition( R.anim.act_fade_in, R.anim.act_fade_out );
+    }
+
+    @Override
+    public void onBackPressed() {
+        if ( !GlobalManager.getInstance().getStoredBallSet().isEmpty() ){
+            AppPreferences.setPreference( AppConstants.BASKET_PREF, new PreferenceBasket( GlobalManager.getInstance().getStoredBallSet() ).get()  );
+        } else {
+            AppPreferences.removePreference( AppConstants.BASKET_PREF );
+        }
+        super.onBackPressed();
     }
 
     @Override

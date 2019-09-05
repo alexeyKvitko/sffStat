@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
+import ru.sff.statistic.component.AppFooter;
 import ru.sff.statistic.component.AppHeader;
 import ru.sff.statistic.component.FloatMenu;
 import ru.sff.statistic.fragment.AllResultsFragment;
@@ -38,8 +39,8 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
     private RouteActionReceiver mRouteActionReceiver = new RouteActionReceiver();
 
     private AppHeader mHeader;
+    private AppFooter mFooter;
     private ImageView mBackBtn;
-    private FloatMenu mFloatMenu;
     private String mRouteAction;
     private HeaderModel mPrevHeader;
 
@@ -52,9 +53,11 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
 
     private void initialize() {
         mRouteAction = this.getIntent().getStringExtra( AppConstants.ROUTE_ACTION );
+        mMainRouteContainer= findViewById( R.id.routeActivityMainContainerId );
         mActivityContainer = findViewById( R.id.routeActivityLayoutId );
         mHeader = findViewById( R.id.routeHeaderId );
-        mFloatMenu = findViewById( R.id.routeFloatMenuId );
+        mFooter = findViewById( R.id.routeFooterId );
+        mFooter.setBasketDisabled( GlobalManager.getStoredBallSet().isEmpty() );
         mBackBtn = findViewById( R.id.routeBackBtnId );
         switch ( mRouteAction ) {
             case AppConstants.SHOW_ALL_DRAW_SCREEN:
@@ -139,7 +142,7 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
     public void onBackPressed() {
         mHeader.setHeader( mPrevHeader );
         mHeader.setVisibility( View.VISIBLE );
-        mFloatMenu.setVisibility( View.VISIBLE );
+        mFooter.setBasketDisabled( GlobalManager.getStoredBallSet().isEmpty() );
         super.onBackPressed();
     }
 
@@ -164,7 +167,6 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
                     Integer draw = intent.getIntExtra( AppConstants.DRAW_SELECT_ACTION, AppConstants.FAKE_ID );
                     if ( AppConstants.FAKE_ID != draw ) {
                         mHeader.setVisibility( View.VISIBLE );
-                        mFloatMenu.setVisibility( View.VISIBLE );
                         onDrawDetailsClick( draw );
                     }
                     break;
@@ -177,10 +179,13 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
 
     public void hidePanelWihMenu() {
         mHeader.setVisibility( View.GONE );
-        mFloatMenu.setVisibility( View.GONE );
     }
 
     public AppHeader getAppHeader() {
         return mHeader;
+    }
+
+    public AppFooter getFooter() {
+        return mFooter;
     }
 }

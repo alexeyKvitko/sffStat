@@ -1,12 +1,14 @@
 package ru.sff.statistic.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class Ball implements Serializable, Comparable, Cloneable {
 
     private int ballNumber;
     private int ballRepeat;
     private BallSetType ballType;
+    private Set<BallSetType> comby;
 
     public Ball( int ballNumber, int ballRepeat, BallSetType ballType ) {
         this.ballNumber = ballNumber;
@@ -38,6 +40,13 @@ public class Ball implements Serializable, Comparable, Cloneable {
         this.ballType = ballType;
     }
 
+    public Set< BallSetType > getComby() {
+        return comby;
+    }
+
+    public void setComby( Set< BallSetType > comby ) {
+        this.comby = comby;
+    }
 
     @Override
     public int compareTo( Object o ) {

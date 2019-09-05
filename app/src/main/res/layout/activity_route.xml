@@ -10,14 +10,9 @@
     tools:context=".activity.RouteActivity">
 
     <FrameLayout
+        android:id="@+id/routeActivityMainContainerId"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <ru.sff.statistic.component.FloatMenu
-            android:id="@+id/routeFloatMenuId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="10dp"/>
 
         <ImageView
             android:id="@+id/routeBackBtnId"
@@ -43,8 +38,13 @@
                 android:id="@+id/routeFragmentContainerId"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></RelativeLayout>
-        </LinearLayout>
 
+        </LinearLayout>
+        <ru.sff.statistic.component.AppFooter
+            android:id="@+id/routeFooterId"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
 
     </FrameLayout>

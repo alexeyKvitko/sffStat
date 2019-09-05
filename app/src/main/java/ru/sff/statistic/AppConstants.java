@@ -32,7 +32,9 @@ public abstract class AppConstants {
     public static final String VIEW_TYPE_PERCENT = "view_type_percent";
     public static final String VIEW_TYPE_FALLING_COUNT = "view_type_falling_count";
 
-    public static final String BALL_SET_TOTAL = "ВСЕ_ТИРАЖИ";
+    public static final String BASKET_PREF = "ru.sff.statistic.BASKET_PREF";
+
+    public static final String ZERO_DIGIT = "0";
 
     public static final String BALL_SET_BIGGER = "ЧАСТО ( %s )";
     public static final String BALL_SET_LESS = "РЕДКО ( %s )";
@@ -68,6 +70,7 @@ public abstract class AppConstants {
     public static final String ORANGE_BALL = "ORANGE_BALL";
     public static final String GRAY_BALL = "GRAY_BALL";
     public static final String BROWN_BALL = "BROWN_BALL";
+    public static final String GOLD_BALL = "GOLD_BALL";
 
     public static final Map<String, String> DAY_OF_WEEK = new HashMap<String, String>(){{
         put("ПН","Понедельник");

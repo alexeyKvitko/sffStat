@@ -28,6 +28,7 @@ public class GlobalManager {
     private static int lastMenuHeight;
     private static Map< String, StoredBallSet > storedBallSet;
     private static CachedResponseData cachedResponseData;
+    private static boolean showLastFallBallSet;
 
     private GlobalManager() {
     }
@@ -38,10 +39,15 @@ public class GlobalManager {
 
     public static void initialize() {
         storedBallSet = new LinkedHashMap<>();
-        setBallSetTypes( new BallSetType[]{ BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE } );
+        setAllBallSetTypes();
         setFieldOrientation( AppConstants.BALL_FROM_1 );
         setResultViewType( AppConstants.VIEW_TYPE_FALLING_COUNT );
         setCachedResponseData( null );
+        setShowLastFallBallSet( false );
+    }
+
+    public static void setAllBallSetTypes(){
+        setBallSetTypes( new BallSetType[]{ BallSetType.BIGGER, BallSetType.LESS, BallSetType.MIDDLE, BallSetType.CUSTOM, BallSetType.COMBY} );
     }
 
     public static BallSetType[] getBallSetTypes() {
@@ -73,6 +79,10 @@ public class GlobalManager {
         return storedBallSet;
     }
 
+    public static void setStoredBallSet( Map< String, StoredBallSet > storedBallSet ) {
+        GlobalManager.storedBallSet = storedBallSet;
+    }
+
     public static List<StoredBallSet> getSortedStoredBallSet(){
         List<StoredBallSet> sorted = new LinkedList<>( storedBallSet.values() );
         Collections.sort( sorted );
@@ -81,6 +91,10 @@ public class GlobalManager {
 
     public static void setBootstrapModel( BootstrapModel bootstrapModel ) {
         GlobalManager.bootstrapModel = bootstrapModel;
+    }
+
+    public static BootstrapModel getBootstrapModel() {
+        return bootstrapModel;
     }
 
     public static Integer getPlayedDraws() {
@@ -116,5 +130,13 @@ public class GlobalManager {
 
     public static void setCachedResponseData( CachedResponseData cachedResponseData ) {
         GlobalManager.cachedResponseData = cachedResponseData;
+    }
+
+    public static boolean isShowLastFallBallSet() {
+        return showLastFallBallSet;
+    }
+
+    public static void setShowLastFallBallSet( boolean showLastFallBallSet ) {
+        GlobalManager.showLastFallBallSet = showLastFallBallSet;
     }
 }

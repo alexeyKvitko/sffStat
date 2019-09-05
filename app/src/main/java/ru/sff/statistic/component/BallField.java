@@ -78,7 +78,7 @@ public class BallField extends LinearLayout implements View.OnClickListener {
             repeatCount =  (mBall.getBallRepeat()*100/GlobalManager.getPlayedDraws() )+"%";
         }
         mBallRepeat.setText( repeatCount );
-        for( BallSetType ballSetType : GlobalManager.getBallSetTypes() ){
+        for( BallSetType ballSetType : GlobalManager.getInstance().getBallSetTypes() ){
             if ( BallSetType.BIGGER.equals( ballSetType )
                     && ballSetType.equals( mBall.getBallType() ) ) {
                 setBiggerBall();
@@ -90,6 +90,14 @@ public class BallField extends LinearLayout implements View.OnClickListener {
             if ( BallSetType.MIDDLE.equals( ballSetType )
                     && ballSetType.equals( mBall.getBallType() ) ) {
                 setMiddleBall();
+            }
+            if ( BallSetType.CUSTOM.equals( ballSetType )
+                    && ballSetType.equals( mBall.getBallType() ) ) {
+                setCustomBall();
+            }
+            if ( BallSetType.COMBY.equals( ballSetType )
+                    && ballSetType.equals( mBall.getBallType() ) ) {
+                setCombyBall();
             }
         }
         if( AppConstants.HORIZONTAL_ORIENTATION == mOrientation && mBall.getBallRepeat() == 0){
@@ -120,6 +128,73 @@ public class BallField extends LinearLayout implements View.OnClickListener {
         mBallLayout.setBackground( resources.getDrawable(R.drawable.middle_circle));
         mBallNumber.setTextColor( resources.getColor( R.color.textYellowColor ) );
         mBallRepeat.setTextColor( resources.getColor( R.color.lightYellowColor ) );
+    }
+
+    private void setCustomBall(){
+        Resources resources = SFFSApplication.getAppContext().getResources();
+        mBallLayout.setBackground( resources.getDrawable(R.drawable.circle_custom));
+        mBallNumber.setTextColor( resources.getColor( R.color.white ) );
+        mBallRepeat.setTextColor( resources.getColor( R.color.transparentYellowColor) );
+    }
+
+    private void setCombyBall(){
+        Resources resources = SFFSApplication.getAppContext().getResources();
+        int drawableId = AppConstants.FAKE_ID;
+//        PAIRS
+        if( mBall.getComby().contains( BallSetType.CUSTOM ) &&
+                mBall.getComby().contains( BallSetType.BIGGER )){
+            drawableId = R.drawable.cm_br_circle;
+        }
+        if( mBall.getComby().contains( BallSetType.CUSTOM ) &&
+                mBall.getComby().contains( BallSetType.LESS )){
+            drawableId = R.drawable.cm_ls_circle;
+        }
+        if( mBall.getComby().contains( BallSetType.CUSTOM ) &&
+                mBall.getComby().contains( BallSetType.MIDDLE)){
+            drawableId = R.drawable.cm_ml_circle;
+        }
+        if( mBall.getComby().contains( BallSetType.BIGGER ) &&
+                mBall.getComby().contains( BallSetType.LESS )){
+            drawableId = R.drawable.br_ls_circle;
+        }
+        if( mBall.getComby().contains( BallSetType.BIGGER ) &&
+                mBall.getComby().contains( BallSetType.MIDDLE )){
+            drawableId = R.drawable.br_ml_circle;
+        }
+        if( mBall.getComby().contains( BallSetType.LESS ) &&
+                mBall.getComby().contains( BallSetType.MIDDLE )){
+            drawableId = R.drawable.ls_ml_circle;
+        }
+//        THREES
+        if( mBall.getComby().contains( BallSetType.CUSTOM ) &&
+                mBall.getComby().contains( BallSetType.BIGGER ) &&
+                    mBall.getComby().contains( BallSetType.LESS )){
+            drawableId = R.drawable.cm_br_ls_circle;
+        }
+        if( mBall.getComby().contains( BallSetType.CUSTOM ) &&
+                mBall.getComby().contains( BallSetType.BIGGER ) &&
+                    mBall.getComby().contains( BallSetType.MIDDLE )){
+            drawableId = R.drawable.cm_bg_ml_circle;
+        }
+        if( mBall.getComby().contains( BallSetType.CUSTOM ) &&
+                mBall.getComby().contains( BallSetType.LESS ) &&
+                    mBall.getComby().contains( BallSetType.MIDDLE )){
+            drawableId = R.drawable.cm_ls_ml_circle;
+        }
+        if( mBall.getComby().contains( BallSetType.BIGGER ) &&
+                mBall.getComby().contains( BallSetType.LESS ) &&
+                  mBall.getComby().contains( BallSetType.MIDDLE )){
+            drawableId = R.drawable.br_ls_ml_circle;
+        }
+        if( mBall.getComby().contains( BallSetType.CUSTOM ) &&
+                mBall.getComby().contains( BallSetType.BIGGER ) &&
+                    mBall.getComby().contains( BallSetType.LESS ) &&
+                        mBall.getComby().contains( BallSetType.MIDDLE )){
+            drawableId = R.drawable.cm_br_ls_ml_circle;
+        }
+        mBallLayout.setBackground( resources.getDrawable( drawableId ));
+        mBallNumber.setTextColor( resources.getColor( R.color.white ) );
+        mBallRepeat.setTextColor( resources.getColor( R.color.white) );
     }
 
 

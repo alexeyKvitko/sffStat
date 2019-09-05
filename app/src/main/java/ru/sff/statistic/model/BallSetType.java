@@ -4,5 +4,7 @@ public enum BallSetType {
     ALL,
     BIGGER,
     MIDDLE,
-    LESS;
+    CUSTOM,
+    LESS,
+    COMBY;
 }

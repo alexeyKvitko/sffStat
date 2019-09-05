@@ -15,6 +15,7 @@ import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.model.Ball;
+import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BallsInfo;
 import ru.sff.statistic.utils.CustomAnimation;
 
@@ -105,10 +106,14 @@ public class FiveNineTable extends LinearLayout {
                 View child = row.getChildAt( i );
                 if( child instanceof BallField &&
                         ((BallField) child).isCircleVisible() ) {
-                    balls.add( ((BallField) child).getBall() );
+                    Ball selectedBall = ((BallField) child).getBall();
+                    selectedBall.setBallType( BallSetType.CUSTOM );
+                    balls.add( selectedBall );
                 }
             }
         }
          return balls;
     }
 }
+
+    

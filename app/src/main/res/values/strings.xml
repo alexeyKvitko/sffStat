@@ -22,8 +22,8 @@
     <string name="from_draw">С Тиража</string>
     <string name="draws_label">Тиражи</string>
     <string name="to_draw">По Тираж</string>
-    <string name="even_label">Четных</string>
     <string name="odd_label">Нечетных</string>
+    <string name="even_label">Четных</string>
     <string name="often_digit_label">Часто выпадающие числа</string>
     <string name="less_digit_label">Редко выпадающие числа</string>
     <string name="often_digit_short">Часто выпад.</string>
@@ -36,7 +36,9 @@
     <string name="period_label">Период</string>
     <string name="draw_results_label">Итоги розыгрышей</string>
     <string name="table_orientation">Ориентация поля</string>
+    <string name="select_combination_label">Выбранная комбинация</string>
     <string name="ball_set_label">Выбранные наборы</string>
+    <string name="consider_result">Результаты</string>
     <string name="even_odd_label">Четные, Нечетные</string>
     <string name="fab_falling_count">Количество выпадений</string>
     <string name="fab_percent">Проценты</string>
@@ -53,10 +55,14 @@
     <string name="draw_result_label">Итоги розыгрыша</string>
     <string name="ticket_count_label">Билетов участвовало</string>
     <string name="draw_pay_amount_label">Выплачено по результам тиража</string>
-    <string name="superprize_draw_label">Суперприз</string>
     <string name="combination_label">Комбинация</string>
+    <string name="superprize_draw_label">Суперприз</string>
     <string name="error_required_field">Поле обязательно для заполнения</string>
     <string name="button_show">Показать</string>
+    <string name="button_cancel">Отменить</string>
+    <string name="button_basket">В корзину</string>
+    <string name="button_consider">Расчитать</string>
+    <string name="button_clear">Очистить</string>
     <string name="avg_sum_label">Средняя сумма шаров</string>
     <string name="last_win_label">Последние тиражи из набора, в которых</string>
     <string name="show_result_by_draw">За последние 1 - 45 тиражей</string>
@@ -74,6 +80,10 @@
     <string name="day_label">День</string>
     <string name="month_label">Месяц</string>
     <string name="left_digit_label">Номера тиражей, в которых осталось</string>
+    <string name="consaider_pairs">Пары</string>
+    <string name="consaider_threes">Тройки</string>
+    <string name="consaider_fours">Четверки</string>
+    <string name="show_last_fall_label">Отметить в выбранных наборах</string>
 
 
 </resources>

@@ -11,16 +11,12 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.activity.RouteActivity;
-import ru.sff.statistic.component.SixBallSet;
 import ru.sff.statistic.manager.GlobalManager;
-import ru.sff.statistic.model.BallsInfo;
 import ru.sff.statistic.model.StoredBallSet;
 import ru.sff.statistic.recycleview.BasketAdapter;
 
@@ -55,6 +51,7 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
         mBackButton = ( ( RouteActivity ) getActivity() ).getBackBtn();
+        ( ( RouteActivity ) getActivity() ).getFooter().setBasketDisabled( true );
         mBackButton.setOnClickListener( ( View view ) -> {
             getActivity().onBackPressed();
         } );

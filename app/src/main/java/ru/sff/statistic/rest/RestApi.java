@@ -12,6 +12,8 @@ import retrofit2.http.Path;
 import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.BallsInfo;
 import ru.sff.statistic.model.BootstrapModel;
+import ru.sff.statistic.model.ConsiderRequest;
+import ru.sff.statistic.model.ConsiderResponse;
 import ru.sff.statistic.model.DigitInfo;
 import ru.sff.statistic.model.DrawDetails;
 import ru.sff.statistic.model.DrawInfo;
@@ -70,4 +72,8 @@ public interface RestApi {
     @GET(APP_API+"getLotoTurns/{draw}")
     Call< ApiResponse< List< LotoTurn > > > getLotoTurns( @Header("Authorization") String authorization
             , @Path("draw") Integer draw);
+
+    @POST(APP_API+"getConsiderInfo")
+    Call< ApiResponse< ConsiderResponse > > getConsiderInfo( @Header("Authorization") String authorization
+            , @Body ConsiderRequest considerRequest );
 }

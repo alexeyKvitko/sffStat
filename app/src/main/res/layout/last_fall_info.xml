@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/lastFallDrawLabelId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:textColor="@color/shokoColor"
+        android:textSize="18dp" />
+    <TextView
+        android:id="@+id/lastFallDateTimeValueId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/shokoColor"
+        android:textSize="14dp" />
+
+    <ru.sff.statistic.component.SixBallSet
+        android:id="@+id/lastFallDrawId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="12dp" />
+    <TextView
+        android:id="@+id/superPrizeLabelId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:textColor="@color/goldColor"
+        android:text="СУПЕРПРИЗ"
+        android:textSize="18dp" />
+    <TextView
+        android:id="@+id/superPrizeValueId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:textColor="@color/shokoTextColor"
+        android:drawableRight="@drawable/ic_currency_rub_gray_18dp"
+        android:textSize="20dp" />
+
+</LinearLayout>

@@ -78,7 +78,6 @@ public class StatByDateFragment extends TabbedFragment implements DatePickerDial
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
-        mRequestContainerShown = true;
         mStatByDateRequestContainer = getView().findViewById( R.id.statByDateRequestContainerId );
         mShowRequestForm = getView().findViewById( R.id.statByDateShowFormId );
         mShowRequestForm.setVisibility( View.GONE );
@@ -87,7 +86,7 @@ public class StatByDateFragment extends TabbedFragment implements DatePickerDial
         RequestType defType = null;
         if ( getCachedResponseData() != null
                 &&  RequestType.isDateRequest( getCachedResponseData().getLastRequest() ) ){
-            GlobalManager.getInstance().getLastMenuHeight();
+            mMenuHeight = GlobalManager.getInstance().getLastMenuHeight();
             animateRequestContainer( 0, mMenuHeight );
             mRequestContainerShown = false;
             mRequestByDate = getCachedResponseData().getRequestByDate();
@@ -96,6 +95,7 @@ public class StatByDateFragment extends TabbedFragment implements DatePickerDial
             mFirstRequest = false;
             initTabs();
         } else {
+            mRequestContainerShown = true;
             mRequestByDate = new RequestByDate();
             defType = RequestType.BY_DAY;
             mRequestByDate.setDay( Calendar.getInstance().get( Calendar.DAY_OF_MONTH ) );

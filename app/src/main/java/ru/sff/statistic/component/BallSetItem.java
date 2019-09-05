@@ -53,6 +53,7 @@ public class BallSetItem extends BaseComponent {
         mStoredBallSet = ballSet;
         mBallSetItem = findViewById( R.id.ballSetItemId );
         mBallSetItem.setBallSet( ballSet.getBallSets(), ballSet.getBallSetType() );
+        mBallSetItem.setWinBall();
         initTextView( R.id.ballSetItemKeyId, AppConstants.ROTONDA_BOLD ).setText( ballSet.getBallSetName() );
         initTextView( R.id.ballSetItemDrawId, AppConstants.ROBOTO_CONDENCED ).setText( ballSet.getDrawCount() );
         setThisOnClickListener( R.id.ballSetItemLayoutId );

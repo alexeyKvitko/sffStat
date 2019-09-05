@@ -14,6 +14,7 @@ import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.Ball;
+import ru.sff.statistic.model.LotoModel;
 
 public class ColorBall extends LinearLayout {
 
@@ -73,6 +74,7 @@ public class ColorBall extends LinearLayout {
                 applyColorToBall ( R.drawable.ball_orange , R.drawable.border_repeat_orange, R.color.ballOrange );
                 break;
             case AppConstants.VIALET_BALL:
+                mBallRepeat.setVisibility( View.GONE );
                 applyColorToBall ( R.drawable.ball_vialet , R.drawable.border_repeat_vialet, R.color.ballVialet );
                 break;
             case AppConstants.GRAY_BALL:
@@ -81,11 +83,32 @@ public class ColorBall extends LinearLayout {
             case AppConstants.BROWN_BALL:
                 applyColorToBall ( R.drawable.middle_circle , R.drawable.border_repeat_brown, R.color.ballBrown );
                 break;
+            case AppConstants.GOLD_BALL:
+                applyColorToBall ( R.drawable.ball_stoloto_win , R.drawable.border_repeat_yellow, R.color.goldColor );
+                break;
+
         }
     }
 
     public void hideCaption(){
         mBallRepeat.setVisibility( View.GONE );
+    }
+
+    public void setWinBall(){
+        if ( GlobalManager.isShowLastFallBallSet() ){
+            LotoModel lotoModel = GlobalManager.getBootstrapModel().getLastFall();
+            if ( mBall.getBallNumber() == lotoModel.getSlotOne()
+                    || mBall.getBallNumber() == lotoModel.getSlotTwo()
+                    || mBall.getBallNumber() == lotoModel.getSlotThree()
+                    || mBall.getBallNumber() == lotoModel.getSlotFour()
+                    || mBall.getBallNumber() == lotoModel.getSlotFive()
+                    || mBall.getBallNumber() == lotoModel.getSlotSix() ){
+                applyColorToBall ( R.drawable.ball_stoloto_win , R.drawable.border_repeat_yellow, R.color.goldColor );
+            }
+        }
+
+
+
     }
 
     private void applyColorToBall( int drawableId, int borderId, int colorId ){
@@ -99,4 +122,5 @@ public class ColorBall extends LinearLayout {
     public Ball getBall(){
         return mBall;
     }
+
 }
