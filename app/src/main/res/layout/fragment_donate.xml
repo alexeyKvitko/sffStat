@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/donateLabelId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:text="@string/donate_label"
+        android:textColor="@color/shokoTextColor"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/donateHundredId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:drawableLeft="@drawable/ic_check_box_outline_black_18dp"
+        android:drawablePadding="8dp"
+        android:text="@string/hundred_label"
+        android:textColor="@color/ballGreen"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/donateTwoHundredId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="18dp"
+        android:drawableLeft="@drawable/ic_checkbox_blank_outline_black_18dp"
+        android:drawablePadding="8dp"
+        android:text="@string/two_hundred_label"
+        android:textColor="@color/ballGreen"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/donateThreeHundredId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="18dp"
+        android:drawableLeft="@drawable/ic_checkbox_blank_outline_black_18dp"
+        android:drawablePadding="8dp"
+        android:text="@string/three_hundred_label"
+        android:textColor="@color/ballGreen"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/donateFiveHundredId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="18dp"
+        android:drawableLeft="@drawable/ic_checkbox_blank_outline_black_18dp"
+        android:drawablePadding="8dp"
+        android:text="@string/five_hundred_label"
+        android:textColor="@color/ballGreen"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/donateSevenHundredId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="18dp"
+        android:drawableLeft="@drawable/ic_checkbox_blank_outline_black_18dp"
+        android:drawablePadding="8dp"
+        android:text="@string/seven_hundred_label"
+        android:textColor="@color/ballGreen"
+        android:textSize="18dp" />
+
+
+</LinearLayout>

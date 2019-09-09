@@ -7,12 +7,15 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
+import java.util.UUID;
 
 import ru.sff.statistic.SFFSApplication;
 
 public abstract class AppPreferences {
 
     private static final String TAG = "AppPreferences";
+
+    private static final String PREF_UNIQUE_ID = "ru.sff.statistic.utils.PREF_UNIQUE_ID";
 
     private static final SharedPreferences SHARED_PREFERENCES
             = PreferenceManager.getDefaultSharedPreferences( SFFSApplication.getAppContext() );
@@ -87,6 +90,13 @@ public abstract class AppPreferences {
         editor.commit();
     }
 
-
+    public synchronized static String getUniqueId() {
+        String uniqueID = getPreference( PREF_UNIQUE_ID, null );
+            if (uniqueID == null) {
+                uniqueID = UUID.randomUUID().toString();
+                setPreference( PREF_UNIQUE_ID, uniqueID );
+        }
+        return uniqueID;
+    }
 
 }

@@ -75,6 +75,21 @@
                 android:text="Последний раз"
                 android:textColor="@color/grayTextColor"
                 android:textSize="16dp" />
+            <TextView
+                android:id="@+id/digitInfoLastDrawValueId"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shokoTextColor"
+                android:textSize="18dp" />
+
+            <ru.sff.statistic.component.SixBallWin
+                android:id="@+id/digitInfoCombinationValueId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,14 +103,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/shokoColor"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/digitInfoDateTimeValueId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/shokoColor"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <ru.sff.statistic.component.ThreeCellStat
@@ -105,12 +120,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp" />
 
-            <ru.sff.statistic.component.SixBallWin
-                android:id="@+id/digitInfoCombinationValueId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp" />
+
 
             <View
                 android:layout_width="match_parent"

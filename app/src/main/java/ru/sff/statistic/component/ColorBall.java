@@ -14,6 +14,7 @@ import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.Ball;
+import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.LotoModel;
 
 public class ColorBall extends LinearLayout {
@@ -51,6 +52,9 @@ public class ColorBall extends LinearLayout {
         String repeatCount = mBall.getBallRepeat()+"";
         if( AppConstants.VIEW_TYPE_PERCENT.equals(  GlobalManager.getResultViewType() ) ){
             repeatCount =  (mBall.getBallRepeat()*100/GlobalManager.getPlayedDraws())+"%";
+        }
+        if ( BallSetType.RARE.equals( mBall.getBallType() ) ){
+            repeatCount = mBall.getDrawRange()+" / " + mBall.getAvgRange();
         }
         mBallRepeat.setText( repeatCount );
         mColor = color;

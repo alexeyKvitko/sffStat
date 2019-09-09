@@ -21,6 +21,7 @@ import ru.sff.statistic.fragment.AllResultsFragment;
 import ru.sff.statistic.fragment.BallSetBasketFragment;
 import ru.sff.statistic.fragment.ConsiderFragment;
 import ru.sff.statistic.fragment.DigitInfoFragment;
+import ru.sff.statistic.fragment.DonateFragment;
 import ru.sff.statistic.fragment.DrawDetailsFragment;
 import ru.sff.statistic.fragment.LotoDrawsFragment;
 import ru.sff.statistic.fragment.StatByDateFragment;
@@ -33,7 +34,7 @@ import ru.sff.statistic.model.HeaderModel;
 
 
 public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnDrawDetailsClickListener,
-                                TurnOverFrament.OnShowDrawsClickListener{
+                                TurnOverFrament.OnShowDrawsClickListener, DonateFragment.OnDonateChooseListener{
 
     private IntentFilter mBallSelectIntentFilter = new IntentFilter( AppConstants.ROUTE_ACTION_MESSAGE );
     private RouteActionReceiver mRouteActionReceiver = new RouteActionReceiver();
@@ -112,6 +113,10 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
         addReplaceFragment( BallSetBasketFragment.newInstance(), R.drawable.emoji_look, R.string.basket_view_title );
     }
 
+    public void donateShow() {
+        addReplaceFragment( DonateFragment.newInstance(), R.drawable.emoji_donate, "" );
+    }
+
     public ImageView getBackBtn() {
         return mBackBtn;
     }
@@ -142,6 +147,7 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
     public void onBackPressed() {
         mHeader.setHeader( mPrevHeader );
         mHeader.setVisibility( View.VISIBLE );
+        GlobalManager.setShowLastFallBallSet( false );
         mFooter.setBasketDisabled( GlobalManager.getStoredBallSet().isEmpty() );
         super.onBackPressed();
     }
@@ -150,6 +156,11 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
     public void onShowDrawsClick( int startDraw, int endDraw ) {
         GlobalManager.setCachedResponseData( null );
         addReplaceFragment( StatByDrawFragment.newInstance( startDraw, endDraw ), R.drawable.emoji_look, R.string.by_draws_label );
+    }
+
+    @Override
+    public void onDonateAction( int amount ) {
+
     }
 
     class RouteActionReceiver extends BroadcastReceiver {
@@ -171,8 +182,13 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
                     }
                     break;
                 case AppConstants.FLOAT_MENU_ACTION:
-                    ballSetBasketShow();
-                    break;
+                    String actionType = intent.getStringExtra( AppConstants.FLOAT_MENU_ACTION_TYPE );
+                    if ( AppConstants.FLOAT_MENU_SHOW_BASKET.equals( actionType ) ){
+                        ballSetBasketShow();
+                    } else if ( AppConstants.FLOAT_MENU_SHOW_DONATE.equals( actionType ) ){
+                        donateShow();
+                    }
+                break;
             }
         }
     }

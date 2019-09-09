@@ -33,6 +33,7 @@ import ru.sff.statistic.model.RequestType;
 import ru.sff.statistic.recycleview.LotoDrawAdapter;
 import ru.sff.statistic.recycleview.StickyRecyclerView;
 import ru.sff.statistic.rest.RestController;
+import ru.sff.statistic.utils.AppPreferences;
 import ru.sff.statistic.utils.AppUtils;
 
 
@@ -301,8 +302,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
                 mMonthIndex = mMonthArrowSelector.getCurrentIndex();
                 mYearIndex = mYearArrowSelector.getCurrentIndex();
                 Call< ApiResponse< List< LotoModel > > > resultCall = null;
-                resultCall = RestController.getApi().getLotoDrawsByMonthAndYear( AppConstants.AUTH_BEARER
-                                + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
+                resultCall = RestController.getApi().getLotoDrawsByMonthAndYear( AppPreferences.getUniqueId(),
                         mSelectedMonth, mSelectedtYear );
                 Response< ApiResponse< List< LotoModel > > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {

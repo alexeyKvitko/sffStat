@@ -98,6 +98,35 @@
             android:layout_marginTop="8dp"
             android:background="@color/deviderColor" />
 
+            <TextView
+                android:id="@+id/considerRareLabelId"
+                style="@style/textViewLabel"
+                android:text="@string/rare_label"/>
+
+            <TextView
+                android:id="@+id/considerRareDescId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/grayTextColor"
+                android:textSize="10dp"
+                android:text="@string/rare_desc"/>
+
+            <ru.sff.statistic.component.SixBallSet
+                android:id="@+id/considerRareBallSetId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/deviderColor" />
+
 
         <TextView
             android:id="@+id/considerBallSetLabelId"

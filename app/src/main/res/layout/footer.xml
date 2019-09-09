@@ -8,24 +8,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="left|center_vertical"
         android:layout_weight="1">
         <ImageView
             android:id="@+id/footerShowBasketId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
             android:padding="12dp"
-            android:layout_gravity="left|center_vertical"
             app:srcCompat="@drawable/ic_basket_shoko_menu_18dp"/>
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="right|center_vertical"
         android:layout_weight="1">
-
+        <ImageView
+            android:id="@+id/footerShowDonateId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="6dp"
+            android:padding="12dp"
+            app:srcCompat="@drawable/ic_wallet_giftcard_shoko_18dp"/>
     </LinearLayout>
+
 
 
 </LinearLayout>

@@ -32,6 +32,7 @@ import ru.sff.statistic.model.RequestBySumOrBall;
 import ru.sff.statistic.model.RequestType;
 import ru.sff.statistic.model.ResponseData;
 import ru.sff.statistic.rest.RestController;
+import ru.sff.statistic.utils.AppPreferences;
 import ru.sff.statistic.utils.CustomAnimation;
 
 public abstract class TabbedFragment extends BaseFragment{
@@ -174,17 +175,11 @@ public abstract class TabbedFragment extends BaseFragment{
             try {
                 Call< ApiResponse< ResponseData > > resultCall = null;
                 if ( mRequestByDraw != null) {
-                    resultCall = RestController.getApi().getStatisticByDraw( AppConstants.AUTH_BEARER
-                                    + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                                                    mRequestByDraw );
+                    resultCall = RestController.getApi().getStatisticByDraw( AppPreferences.getUniqueId(), mRequestByDraw );
                 } else if( mRequestByDate != null ){
-                    resultCall = RestController.getApi().getStatisticByDate( AppConstants.AUTH_BEARER
-                                    + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                            mRequestByDate );
+                    resultCall = RestController.getApi().getStatisticByDate( AppPreferences.getUniqueId(), mRequestByDate );
                 } else if( mRequestBySOB != null ){
-                    resultCall = RestController.getApi().getStatisticBySOB( AppConstants.AUTH_BEARER
-                                    + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                            mRequestBySOB );
+                    resultCall = RestController.getApi().getStatisticBySOB( AppPreferences.getUniqueId(), mRequestBySOB );
                 }
                 if ( resultCall == null ){
                     return null;

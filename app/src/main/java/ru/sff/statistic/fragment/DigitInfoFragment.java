@@ -36,6 +36,7 @@ import ru.sff.statistic.model.DigitInfo;
 import ru.sff.statistic.model.MagnetModel;
 import ru.sff.statistic.model.SimpleLotoModel;
 import ru.sff.statistic.rest.RestController;
+import ru.sff.statistic.utils.AppPreferences;
 import ru.sff.statistic.utils.AppUtils;
 import ru.sff.statistic.utils.CustomAnimation;
 
@@ -127,6 +128,8 @@ public class DigitInfoFragment extends BaseFragment {
         String percentRepeat = ( ballRepeat * 100 / GlobalManager.getCachedResponseData().getTotalDraw() ) + "";
         repeatCount.setTwoCellValue( ballRepeat + "", AppUtils.getTimes( ballRepeat ), percentRepeat, "%" );
 
+        initTextView( R.id.digitInfoLastDrawValueId, AppConstants.ROTONDA_BOLD, "Тираж № "+mDigitInfo.getLastFall().getDraw() );
+
         initTextView( R.id.digitInfoDateTimeValueId, AppConstants.ROTONDA_BOLD, mDigitInfo.getLastFall().getDrawDate() );
 
         ThreeCellStat threeCellDate = getView().findViewById( R.id.threeCellDigitInfoDateId );
@@ -139,6 +142,7 @@ public class DigitInfoFragment extends BaseFragment {
                 mDigitInfo.getLastFall().getDigitThree(), mDigitInfo.getLastFall().getDigitFour(),
                 mDigitInfo.getLastFall().getDigitFive(), mDigitInfo.getLastFall().getDigitSix() );
         combinationBalls.setActiveBall( mBall.getBallNumber() );
+
 
         initTextView( R.id.digitInfoSeriesLabelId, AppConstants.ROTONDA_BOLD );
 
@@ -155,15 +159,19 @@ public class DigitInfoFragment extends BaseFragment {
         initTextView( R.id.digitInfoFrequenciesLabelId, AppConstants.ROTONDA_BOLD );
 
         ThreeCellStat threeCellFreq = getView().findViewById( R.id.threeCellDigitInfoFrequinciesId );
-        String rateLabel = AppUtils.getTimes( mDigitInfo.getDayFreqMaxValue() ) + ", через ";
-        threeCellFreq.setLeftCell( mDigitInfo.getDayFreqMaxValue().toString(), rateLabel );
-        threeCellFreq.setMiddleCell( mDigitInfo.getDayFreqMax().toString(), AppUtils.getDays( mDigitInfo.getDayFreqMax() ) );
+        String sfx = mDigitInfo.getDrawFreqMax() != 0 ? ", через " : " - подряд";
+        String rateLabel = AppUtils.getTimes( mDigitInfo.getDrawFreqMaxValue() ) + sfx;
+        threeCellFreq.setLeftCell( mDigitInfo.getDrawFreqMaxValue().toString(), rateLabel );
+        if ( mDigitInfo.getDrawFreqMax() != 0 ){
+            threeCellFreq.setMiddleCell( mDigitInfo.getDrawFreqMax().toString(), AppUtils.getDrawsSfx( mDigitInfo.getDrawFreqMax() ) );
+        }
+
         threeCellFreq.setRightCell( "", "" );
 
         ThreeCellStat threeCellFreqAvg = getView().findViewById( R.id.threeCellDigitInfoFreqAvgId );
-        if( mDigitInfo.getDayFreqAvg() > 0 ){
+        if( mDigitInfo.getDrawFreqAvg() > 0 ){
             threeCellFreqAvg.setLeftCell( "", "В среднем каждые " );
-            threeCellFreqAvg.setMiddleCell( mDigitInfo.getDayFreqAvg().toString(), AppUtils.getDays( mDigitInfo.getDayFreqAvg() ) );
+            threeCellFreqAvg.setMiddleCell( mDigitInfo.getDrawFreqAvg().toString(), AppUtils.getDrawsSfx( mDigitInfo.getDrawFreqAvg() ) );
             threeCellFreqAvg.setRightCell( "", "" );
         } else {
             threeCellFreqAvg.setVisibility( View.GONE );
@@ -337,12 +345,10 @@ public class DigitInfoFragment extends BaseFragment {
             try {
                 Call< ApiResponse< DigitInfo > > resultCall = null;
                 if ( GlobalManager.getCachedResponseData().getRequestByDraw() != null) {
-                    resultCall = RestController.getApi().getDigitInfoByDraw( AppConstants.AUTH_BEARER
-                                        + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
+                    resultCall = RestController.getApi().getDigitInfoByDraw( AppPreferences.getUniqueId(),
                                                  GlobalManager.getCachedResponseData().getRequestByDraw() );
                 } else if ( GlobalManager.getCachedResponseData().getRequestByDate() != null) {
-                    resultCall = RestController .getApi().getDigitInfoByDate( AppConstants.AUTH_BEARER
-                                            + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
+                    resultCall = RestController .getApi().getDigitInfoByDate( AppPreferences.getUniqueId(),
                                     GlobalManager.getCachedResponseData().getRequestByDate() );
                 }
                 Response< ApiResponse< DigitInfo > > resultResponse = resultCall.execute();

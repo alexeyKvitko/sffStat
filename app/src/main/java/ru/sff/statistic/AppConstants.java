@@ -16,9 +16,11 @@ public abstract class AppConstants {
     public static final String ROUTE_ACTION_TYPE = "ru.sff.statistic.component.ROUTE_ACTION_TYPE";
 
     public static final String FLOAT_MENU_ACTION = "ru.sff.statistic.component.FLOAT_MENU_ACTION";
+    public static final String FLOAT_MENU_ACTION_TYPE = "ru.sff.statistic.component.FLOAT_MENU_ACTION_TYPE";
     public static final String BALL_SELECT_ACTION = "ru.sff.statistic.component.BALL_SELECT_ACTION";
     public static final String DRAW_SELECT_ACTION = "ru.sff.statistic.component.DRAW_SELECT_ACTION";
     public static final String FLOAT_MENU_CHANGE_VIEW_TYPE = "ru.sff.statistic.component.FLOAT_MENU_CHANGE_VT";
+    public static final String FLOAT_MENU_SHOW_DONATE = "ru.sff.statistic.component.FLOAT_MENU_SHOW_DONATE";
     public static final String FLOAT_MENU_SHOW_BASKET = "ru.sff.statistic.component.FLOAT_MENU_SHOW_BASKET";
 
     public static final String SHOW_ALL_DRAW_SCREEN = "ru.sff.statistic.SHOW_ALL_DRAW_SCREEN";
@@ -33,6 +35,7 @@ public abstract class AppConstants {
     public static final String VIEW_TYPE_FALLING_COUNT = "view_type_falling_count";
 
     public static final String BASKET_PREF = "ru.sff.statistic.BASKET_PREF";
+    public static final String DONATION_PREF = "ru.sff.statistic.DONATION_PREF";
 
     public static final String ZERO_DIGIT = "0";
 
@@ -40,11 +43,11 @@ public abstract class AppConstants {
     public static final String BALL_SET_LESS = "РЕДКО ( %s )";
     public static final String BALL_SET_MIDDLE = "СРЕДНЕЕ ( %s )";
 
-    public static final String AUTH_BEARER = "Bearer ";
-
     public static final int FAKE_ID = -1;
     public static final int MIN_SUM = 21;
     public static final int MAX_SUM = 255;
+
+    public static final int DONATION_TIME = 5;
 
     public static final int VERTICAL_ORIENTATION = 0;
     public static final int HORIZONTAL_ORIENTATION = 1;

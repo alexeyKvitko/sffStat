@@ -7,6 +7,8 @@ public class Ball implements Serializable, Comparable, Cloneable {
 
     private int ballNumber;
     private int ballRepeat;
+    private int drawRange;
+    private int avgRange;
     private BallSetType ballType;
     private Set<BallSetType> comby;
 
@@ -30,6 +32,22 @@ public class Ball implements Serializable, Comparable, Cloneable {
 
     public void setBallRepeat( int ballRepeat ) {
         this.ballRepeat = ballRepeat;
+    }
+
+    public int getDrawRange() {
+        return drawRange;
+    }
+
+    public void setDrawRange( int drawRange ) {
+        this.drawRange = drawRange;
+    }
+
+    public int getAvgRange() {
+        return avgRange;
+    }
+
+    public void setAvgRange( int avgRange ) {
+        this.avgRange = avgRange;
     }
 
     public BallSetType getBallType() {

@@ -15,6 +15,8 @@
     <string name="turn_header">Полный круг с %s - го тиража</string>
     <string name="consider_header">Анализ комбинаций</string>
     <string name="basket_view_title">Выбранные наборы</string>
+    <string name="donate_title">Поддержка проекта</string>
+    <string name="donate_label">Оказать поддержку проекту</string>
     <string name="draw_details_title">Результаты тиража №</string>
     <string name="digit_details_title">Статистика по шару №</string>
     <string name="per_draw_label">В среднем за тираж</string>
@@ -38,6 +40,8 @@
     <string name="table_orientation">Ориентация поля</string>
     <string name="select_combination_label">Выбранная комбинация</string>
     <string name="ball_set_label">Выбранные наборы</string>
+    <string name="rare_label">Ожидаемые шары</string>
+    <string name="rare_desc">( тиражей не выпадал / среднее число тиражей для выпадений шара )</string>
     <string name="consider_result">Результаты</string>
     <string name="even_odd_label">Четные, Нечетные</string>
     <string name="fab_falling_count">Количество выпадений</string>
@@ -84,6 +88,12 @@
     <string name="consaider_threes">Тройки</string>
     <string name="consaider_fours">Четверки</string>
     <string name="show_last_fall_label">Отметить в выбранных наборах</string>
+    <string name="hundred_label">100 рублей</string>
+    <string name="two_hundred_label">200 рублей</string>
+    <string name="three_hundred_label">300 рублей</string>
+    <string name="five_hundred_label">500 рублей</string>
+    <string name="seven_hundred_label">700 рублей</string>
+    <string name="inf_hundred_label">X 1000 рублей</string>
 
 
 </resources>

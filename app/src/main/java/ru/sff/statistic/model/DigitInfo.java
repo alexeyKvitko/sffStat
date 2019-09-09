@@ -10,9 +10,9 @@ public class DigitInfo {
     private String seriesCount;
     private Integer seriesDrawStart;
     private Integer seriesDrawEnd;
-    private Integer dayFreqAvg;
-    private Integer dayFreqMax;
-    private Integer dayFreqMaxValue;
+    private Integer drawFreqAvg;
+    private Integer drawFreqMax;
+    private Integer drawFreqMaxValue;
     private Integer fiveWinCount;
     private List< MagnetModel > twoBalls;
     private List< MagnetModel > threeBalls;
@@ -65,28 +65,28 @@ public class DigitInfo {
         return seriesDrawEnd;
     }
 
-    public Integer getDayFreqAvg() {
-        return dayFreqAvg;
+    public Integer getDrawFreqAvg() {
+        return drawFreqAvg;
     }
 
-    public void setDayFreqAvg( Integer dayFreqAvg ) {
-        this.dayFreqAvg = dayFreqAvg;
+    public void setDrawFreqAvg( Integer drawFreqAvg ) {
+        this.drawFreqAvg = drawFreqAvg;
     }
 
-    public Integer getDayFreqMax() {
-        return dayFreqMax;
+    public Integer getDrawFreqMax() {
+        return drawFreqMax;
     }
 
-    public void setDayFreqMax( Integer dayFreqMax ) {
-        this.dayFreqMax = dayFreqMax;
+    public void setDrawFreqMax( Integer drawFreqMax ) {
+        this.drawFreqMax = drawFreqMax;
     }
 
-    public Integer getDayFreqMaxValue() {
-        return dayFreqMaxValue;
+    public Integer getDrawFreqMaxValue() {
+        return drawFreqMaxValue;
     }
 
-    public void setDayFreqMaxValue( Integer dayFreqMaxValue ) {
-        this.dayFreqMaxValue = dayFreqMaxValue;
+    public void setDrawFreqMaxValue( Integer drawFreqMaxValue ) {
+        this.drawFreqMaxValue = drawFreqMaxValue;
     }
 
     public void setSeriesDrawEnd( Integer seriesDrawEnd ) {

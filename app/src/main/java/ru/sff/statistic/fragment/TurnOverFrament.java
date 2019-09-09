@@ -42,6 +42,7 @@ import ru.sff.statistic.model.StoredBallSet;
 import ru.sff.statistic.recycleview.BasketAdapter;
 import ru.sff.statistic.recycleview.LotoTurnAdapter;
 import ru.sff.statistic.rest.RestController;
+import ru.sff.statistic.utils.AppPreferences;
 import ru.sff.statistic.utils.AppUtils;
 import ru.sff.statistic.utils.CustomAnimation;
 
@@ -249,9 +250,8 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
         protected String doInBackground( Void... args ) {
             String result = null;
             try {
-                Call< ApiResponse< List< LotoTurn > > > resultCall = RestController.getApi().getLotoTurns( AppConstants.AUTH_BEARER
-                                + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                        mSelectedDraw );
+                Call< ApiResponse< List< LotoTurn > > > resultCall = RestController.getApi()
+                                        .getLotoTurns( AppPreferences.getUniqueId(), mSelectedDraw );
                 Response< ApiResponse< List< LotoTurn > > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {

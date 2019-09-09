@@ -21,6 +21,7 @@ import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.activity.BaseActivity;
+import ru.sff.statistic.activity.SplashActivity;
 import ru.sff.statistic.utils.AppUtils;
 
 public class ModalMessage extends RelativeLayout {
@@ -48,7 +49,12 @@ public class ModalMessage extends RelativeLayout {
         super( activity, null );
         inflate( activity, R.layout.modal_message, this );
         mActivity = activity;
-        mContainer = (( BaseActivity ) activity).getActivityContainer();
+        if ( activity instanceof SplashActivity ){
+            mContainer = (( SplashActivity ) activity).getActivityContainer();
+        } else {
+            mContainer = (( BaseActivity ) activity).getActivityContainer();
+        }
+
         mContainer.addView( this );
         mTimeOut = timeOut;
         initialize( title, text );

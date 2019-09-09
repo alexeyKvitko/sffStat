@@ -70,4 +70,10 @@ public class CachedResponseData implements Serializable {
     public void setTotalDraw( int totalDraw ) {
         this.totalDraw = totalDraw;
     }
+
+    public void clearAllRequests(){
+        this.requestByDate = null;
+        this.requestByDraw = null;
+        this.requestBySOB = null;
+    }
 }

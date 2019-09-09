@@ -15,12 +15,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.internal.LinkedHashTreeMap;
+
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -32,6 +36,7 @@ import ru.sff.statistic.component.BallSetItem;
 import ru.sff.statistic.component.BaseComponent;
 import ru.sff.statistic.component.FieldOrientation;
 import ru.sff.statistic.component.FiveNineTable;
+import ru.sff.statistic.component.SixBallSet;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalDialog;
 import ru.sff.statistic.modal.ModalMessage;
@@ -39,12 +44,17 @@ import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BallsInfo;
+import ru.sff.statistic.model.CachedResponseData;
 import ru.sff.statistic.model.ConsiderInfo;
 import ru.sff.statistic.model.ConsiderRequest;
 import ru.sff.statistic.model.ConsiderResponse;
 import ru.sff.statistic.model.DigitInfo;
+import ru.sff.statistic.model.RequestByDate;
+import ru.sff.statistic.model.RequestByDraw;
+import ru.sff.statistic.model.RequestType;
 import ru.sff.statistic.model.StoredBallSet;
 import ru.sff.statistic.rest.RestController;
+import ru.sff.statistic.utils.AppPreferences;
 import ru.sff.statistic.utils.AppUtils;
 import ru.sff.statistic.utils.CustomAnimation;
 
@@ -58,6 +68,7 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
     private BallsInfo mBallsInfo;
 
     private Map< Integer, Ball > mAllBalls;
+
 
     private ConsiderResponse mConsiderResponse;
     private ConsiderRequest mConsiderRequest;
@@ -91,12 +102,30 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
+
         GlobalManager.setAllBallSetTypes();
+        if( GlobalManager.getCachedResponseData() != null ){
+            GlobalManager.getCachedResponseData().clearAllRequests();
+        } else {
+            GlobalManager.setCachedResponseData( new CachedResponseData() );
+        }
+
+        RequestByDraw requestByDraw = new RequestByDraw();
+        requestByDraw.setRequestDrawType( RequestType.ALL_DRAW );
+        GlobalManager.getCachedResponseData().setLastRequest( RequestType.ALL_DRAW );
+        GlobalManager.getCachedResponseData().setRequestByDraw( requestByDraw );
+        GlobalManager.getCachedResponseData().setTotalDraw( GlobalManager.getPlayedDraws() );
 
         initTextView( R.id.considerTableOrientationLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.considerResultOnTableId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.considerBallSetLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.considerCombinationLabelId, AppConstants.ROTONDA_BOLD );
+
+        initTextView( R.id.considerRareLabelId, AppConstants.ROTONDA_BOLD );
+        initTextView( R.id.considerRareDescId, AppConstants.ROBOTO_CONDENCED );
+
+        SixBallSet rareBallSet = getView().findViewById( R.id.considerRareBallSetId );
+        rareBallSet.setBallSet( getRareBalls(), BallSetType.RARE );
 
         mLastFallInBallSet = initTextView( R.id.showLastFallInBallSetId, AppConstants.ROTONDA_BOLD );
         mConsiderResultBody = getView().findViewById( R.id.considerBodyId );
@@ -148,9 +177,6 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         if( BallSetType.ALL.equals( ball.getBallType() ) || newType.equals( ball.getBallType() ) ){
             ball.setBallType( newType );
             return;
-        }
-        if( ball.getBallNumber() == 2 || BallSetType.CUSTOM.equals( newType ) ){
-            Log.i("sdsds",ball.getBallType().name());
         }
         if( !ball.getBallType().equals( newType ) ){
             if ( ball.getComby() == null ){
@@ -278,6 +304,26 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         addStoredBallSets( mAllBalls );
     }
 
+    private Ball[] getRareBalls(){
+        Ball[] rareBalls = new Ball[6];
+        Map<Integer,Ball> ballMap =  new TreeMap<>( Collections.reverseOrder()) ;
+        for( Ball ball: GlobalManager.getBootstrapModel().getPlayedBalls() ){
+            ballMap.put( ball.getDrawRange()-ball.getAvgRange(), ball );
+        }
+        int idx = 0;
+        for( Ball ball : ballMap.values() ){
+            Ball newBall = new Ball( ball.getBallNumber(), ball.getBallRepeat(), BallSetType.RARE );
+            newBall.setDrawRange( ball.getDrawRange() );
+            newBall.setAvgRange( ball.getAvgRange() );
+            rareBalls[ idx ] = newBall;
+            idx++;
+            if( idx == 6 ){
+                break;
+            }
+        }
+        return rareBalls;
+    }
+
     @Override
     public void onClick( View view ) {
         switch ( view.getId() ) {
@@ -332,9 +378,8 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         protected String doInBackground( Void... args ) {
             String result = null;
             try {
-                Call< ApiResponse< ConsiderResponse > > resultCall = RestController.getApi().getConsiderInfo( AppConstants.AUTH_BEARER
-                                + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4",
-                        mConsiderRequest );
+                Call< ApiResponse< ConsiderResponse > > resultCall = RestController.getApi()
+                        .getConsiderInfo( AppPreferences.getUniqueId(), mConsiderRequest );
                 Response< ApiResponse< ConsiderResponse > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {

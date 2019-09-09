@@ -1,6 +1,7 @@
 package ru.sff.statistic.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -113,6 +114,10 @@ public class SplashActivity extends AppCompatActivity {
         }, SPLASH_TIME_OUT );
     }
 
+    public ConstraintLayout getActivityContainer(){
+      return findViewById( R.id.splashActivityContainerId );
+    }
+
     private void startMainActivity() {
         GlobalManager.getInstance().initialize();
         Object basket = AppPreferences.getObjectPreference( AppConstants.BASKET_PREF, PreferenceBasket.class );
@@ -139,8 +144,7 @@ public class SplashActivity extends AppCompatActivity {
             String result = null;
             try {
                 Call< ApiResponse< BootstrapModel > > resultCall = RestController
-                        .getApi().getBootstrapModel( AppConstants.AUTH_BEARER
-                                + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndWVzdCIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoiaHR0cDovL2RldmdsYW4uY29tIiwiaWF0IjoxNTU5ODk5MTY1LCJleHAiOjE1NTk5MTcxNjV9.HnyTQF8mG3m3oPlDWL1-SwZ2_gyDx8YYdD_CWWc8dv4" );
+                        .getApi().getBootstrapModel( AppPreferences.getUniqueId() );
                 Response< ApiResponse< BootstrapModel > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {
@@ -172,4 +176,6 @@ public class SplashActivity extends AppCompatActivity {
             startMainActivity();
         }
     }
+
+
 }

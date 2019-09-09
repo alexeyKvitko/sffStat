@@ -53,21 +53,18 @@ public class StoredBallSet implements Comparable {
     }
 
 
-
     @Override
     public int compareTo( Object setTwo ) {
         String drawOne = this.drawCount;
         String drawTwo = (( StoredBallSet ) setTwo).drawCount;
         int countOne = 0;
         int countTwo = 0;
-        Log.i("COMPARE: ","DRAWS: "+drawOne+" with "+drawTwo);
         try {
             countOne = Integer.valueOf( drawOne.substring( 0, drawOne.indexOf( " " ) ).trim() );
         } catch ( Exception e ){}
         try{
             countTwo = Integer.valueOf( drawTwo.substring( 0, drawTwo.indexOf( " " ) ).trim() );
         } catch ( Exception e ){}
-        Log.i("COMPARE: ",countOne+" with "+countTwo);
         return countTwo-countOne;
     }
 }

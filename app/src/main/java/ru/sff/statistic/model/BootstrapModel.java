@@ -9,6 +9,7 @@ public class BootstrapModel implements Serializable {
     private LotoModel lastFall;
     private String lastFallDay;
     private List<Ball> playedBalls;
+    private Boolean showDonationsMsg;
 
     public Integer getPlayedDraws() {
         return playedDraws;
@@ -42,4 +43,11 @@ public class BootstrapModel implements Serializable {
         this.playedBalls = playedBalls;
     }
 
+    public Boolean getShowDonationsMsg() {
+        return showDonationsMsg;
+    }
+
+    public void setShowDonationsMsg( Boolean showDonationsMsg ) {
+        this.showDonationsMsg = showDonationsMsg;
+    }
 }

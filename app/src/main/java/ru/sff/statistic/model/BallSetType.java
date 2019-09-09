@@ -6,5 +6,6 @@ public enum BallSetType {
     MIDDLE,
     CUSTOM,
     LESS,
+    RARE,
     COMBY;
 }

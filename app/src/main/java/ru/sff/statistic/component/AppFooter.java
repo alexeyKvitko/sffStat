@@ -39,16 +39,22 @@ public class AppFooter extends LinearLayout {
                 return;
             }
             CustomAnimation.clickAnimation( view );
-            showBasket();
+            showNeatedFragmentByAction( AppConstants.FLOAT_MENU_SHOW_BASKET  );
+        } );
+        findViewById( R.id.footerShowDonateId ).setOnClickListener( ( View view ) -> {
+            CustomAnimation.clickAnimation( view );
+            showNeatedFragmentByAction( AppConstants.FLOAT_MENU_SHOW_DONATE  );
         } );
     }
 
-    private void showBasket() {
+    private void showNeatedFragmentByAction( String action) {
         Intent intent = new Intent( AppConstants.ROUTE_ACTION_MESSAGE );
         intent.putExtra( AppConstants.ROUTE_ACTION_TYPE, AppConstants.FLOAT_MENU_ACTION );
-        intent.putExtra( AppConstants.FLOAT_MENU_ACTION, AppConstants.FLOAT_MENU_CHANGE_VIEW_TYPE );
+        intent.putExtra( AppConstants.FLOAT_MENU_ACTION_TYPE, action );
         SFFSApplication.getAppContext().sendBroadcast( intent );
     }
+
+
 
     public boolean isBasketDisable() {
         return mBasketDisable;
