@@ -66,6 +66,7 @@
     <string name="button_cancel">Отменить</string>
     <string name="button_basket">В корзину</string>
     <string name="button_consider">Расчитать</string>
+    <string name="button_donate">Поддержать</string>
     <string name="button_clear">Очистить</string>
     <string name="avg_sum_label">Средняя сумма шаров</string>
     <string name="last_win_label">Последние тиражи из набора, в которых</string>
@@ -93,7 +94,7 @@
     <string name="three_hundred_label">300 рублей</string>
     <string name="five_hundred_label">500 рублей</string>
     <string name="seven_hundred_label">700 рублей</string>
-    <string name="inf_hundred_label">X 1000 рублей</string>
-
+    <string name="inf_hundred_label">1000 рублей</string>
+    <string name="back_btn_label">Назад</string>
 
 </resources>

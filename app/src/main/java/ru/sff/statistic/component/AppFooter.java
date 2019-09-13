@@ -19,6 +19,7 @@ import ru.sff.statistic.utils.CustomAnimation;
 public class AppFooter extends LinearLayout {
 
     private boolean mBasketDisable;
+    private boolean mDonateDisable;
 
 
     public AppFooter( Context context ) {
@@ -42,6 +43,9 @@ public class AppFooter extends LinearLayout {
             showNeatedFragmentByAction( AppConstants.FLOAT_MENU_SHOW_BASKET  );
         } );
         findViewById( R.id.footerShowDonateId ).setOnClickListener( ( View view ) -> {
+            if( mDonateDisable ){
+                return;
+            }
             CustomAnimation.clickAnimation( view );
             showNeatedFragmentByAction( AppConstants.FLOAT_MENU_SHOW_DONATE  );
         } );
@@ -65,5 +69,17 @@ public class AppFooter extends LinearLayout {
         Drawable drawable = basketDisable ? SFFSApplication.getAppContext().getResources().getDrawable( R.drawable.ic_basket_grey600_18dp )
                 : SFFSApplication.getAppContext().getResources().getDrawable( R.drawable.ic_basket_shoko_menu_18dp );
         (( ImageView) findViewById( R.id.footerShowBasketId )).setImageDrawable( drawable );
+    }
+
+    public boolean isDonateDisable() {
+        return mDonateDisable;
+    }
+
+    public void setDonateDisable(boolean donateDisable) {
+        this.mDonateDisable = donateDisable;
+        Drawable drawable = donateDisable ? SFFSApplication.getAppContext().getResources().getDrawable( R.drawable.ic_wallet_giftcard_gray_18dp )
+                : SFFSApplication.getAppContext().getResources().getDrawable( R.drawable.ic_wallet_giftcard_shoko_18dp );
+        (( ImageView) findViewById( R.id.footerShowDonateId )).setImageDrawable( drawable );
+
     }
 }

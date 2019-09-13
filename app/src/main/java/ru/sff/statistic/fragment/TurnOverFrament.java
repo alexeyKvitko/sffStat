@@ -57,8 +57,6 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
     private ImageView mShowRequestForm;
     private Button mRequestButton;
     private LinearLayout mTurnRequestContainer;
-    private ImageView mBackButton;
-
     private AppCompatEditText mFromDrawValue;
 
     private int mSelectedDraw;
@@ -105,10 +103,6 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
         initTextView( R.id.turnStartDrawTitleId, AppConstants.ROTONDA_BOLD );
         CustomAnimation.transitionAnimation( getView().findViewById( R.id.lotoTurnsRVId ),
                 getView().findViewById( R.id.pleaseWaitContainerId ) );
-        mBackButton = ( ( RouteActivity ) getActivity() ).getBackBtn();
-        mBackButton.setOnClickListener( ( View view ) -> {
-            getActivity().onBackPressed();
-        } );
         postByDrawRequest();
 //        new GetLotoTurnResults().execute();
         setThisOnClickListener( R.id.turnStartDrawShowFormId, R.id.turnStartDrawRequestFormId );

@@ -5,16 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
 
 import ru.sff.statistic.AppConstants;
+import ru.sff.statistic.activity.RouteActivity;
 
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
@@ -23,8 +27,18 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     private Fragment mFragment;
 
+    protected ImageView mBackButton;
+
     protected boolean mIsReady;
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mBackButton = ( (RouteActivity) getActivity() ).getBackBtn();
+        mBackButton.setOnClickListener( ( View view ) -> {
+            getActivity().onBackPressed();
+        } );
+    }
 
     //TEXT VIEW
     protected TextView initTextView( int textId, Typeface typeface, Integer style, String text ) {

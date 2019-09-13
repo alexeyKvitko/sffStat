@@ -90,13 +90,25 @@ public abstract class AppPreferences {
         editor.commit();
     }
 
-    public synchronized static String getUniqueId() {
+    public static String getUniqueId() {
         String uniqueID = getPreference( PREF_UNIQUE_ID, null );
             if (uniqueID == null) {
                 uniqueID = UUID.randomUUID().toString();
                 setPreference( PREF_UNIQUE_ID, uniqueID );
         }
         return uniqueID;
+    }
+
+    public static Integer getIntFromUniqueId(){
+        Integer value = -1;
+        String uniqueID = getPreference( PREF_UNIQUE_ID, null );
+        String digits = uniqueID.substring( uniqueID.length()-12 ).replaceAll("[^0-9.]", "");
+        try {
+            value = Integer.valueOf( digits );
+        } catch ( Exception e ){
+            return -1;
+        }
+        return value;
     }
 
 }

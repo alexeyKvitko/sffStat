@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestController {
 
     private static final String BASE_URL = "http://194.58.122.145:8080/";
-    private static final String REST_BASE_URL = BASE_URL + "stoloto/";
+    public static final String REST_BASE_URL = BASE_URL + "stoloto/";
 
     private static final RestController restController = new RestController();
 

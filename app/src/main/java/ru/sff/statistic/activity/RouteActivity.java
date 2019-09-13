@@ -114,6 +114,7 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
     }
 
     public void donateShow() {
+        getFooter().setDonateDisable( true );
         addReplaceFragment( DonateFragment.newInstance(), R.drawable.emoji_donate, "" );
     }
 
@@ -149,6 +150,7 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
         mHeader.setVisibility( View.VISIBLE );
         GlobalManager.setShowLastFallBallSet( false );
         mFooter.setBasketDisabled( GlobalManager.getStoredBallSet().isEmpty() );
+        mFooter.setDonateDisable( false );
         super.onBackPressed();
     }
 

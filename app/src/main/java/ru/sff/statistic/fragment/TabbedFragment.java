@@ -39,7 +39,6 @@ public abstract class TabbedFragment extends BaseFragment{
 
     private static final String TAG = "TabbedFragment";
 
-    protected ImageView mBackButton;
     protected ViewPager mPager;
     protected TabLayout mTabs;
     protected ResultPagerAdapter mResultPagerAdapter;
@@ -56,10 +55,6 @@ public abstract class TabbedFragment extends BaseFragment{
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
-        mBackButton = ( ( RouteActivity ) getActivity() ).getBackBtn();
-        mBackButton.setOnClickListener( ( View view ) -> {
-            getActivity().onBackPressed();
-        } );
         clearRequests();
         mFirstRequest = true;
     }

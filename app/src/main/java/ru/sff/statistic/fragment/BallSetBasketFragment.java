@@ -26,8 +26,6 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
     private RecyclerView mBasketRecView;
     private BasketAdapter mBasketAdapter;
 
-    protected ImageView mBackButton;
-    
     public BallSetBasketFragment() {}
 
     public static BallSetBasketFragment newInstance( ) {
@@ -50,11 +48,6 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
-        mBackButton = ( ( RouteActivity ) getActivity() ).getBackBtn();
-        ( ( RouteActivity ) getActivity() ).getFooter().setBasketDisabled( true );
-        mBackButton.setOnClickListener( ( View view ) -> {
-            getActivity().onBackPressed();
-        } );
     }
 
     private void initRecView() {

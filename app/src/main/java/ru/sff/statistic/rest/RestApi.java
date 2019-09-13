@@ -76,4 +76,8 @@ public interface RestApi {
     @POST(APP_API+"getConsiderInfo")
     Call< ApiResponse< ConsiderResponse > > getConsiderInfo( @Header("application-id") String applicationId
             , @Body ConsiderRequest considerRequest );
+
+    @GET(APP_API+"getPaymentUrl/{amount}")
+    Call< ApiResponse< String > > getPaymentUrl( @Header("application-id") String applicationId
+            , @Path("amount") Integer amount);
 }
