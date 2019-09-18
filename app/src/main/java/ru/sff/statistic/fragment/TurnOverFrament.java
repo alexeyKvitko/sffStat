@@ -243,6 +243,7 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
         @Override
         protected String doInBackground( Void... args ) {
             String result = null;
+            GlobalManager.setBackendBusy( true );
             try {
                 Call< ApiResponse< List< LotoTurn > > > resultCall = RestController.getApi()
                                         .getLotoTurns( AppPreferences.getUniqueId(), mSelectedDraw );
@@ -267,6 +268,7 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
         @Override
         protected void onPostExecute( String result ) {
             super.onPostExecute( result );
+            GlobalManager.setBackendBusy( false );
             if ( result != null ) {
                 ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );
                 ( new Handler() ).postDelayed( () -> {

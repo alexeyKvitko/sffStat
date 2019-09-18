@@ -7,9 +7,21 @@
     android:layout_marginTop="12dp"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/ballSetShowOnFieldId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="right"
+        android:background="@drawable/border_bottom"
+        android:textColor="@color/shokoColor"
+        android:text="@string/show_on_field"
+        android:textSize="12dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_marginStart="20dp"
         android:orientation="horizontal">
         <LinearLayout
@@ -43,12 +55,15 @@
             android:textSize="14dp"/>
     </LinearLayout>
 
-    <ru.sff.statistic.component.SixBallSet
+
+     <ru.sff.statistic.component.SixBallSet
         android:id="@+id/ballSetItemId"
         android:layout_width="match_parent"
         android:layout_height="76dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"/>
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

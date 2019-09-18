@@ -20,6 +20,7 @@ import java.util.Locale;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.model.MagnetModel;
+import ru.sff.statistic.model.RequestByDate;
 
 import static ru.sff.statistic.manager.GlobalManager.getCachedResponseData;
 import static ru.sff.statistic.manager.GlobalManager.getPlayedDraws;
@@ -251,6 +252,31 @@ public abstract class AppUtils {
             }
         }
         return maxMagnetModel;
+    }
+
+    public static String getRequestByDateHeader( RequestByDate requestByDate ){
+        String header = "По Датам";
+        switch ( requestByDate.getRequestType() ) {
+            case BY_DAY:
+                header = "за " + requestByDate.getDay() + " день месяца";
+                break;
+            case BY_MONTH:
+                header = "за " + AppConstants.ALL_OF_MONTH.get( requestByDate.getMonth() ) + " месяц";
+                break;
+            case BY_DAY_WEEK:
+                header = "по " + AppConstants.ALL_DAY_OF_WEEK_SFX.get( requestByDate.getDayOfWeek() );
+                break;
+            case BY_DAY_MONTH:
+                header = "за " + requestByDate.getDayNumber() + " " + AppConstants.ALL_MONTH_SFX[ requestByDate.getMonthNumber() ];
+                break;
+            case BY_PERIOD:
+                header = "c " + requestByDate.getStartDay() + " по " + requestByDate.getEndDay();
+                break;
+            default:
+                break;
+
+        }
+        return header;
     }
 
 }

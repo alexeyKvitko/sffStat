@@ -197,6 +197,15 @@ public class BallField extends LinearLayout implements View.OnClickListener {
         mBallRepeat.setTextColor( resources.getColor( R.color.white) );
     }
 
+    public void hideSelection(){
+        mCircleVisible = false;
+        findViewById( R.id.ballCircleId ).setVisibility( View.GONE );
+    }
+
+    public void setSelection(){
+        mCircleVisible = true;
+        findViewById( R.id.ballCircleId ).setVisibility( View.VISIBLE );
+    }
 
     @Override
     public void onClick( View view ) {

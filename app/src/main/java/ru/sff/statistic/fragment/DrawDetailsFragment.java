@@ -182,6 +182,7 @@ public class DrawDetailsFragment extends BaseFragment {
         @Override
         protected String doInBackground( Void... draw ) {
             String result = null;
+            GlobalManager.setBackendBusy( true );
             try {
                 Call< ApiResponse< DrawDetails > > resultCall = RestController
                         .getApi().getDrawDetails( AppPreferences.getUniqueId(), mDraw );
@@ -207,6 +208,7 @@ public class DrawDetailsFragment extends BaseFragment {
         @Override
         protected void onPostExecute( String result ) {
             super.onPostExecute( result );
+            GlobalManager.setBackendBusy( false );
             if ( result != null ) {
                 ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );
                 ( new Handler() ).postDelayed( () -> {

@@ -7,6 +7,7 @@ import ru.sff.statistic.AppConstants;
 public class RequestBySumOrBall implements Serializable {
 
     private RequestType requestType;
+    private int ball;
     private int begin;
     private int end;
 
@@ -21,6 +22,14 @@ public class RequestBySumOrBall implements Serializable {
 
     public void setRequestType( RequestType requestType ) {
         this.requestType = requestType;
+    }
+
+    public int getBall() {
+        return ball;
+    }
+
+    public void setBall(int ball) {
+        this.ball = ball;
     }
 
     public int getBegin() {

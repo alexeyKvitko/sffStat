@@ -24,6 +24,7 @@ import retrofit2.Response;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.component.DonateWebView;
+import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.rest.RestController;
@@ -138,6 +139,7 @@ public class DonateFragment extends BaseFragment {
         @Override
         protected String doInBackground( Void... amounts ) {
             String result = null;
+            GlobalManager.setBackendBusy( true );
             mPaymentUrl = null;
             try {
                 Call<ApiResponse< String >> resultCall =  RestController.getApi().getPaymentUrl( AppPreferences.getUniqueId(),
@@ -164,6 +166,7 @@ public class DonateFragment extends BaseFragment {
         @Override
         protected void onPostExecute( String result ) {
             super.onPostExecute( result );
+            GlobalManager.setBackendBusy( false );
             if ( result != null ) {
                 ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );
                 ( new Handler() ).postDelayed( () -> {

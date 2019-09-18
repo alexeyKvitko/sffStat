@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:background="@drawable/footer"
-    android:orientation="horizontal">
+    android:layout_height="48dp">
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="left|center_vertical"
-        android:layout_weight="1">
+        android:background="@drawable/footer_left"
+        android:gravity="left">
+
         <ImageView
             android:id="@+id/footerShowBasketId"
             android:layout_width="wrap_content"
@@ -17,23 +18,50 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
             android:padding="12dp"
-            app:srcCompat="@drawable/ic_basket_shoko_menu_18dp"/>
+            app:srcCompat="@drawable/ic_basket_shoko_menu_18dp" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="right|center_vertical"
-        android:layout_weight="1">
+        android:layout_gravity="right|center_vertical"
+        android:background="@drawable/footer_right"
+        android:gravity="right" />
+
+    <LinearLayout
+        android:id="@+id/footerBackMenuId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginEnd="-164dp"
+        android:background="@drawable/footer_back"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/footerMenuId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"
+            app:srcCompat="@drawable/ic_menu_shocko_18dp" />
+
         <ImageView
             android:id="@+id/footerShowDonateId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="6dp"
             android:padding="12dp"
-            app:srcCompat="@drawable/ic_wallet_giftcard_shoko_18dp"/>
+            app:srcCompat="@drawable/ic_wallet_giftcard_shoko_18dp" />
+
+        <ImageView
+            android:id="@+id/footerShowFavoritesId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"
+            app:srcCompat="@drawable/ic_ticket_shocko_18dp" />
+
     </LinearLayout>
 
-
-
-</LinearLayout>
+</FrameLayout>

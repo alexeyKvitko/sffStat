@@ -34,11 +34,17 @@ import ru.sff.statistic.model.ApiResponse;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.DigitInfo;
 import ru.sff.statistic.model.MagnetModel;
+import ru.sff.statistic.model.RequestByDate;
+import ru.sff.statistic.model.RequestByDraw;
+import ru.sff.statistic.model.RequestBySumOrBall;
+import ru.sff.statistic.model.RequestType;
 import ru.sff.statistic.model.SimpleLotoModel;
 import ru.sff.statistic.rest.RestController;
 import ru.sff.statistic.utils.AppPreferences;
 import ru.sff.statistic.utils.AppUtils;
 import ru.sff.statistic.utils.CustomAnimation;
+
+import static ru.sff.statistic.model.RequestType.*;
 
 
 public class DigitInfoFragment extends BaseFragment {
@@ -102,11 +108,24 @@ public class DigitInfoFragment extends BaseFragment {
         mFragmentContainer = getView().findViewById( R.id.digitInfoScrollViewId );
         mFragmentContainer.setVisibility( View.GONE );
         mPleaseWait.setVisibility( View.VISIBLE );
+        TextView digitInfoTitle = initTextView( R.id.digitInfoTitleId, AppConstants.ROTONDA_BOLD );
+        String title = "";
         if ( GlobalManager.getCachedResponseData().getRequestByDraw() != null ){
-            GlobalManager.getCachedResponseData().getRequestByDraw().setBall(  mBall.getBallNumber() );
+            RequestByDraw requestByDraw = GlobalManager.getCachedResponseData().getRequestByDraw();
+            requestByDraw.setBall(  mBall.getBallNumber() );
+            title = ALL_DRAW.equals( requestByDraw.getRequestDrawType() ) ?
+                    "По всем тиражам" : "C тиража "+ requestByDraw.getStartDraw()+" по "+ requestByDraw.getEndDraw();
         } else if ( GlobalManager.getCachedResponseData().getRequestByDate() != null ){
-            GlobalManager.getCachedResponseData().getRequestByDate().setBall(  mBall.getBallNumber() );
+            RequestByDate requestByDate = GlobalManager.getCachedResponseData().getRequestByDate();
+            requestByDate.setBall(  mBall.getBallNumber() );
+            title = AppUtils.getRequestByDateHeader( requestByDate );
+        } else if ( GlobalManager.getCachedResponseData().getRequestBySOB() !=null ){
+            RequestBySumOrBall requestBySOB = GlobalManager.getCachedResponseData().getRequestBySOB();
+            requestBySOB.setBall(  mBall.getBallNumber() );
+            title = BY_SUM.equals( requestBySOB.getRequestType() ) ? "Сумма шаров с "+requestBySOB.getBegin()+" по "+ requestBySOB.getEnd() :
+                    "Шары с "+requestBySOB.getBegin()+" по "+ requestBySOB.getEnd();
         }
+        digitInfoTitle.setText( title );
         new GetDigitInfo().execute();
         initTextView( R.id.digitInfoNumberId, AppConstants.ROTONDA_BOLD, mBall.getBallNumber() + "" );
         initTextView( R.id.digitInfoRepeatLabelId, AppConstants.ROTONDA_BOLD );
@@ -342,6 +361,7 @@ public class DigitInfoFragment extends BaseFragment {
         @Override
         protected String doInBackground( Void... args ) {
             String result = null;
+            GlobalManager.setBackendBusy( true );
             try {
                 Call< ApiResponse< DigitInfo > > resultCall = null;
                 if ( GlobalManager.getCachedResponseData().getRequestByDraw() != null) {
@@ -350,6 +370,9 @@ public class DigitInfoFragment extends BaseFragment {
                 } else if ( GlobalManager.getCachedResponseData().getRequestByDate() != null) {
                     resultCall = RestController .getApi().getDigitInfoByDate( AppPreferences.getUniqueId(),
                                     GlobalManager.getCachedResponseData().getRequestByDate() );
+                } else if ( GlobalManager.getCachedResponseData().getRequestBySOB() != null) {
+                    resultCall = RestController .getApi().getDigitInfoBySOB( AppPreferences.getUniqueId(),
+                            GlobalManager.getCachedResponseData().getRequestBySOB() );
                 }
                 Response< ApiResponse< DigitInfo > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
@@ -376,6 +399,7 @@ public class DigitInfoFragment extends BaseFragment {
         @Override
         protected void onPostExecute( String result ) {
             super.onPostExecute( result );
+            GlobalManager.setBackendBusy( false );
             if ( result != null ) {
                 ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );
                 ( new Handler() ).postDelayed( () -> {

@@ -296,6 +296,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
         @Override
         protected String doInBackground( Void... args ) {
             String result = null;
+            GlobalManager.setBackendBusy( true );
             try {
                 mSelectedMonth = mMonthArrowSelector.getValue();
                 mSelectedtYear = Integer.valueOf( mYearArrowSelector.getValue() );
@@ -326,6 +327,7 @@ public class LotoDrawsFragment extends BaseFragment implements LotoDrawAdapter.
         @Override
         protected void onPostExecute( String result ) {
             super.onPostExecute( result );
+            GlobalManager.setBackendBusy( false );
             mRefresh.setRefreshing( false );
             if ( result != null ) {
                 ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );

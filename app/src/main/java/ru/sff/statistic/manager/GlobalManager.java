@@ -29,6 +29,7 @@ public class GlobalManager {
     private static Map< String, StoredBallSet > storedBallSet;
     private static CachedResponseData cachedResponseData;
     private static boolean showLastFallBallSet;
+    private static boolean backendBusy;
 
     private GlobalManager() {
     }
@@ -138,5 +139,13 @@ public class GlobalManager {
 
     public static void setShowLastFallBallSet( boolean showLastFallBallSet ) {
         GlobalManager.showLastFallBallSet = showLastFallBallSet;
+    }
+
+    public static boolean isBackendBusy() {
+        return backendBusy;
+    }
+
+    public static void setBackendBusy(boolean backendBusy) {
+        GlobalManager.backendBusy = backendBusy;
     }
 }

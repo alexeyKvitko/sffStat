@@ -47,6 +47,7 @@ public class BallSetItem extends BaseComponent {
         initBaseComponent( this );
         mItemSelected = true;
         mBallSetImage = findViewById( R.id.ballSetItemImageId );
+        initTextView( R.id.ballSetShowOnFieldId, AppConstants.ROBOTO_CONDENCED );
     }
 
     public void setSelectedBallSet( StoredBallSet ballSet ) {
@@ -56,11 +57,31 @@ public class BallSetItem extends BaseComponent {
         mBallSetItem.setWinBall();
         initTextView( R.id.ballSetItemKeyId, AppConstants.ROTONDA_BOLD ).setText( ballSet.getBallSetName() );
         initTextView( R.id.ballSetItemDrawId, AppConstants.ROBOTO_CONDENCED ).setText( ballSet.getDrawCount() );
-        setThisOnClickListener( R.id.ballSetItemLayoutId );
+        setThisOnClickListener( R.id.ballSetItemLayoutId,R.id.ballSetShowOnFieldId );
     }
 
     @Override
     public void onClick( View view ) {
+        switch ( view.getId() ){
+            case R.id.ballSetItemLayoutId:
+                ballSetItemClick();
+                break;
+            case R.id.ballSetShowOnFieldId:
+                CustomAnimation.clickAnimation( view );
+                showOnFieldClick();
+                break;
+                default:break;
+        }
+
+    }
+
+    private void showOnFieldClick(){
+        if ( mListener != null ){
+            mListener.onBallSetShowClick( mStoredBallSet );
+        }
+    }
+
+    private void ballSetItemClick(){
         Resources resources = SFFSApplication.getAppContext().getResources();
         mItemSelected = !mItemSelected;
         Drawable drawable = mItemSelected ? resources.getDrawable( R.drawable.ic_check_orange_18dp ) : null;
@@ -97,6 +118,7 @@ public class BallSetItem extends BaseComponent {
     }
 
     public interface OnBallSetItemClickListener {
-        public void onBallSetItemClick( StoredBallSet ballSet, boolean addToSet );
+        void onBallSetItemClick( StoredBallSet ballSet, boolean addToSet );
+        void onBallSetShowClick( StoredBallSet ballSet );
     }
 }

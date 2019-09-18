@@ -167,6 +167,7 @@ public abstract class TabbedFragment extends BaseFragment{
         @Override
         protected String doInBackground( Void... args ) {
             String result = null;
+            GlobalManager.setBackendBusy( true );
             try {
                 Call< ApiResponse< ResponseData > > resultCall = null;
                 if ( mRequestByDraw != null) {
@@ -203,6 +204,7 @@ public abstract class TabbedFragment extends BaseFragment{
         @Override
         protected void onPostExecute( String result ) {
             super.onPostExecute( result );
+            GlobalManager.setBackendBusy( false );
             if ( result != null ) {
                 ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );
                 ( new Handler() ).postDelayed( () -> {

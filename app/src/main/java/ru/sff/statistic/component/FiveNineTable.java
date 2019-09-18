@@ -3,11 +3,13 @@ package ru.sff.statistic.component;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BallsInfo;
+import ru.sff.statistic.model.StoredBallSet;
 import ru.sff.statistic.utils.CustomAnimation;
 
 import static ru.sff.statistic.manager.GlobalManager.getFieldOrientation;
@@ -113,6 +116,27 @@ public class FiveNineTable extends LinearLayout {
             }
         }
          return balls;
+    }
+
+    public void showSelectedBalls( StoredBallSet ballSet ){
+        for( int rowId = 0; rowId < 7; rowId++ ){
+            LinearLayout row = findViewById( ROW_IDS[ rowId ] );
+            for( int i = 0; i < row.getChildCount(); i++ ){
+                View child = row.getChildAt( i );
+                if( child instanceof BallField  ) {
+                    Ball selectedBall = ((BallField) child).getBall();
+                    if ( selectedBall != null ){
+                        ((BallField) child).hideSelection();
+                        for( Ball ball: ballSet.getBallSets() ){
+                            if ( ball.getBallNumber() == selectedBall.getBallNumber() ){
+                                ((BallField) child).setSelection();
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -55,23 +55,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById( R.id.requestByTurnId ).setOnClickListener( this );
         findViewById( R.id.ballConsiderId ).setOnClickListener( this );
 
-        initializeDonationScreen();
     }
 
-    private void initializeDonationScreen(){
-        if ( !GlobalManager.getBootstrapModel().getShowDonationsMsg() ){
-            return;
-        }
-        int donationCount = AppPreferences.getPreference( AppConstants.DONATION_PREF, AppConstants.FAKE_ID );
-        if ( donationCount < AppConstants.DONATION_TIME ){
-            AppPreferences.setPreference( AppConstants.DONATION_PREF, ++donationCount );
-            return;
-        }
-        ( new Handler() ).postDelayed( () -> {
-            ModalMessage.show( this, "Сообщение", new String[]{"Дайте денег!"} );
-            AppPreferences.setPreference( AppConstants.DONATION_PREF, AppConstants.FAKE_ID );
-        }, 5000 );
-    }
+
 
 
     protected void startNewActivity( Class< ? > newClass ) {
@@ -93,6 +79,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onBackPressed() {
+        if( GlobalManager.isBackendBusy() ){
+            return;
+        }
         if ( !GlobalManager.getInstance().getStoredBallSet().isEmpty() ){
             AppPreferences.setPreference( AppConstants.BASKET_PREF, new PreferenceBasket( GlobalManager.getInstance().getStoredBallSet() ).get()  );
         } else {

@@ -132,6 +132,14 @@ public class SplashActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        if( GlobalManager.isBackendBusy() ){
+            return;
+        }
+        super.onBackPressed();
+    }
+
     private class FeetchBootstrapData extends AsyncTask< Void, Void, String > {
 
         @Override
@@ -142,6 +150,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected String doInBackground( Void... args ) {
             String result = null;
+            GlobalManager.setBackendBusy( true );
             try {
                 Call< ApiResponse< BootstrapModel > > resultCall = RestController
                         .getApi().getBootstrapModel( AppPreferences.getUniqueId() );
@@ -163,9 +172,12 @@ public class SplashActivity extends AppCompatActivity {
             return result;
         }
 
+
+
         @Override
         protected void onPostExecute( String result ) {
             super.onPostExecute( result );
+            GlobalManager.setBackendBusy( false );
             if ( result != null ) {
                 ModalMessage.show( mThis, "Сообщение", new String[]{ result } );
                 ( new Handler() ).postDelayed( () -> {

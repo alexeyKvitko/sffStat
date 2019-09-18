@@ -155,7 +155,7 @@ public class StatBySumFragment extends TabbedFragment {
         getCachedResponseData().setLotoModelDraws( null );
         fetchSOBData( request );
         String header = RequestType.BY_SUM.equals( mSelectedRequest ) ? "Сумма шаров с "+request.getBegin()+" по "+ request.getEnd() :
-                                                                            "Шары с "+request.getBegin()+" по "+ request.getEnd()           ;
+                                                                            "Шары с "+request.getBegin()+" по "+ request.getEnd();
         ( ( RouteActivity ) getActivity() ).getAppHeader().setHeader( new HeaderModel( R.drawable.emoji_look, header ) );
     }
 

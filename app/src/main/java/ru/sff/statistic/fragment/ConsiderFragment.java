@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.internal.LinkedHashTreeMap;
@@ -367,6 +368,12 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         mBallTable.redrawTable( mBallsInfo );
     }
 
+    @Override
+    public void onBallSetShowClick(StoredBallSet ballSet) {
+        mBallTable.showSelectedBalls( ballSet );
+        ((ScrollView) getView().findViewById( R.id.considerScrollViewId )).scrollTo(0, mBallTable.getTop() );
+    }
+
     private class FetchConsiderInfo extends AsyncTask< Void, Void, String > {
 
         @Override
@@ -376,6 +383,7 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
 
         @Override
         protected String doInBackground( Void... args ) {
+            GlobalManager.setBackendBusy( true );
             String result = null;
             try {
                 Call< ApiResponse< ConsiderResponse > > resultCall = RestController.getApi()
@@ -402,6 +410,7 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         @Override
         protected void onPostExecute( String result ) {
             super.onPostExecute( result );
+            GlobalManager.setBackendBusy( false );
             if ( result != null ) {
                 ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );
                 ( new Handler() ).postDelayed( () -> {

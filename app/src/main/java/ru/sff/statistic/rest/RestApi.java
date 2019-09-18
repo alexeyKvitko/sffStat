@@ -57,6 +57,10 @@ public interface RestApi {
     Call< ApiResponse< DigitInfo > > getDigitInfoByDate( @Header("application-id") String applicationId
             , @Body RequestByDate requestByDate );
 
+    @POST(APP_API+"getDigitInfoBySOB")
+    Call< ApiResponse< DigitInfo > > getDigitInfoBySOB( @Header("application-id") String applicationId
+            , @Body RequestBySumOrBall requestBySOB );
+
     @POST(APP_API+"getStatisticByDraw")
     Call< ApiResponse< ResponseData > > getStatisticByDraw( @Header("application-id") String applicationId
             , @Body RequestByDraw requestByDraw );

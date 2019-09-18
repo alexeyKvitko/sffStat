@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -29,8 +30,10 @@ import ru.sff.statistic.fragment.StatByDrawFragment;
 import ru.sff.statistic.fragment.StatBySumFragment;
 import ru.sff.statistic.fragment.TurnOverFrament;
 import ru.sff.statistic.manager.GlobalManager;
+import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.HeaderModel;
+import ru.sff.statistic.utils.AppPreferences;
 
 
 public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnDrawDetailsClickListener,
@@ -132,6 +135,7 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
     protected void onResume() {
         super.onResume();
         registerReceiver( mRouteActionReceiver, mBallSelectIntentFilter );
+        initializeDonationScreen();
     }
 
     @Override
@@ -144,8 +148,26 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
         addReplaceFragment( DigitInfoFragment.newInstance( ball ) );
     }
 
+    private void initializeDonationScreen(){
+        if ( !GlobalManager.getBootstrapModel().getShowDonationsMsg() ){
+            return;
+        }
+        int donationCount = AppPreferences.getPreference( AppConstants.DONATION_PREF, AppConstants.FAKE_ID );
+        if ( donationCount < AppConstants.DONATION_TIME ){
+            AppPreferences.setPreference( AppConstants.DONATION_PREF, ++donationCount );
+            return;
+        }
+        ( new Handler() ).postDelayed( () -> {
+            AppPreferences.setPreference( AppConstants.DONATION_PREF, AppConstants.FAKE_ID );
+            donateShow();
+        }, 5000 );
+    }
+
     @Override
     public void onBackPressed() {
+        if( GlobalManager.isBackendBusy() ){
+            return;
+        }
         mHeader.setHeader( mPrevHeader );
         mHeader.setVisibility( View.VISIBLE );
         GlobalManager.setShowLastFallBallSet( false );

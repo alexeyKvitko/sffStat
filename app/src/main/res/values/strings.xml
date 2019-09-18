@@ -96,5 +96,6 @@
     <string name="seven_hundred_label">700 рублей</string>
     <string name="inf_hundred_label">1000 рублей</string>
     <string name="back_btn_label">Назад</string>
+    <string name="show_on_field">Выделить на поле</string>
 
 </resources>

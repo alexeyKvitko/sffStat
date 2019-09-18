@@ -242,27 +242,7 @@ public class StatByDateFragment extends TabbedFragment implements DatePickerDial
     }
 
     private void setAppHeader() {
-        String header = "По Датам";
-        switch ( mRequestByDate.getRequestType() ) {
-            case BY_DAY:
-                header = "за " + mRequestByDate.getDay() + " день месяца";
-                break;
-            case BY_MONTH:
-                header = "за " + AppConstants.ALL_OF_MONTH.get( mRequestByDate.getMonth() ) + " месяц";
-                break;
-            case BY_DAY_WEEK:
-                header = "по " + AppConstants.ALL_DAY_OF_WEEK_SFX.get( mRequestByDate.getDayOfWeek() );
-                break;
-            case BY_DAY_MONTH:
-                header = "за " + mRequestByDate.getDayNumber() + " " + AppConstants.ALL_MONTH_SFX[ mRequestByDate.getMonthNumber() ];
-                break;
-            case BY_PERIOD:
-                header = "c " + mRequestByDate.getStartDay() + " по " + mRequestByDate.getEndDay();
-                break;
-            default:
-                break;
-
-        }
+        String header = AppUtils.getRequestByDateHeader( mRequestByDate );
         ( ( RouteActivity ) getActivity() ).getAppHeader().setHeader( new HeaderModel( R.drawable.emoji_look, header ) );
     }
 

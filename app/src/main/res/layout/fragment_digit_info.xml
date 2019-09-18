@@ -40,6 +40,15 @@
         </LinearLayout>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/digitInfoTitleId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:textColor="@color/shokoColor"
+        android:textSize="22dp" />
+
     <ScrollView
         android:id="@+id/digitInfoScrollViewId"
         android:layout_width="match_parent"
@@ -75,12 +84,13 @@
                 android:text="Последний раз"
                 android:textColor="@color/grayTextColor"
                 android:textSize="16dp" />
+
             <TextView
                 android:id="@+id/digitInfoLastDrawValueId"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
                 android:textColor="@color/shokoTextColor"
                 android:textSize="18dp" />
 
@@ -119,7 +129,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp" />
-
 
 
             <View
@@ -281,39 +290,39 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/deviderColor" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/digitInfoFoursLabelId"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Выпадений в четверке (макс.)"
-                android:textColor="@color/grayTextColor"
-                android:textSize="16dp" />
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/showFoursId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_weight="7"
-                android:gravity="right"
-                android:text="Показать"
-                android:textColor="@color/shokoTextColor"
-                android:textSize="12dp" />
-        </LinearLayout>
-
-            <ru.sff.statistic.component.BallSetWithDesc
-                    android:id="@+id/digitInfoFoursBallSetId"
+                <TextView
+                    android:id="@+id/digitInfoFoursLabelId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                  android:layout_marginHorizontal="24dp" />
+                    android:layout_weight="3"
+                    android:text="Выпадений в четверке (макс.)"
+                    android:textColor="@color/grayTextColor"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/showFoursId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="7"
+                    android:gravity="right"
+                    android:text="Показать"
+                    android:textColor="@color/shokoTextColor"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <ru.sff.statistic.component.BallSetWithDesc
+                android:id="@+id/digitInfoFoursBallSetId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp" />
 
             <LinearLayout
                 android:id="@+id/maxFoursContainerId"
@@ -361,8 +370,8 @@
                 android:id="@+id/digitInfoFiveHitRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="24dp"/>
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp" />
 
             <LinearLayout
                 android:id="@+id/hitFiveContainerId"
@@ -410,8 +419,8 @@
                 android:id="@+id/digitInfoSixHitRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="24dp"/>
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp" />
 
             <LinearLayout
                 android:id="@+id/hitSixContainerId"
