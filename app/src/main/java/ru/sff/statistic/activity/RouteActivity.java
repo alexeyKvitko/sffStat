@@ -17,7 +17,6 @@ import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.component.AppFooter;
 import ru.sff.statistic.component.AppHeader;
-import ru.sff.statistic.component.FloatMenu;
 import ru.sff.statistic.fragment.AllResultsFragment;
 import ru.sff.statistic.fragment.BallSetBasketFragment;
 import ru.sff.statistic.fragment.ConsiderFragment;
@@ -30,7 +29,6 @@ import ru.sff.statistic.fragment.StatByDrawFragment;
 import ru.sff.statistic.fragment.StatBySumFragment;
 import ru.sff.statistic.fragment.TurnOverFrament;
 import ru.sff.statistic.manager.GlobalManager;
-import ru.sff.statistic.modal.ModalMessage;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.HeaderModel;
 import ru.sff.statistic.utils.AppPreferences;
@@ -116,9 +114,13 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
         addReplaceFragment( BallSetBasketFragment.newInstance(), R.drawable.emoji_look, R.string.basket_view_title );
     }
 
-    public void donateShow() {
+    public boolean donateShow() {
+        if( GlobalManager.isBackendBusy() ){
+            return false;
+        }
         getFooter().setDonateDisable( true );
         addReplaceFragment( DonateFragment.newInstance(), R.drawable.emoji_donate, "" );
+        return true;
     }
 
     public ImageView getBackBtn() {
@@ -158,9 +160,10 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
             return;
         }
         ( new Handler() ).postDelayed( () -> {
-            AppPreferences.setPreference( AppConstants.DONATION_PREF, AppConstants.FAKE_ID );
-            donateShow();
-        }, 5000 );
+            if ( donateShow() ) {
+                AppPreferences.setPreference( AppConstants.DONATION_PREF, AppConstants.FAKE_ID );
+            };
+        }, 7000 );
     }
 
     @Override

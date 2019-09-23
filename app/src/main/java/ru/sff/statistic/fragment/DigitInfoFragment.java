@@ -122,8 +122,8 @@ public class DigitInfoFragment extends BaseFragment {
         } else if ( GlobalManager.getCachedResponseData().getRequestBySOB() !=null ){
             RequestBySumOrBall requestBySOB = GlobalManager.getCachedResponseData().getRequestBySOB();
             requestBySOB.setBall(  mBall.getBallNumber() );
-            title = BY_SUM.equals( requestBySOB.getRequestType() ) ? "Сумма шаров с "+requestBySOB.getBegin()+" по "+ requestBySOB.getEnd() :
-                    "Шары с "+requestBySOB.getBegin()+" по "+ requestBySOB.getEnd();
+            title = BY_SUM.equals( requestBySOB.getRequestType() ) ? "Сумма номеров с "+requestBySOB.getBegin()+" по "+ requestBySOB.getEnd() :
+                    "Номера с "+requestBySOB.getBegin()+" по "+ requestBySOB.getEnd();
         }
         digitInfoTitle.setText( title );
         new GetDigitInfo().execute();
@@ -379,7 +379,7 @@ public class DigitInfoFragment extends BaseFragment {
                     if ( resultResponse.body().getStatus() == 200 ) {
                         mDigitInfo = resultResponse.body().getResult();
                         if ( mDigitInfo == null ){
-                            result = "Нет информации по шару: "+mBall.getBallNumber();
+                            result = "Нет информации по номеру: "+mBall.getBallNumber();
                         }
                     } else {
                         result = resultResponse.body().getMessage();

@@ -3,6 +3,7 @@ package ru.sff.statistic.component;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,6 +56,9 @@ public class ColorBall extends LinearLayout {
         }
         if ( BallSetType.RARE.equals( mBall.getBallType() ) ){
             repeatCount = mBall.getDrawRange()+" / " + mBall.getAvgRange();
+            if( mBall.getDrawRange() > 99 ){
+                mBallRepeat.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10f);
+            }
         }
         mBallRepeat.setText( repeatCount );
         mColor = color;
@@ -110,9 +114,10 @@ public class ColorBall extends LinearLayout {
                 applyColorToBall ( R.drawable.ball_stoloto_win , R.drawable.border_repeat_yellow, R.color.goldColor );
             }
         }
+    }
 
-
-
+    public void selectColorBall(){
+        applyColorToBall ( R.drawable.ball_vialet_sel, R.drawable.border_repeat_vialet, R.color.ballVialet );
     }
 
     private void applyColorToBall( int drawableId, int borderId, int colorId ){

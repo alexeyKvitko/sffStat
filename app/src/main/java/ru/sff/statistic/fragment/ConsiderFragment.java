@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 
 import android.os.Handler;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.gson.internal.LinkedHashTreeMap;
-
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -34,9 +35,10 @@ import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.component.BallConsider;
 import ru.sff.statistic.component.BallSetItem;
-import ru.sff.statistic.component.BaseComponent;
+import ru.sff.statistic.component.ColorBall;
 import ru.sff.statistic.component.FieldOrientation;
 import ru.sff.statistic.component.FiveNineTable;
+import ru.sff.statistic.component.LotoItem;
 import ru.sff.statistic.component.SixBallSet;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalDialog;
@@ -49,8 +51,7 @@ import ru.sff.statistic.model.CachedResponseData;
 import ru.sff.statistic.model.ConsiderInfo;
 import ru.sff.statistic.model.ConsiderRequest;
 import ru.sff.statistic.model.ConsiderResponse;
-import ru.sff.statistic.model.DigitInfo;
-import ru.sff.statistic.model.RequestByDate;
+import ru.sff.statistic.model.LotoModel;
 import ru.sff.statistic.model.RequestByDraw;
 import ru.sff.statistic.model.RequestType;
 import ru.sff.statistic.model.StoredBallSet;
@@ -60,7 +61,8 @@ import ru.sff.statistic.utils.AppUtils;
 import ru.sff.statistic.utils.CustomAnimation;
 
 
-public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBallSetItemClickListener {
+public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBallSetItemClickListener,
+        SixBallSet.ColorBallSelectListener {
 
     private static final String TAG = "ConsiderFragment";
 
@@ -70,42 +72,46 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
 
     private Map< Integer, Ball > mAllBalls;
 
-
     private ConsiderResponse mConsiderResponse;
     private ConsiderRequest mConsiderRequest;
 
     private LinearLayout mConsiderResultBody;
+    private LinearLayout mConsiderAdditionalInfo;
     private boolean mRequestProcessed;
 
     private TextView mLastFallInBallSet;
-    private boolean mShowLastFall;
+    private TextView mAdditionalInfoBtn;
+    private TextView mConsiderLabel;
 
-    public ConsiderFragment() {
+    private boolean mShowLastFall;
+    private boolean mShowAdditionalInfo;
+
+    public ConsiderFragment () {
     }
 
 
-    public static ConsiderFragment newInstance() {
+    public static ConsiderFragment newInstance () {
         ConsiderFragment fragment = new ConsiderFragment();
         return fragment;
     }
 
     @Override
-    public void onCreate( Bundle savedInstanceState ) {
+    public void onCreate ( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
     }
 
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState ) {
+    public View onCreateView ( LayoutInflater inflater, ViewGroup container,
+                               Bundle savedInstanceState ) {
         return inflater.inflate( R.layout.fragment_consider, container, false );
     }
 
     @Override
-    public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
+    public void onActivityCreated ( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
 
         GlobalManager.setAllBallSetTypes();
-        if( GlobalManager.getCachedResponseData() != null ){
+        if ( GlobalManager.getCachedResponseData() != null ) {
             GlobalManager.getCachedResponseData().clearAllRequests();
         } else {
             GlobalManager.setCachedResponseData( new CachedResponseData() );
@@ -120,13 +126,46 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         initTextView( R.id.considerTableOrientationLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.considerResultOnTableId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.considerBallSetLabelId, AppConstants.ROTONDA_BOLD );
-        initTextView( R.id.considerCombinationLabelId, AppConstants.ROTONDA_BOLD );
+        mConsiderLabel = initTextView( R.id.considerCombinationLabelId, AppConstants.ROTONDA_BOLD );
 
         initTextView( R.id.considerRareLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.considerRareDescId, AppConstants.ROBOTO_CONDENCED );
 
+        initTextView( R.id.fourAvgDescId, AppConstants.ROBOTO_CONDENCED );
+        initTextView( R.id.fiveAvgDescId, AppConstants.ROBOTO_CONDENCED );
+        initTextView( R.id.sixAvgDescId, AppConstants.ROBOTO_CONDENCED );
+
+        int fourDraws = GlobalManager.getBootstrapModel().getFourBallWinDraws();
+        int fiveDraws = GlobalManager.getBootstrapModel().getFiveBallWinDraws();
+        int sixDraws = GlobalManager.getBootstrapModel().getSixBallWinDraws();
+
+        initTextView( R.id.fourAvgWinnerBallSetId, AppConstants.ROTONDA_BOLD, "4 номера, угадано: "
+                + fourDraws + " " + AppUtils.getTimes( fourDraws ) );
+        initTextView( R.id.fiveAvgWinnerBallSetId, AppConstants.ROTONDA_BOLD, "5 номеров, угадано: "
+                + fiveDraws + " " + AppUtils.getTimes( fiveDraws ) );
+        initTextView( R.id.sixAvgWinnerBallSetId, AppConstants.ROTONDA_BOLD, "6 номеров, угадано: "
+                + sixDraws + " " + AppUtils.getTimes( sixDraws ) );
+
+        SixBallSet fourWins = getView().findViewById( R.id.fourBallSetWinId );
+        fourWins.setBallSet( GlobalManager.getBootstrapModel().getFourWinOften(), BallSetType.RARE );
+        fourWins.setColorBallSelectListener( this );
+
+        SixBallSet fiveWins = getView().findViewById( R.id.fiveBallSetWinId );
+        fiveWins.setBallSet( GlobalManager.getBootstrapModel().getFiveWinOften(), BallSetType.RARE );
+        fiveWins.setColorBallSelectListener( this );
+
+        SixBallSet sixWins = getView().findViewById( R.id.sixBallSetWinId );
+        sixWins.setBallSet( GlobalManager.getBootstrapModel().getSixWinOften(), BallSetType.RARE );
+        sixWins.setColorBallSelectListener( this );
+
         SixBallSet rareBallSet = getView().findViewById( R.id.considerRareBallSetId );
         rareBallSet.setBallSet( getRareBalls(), BallSetType.RARE );
+        rareBallSet.setColorBallSelectListener( this );
+
+        mShowAdditionalInfo = AppPreferences.getPreference( AppConstants.ADITIONAL_INFO_PREF, View.GONE ) == 0;
+        mAdditionalInfoBtn = initTextView( R.id.considerShowAdditionalInfoId, AppConstants.ROBOTO_CONDENCED );
+        mConsiderAdditionalInfo = getView().findViewById( R.id.considerWinnerInfoContainerId );
+        showAdditionalInfoContainer();
 
         mLastFallInBallSet = initTextView( R.id.showLastFallInBallSetId, AppConstants.ROTONDA_BOLD );
         mConsiderResultBody = getView().findViewById( R.id.considerBodyId );
@@ -149,20 +188,21 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
             mBallTable.redrawTable();
         } );
         setThisOnClickListener( R.id.considerBallSetLabelId, R.id.considerAddToStoredId, R.id.considerGetInfoId,
-                R.id.showLastFallInBallSetId );
+                R.id.showLastFallInBallSetId, R.id.considerShowAdditionalInfoId );
     }
 
-    private void addStoredBallSets( Map< Integer, Ball > allBalls ) {
+
+    private void addStoredBallSets ( Map< Integer, Ball > allBalls ) {
         if ( GlobalManager.getStoredBallSet() != null
                 && GlobalManager.getStoredBallSet().size() > 0 ) {
             LinearLayout ballSetContainer = getView().findViewById( R.id.considerBallSetContainerId );
-            List<StoredBallSet> sorted = GlobalManager.getSortedStoredBallSet();
-            for ( int i = sorted.size()-1; i >= 0 ; i-- ) {
-                StoredBallSet ballSet = sorted.get(i);
+            List< StoredBallSet > sorted = GlobalManager.getSortedStoredBallSet();
+            for ( int i = sorted.size() - 1; i >= 0; i-- ) {
+                StoredBallSet ballSet = sorted.get( i );
                 for ( Ball ball : ballSet.getBallSets() ) {
                     Ball selectedBall = allBalls.get( ball.getBallNumber() );
                     selectedBall.setBallRepeat( selectedBall.getBallRepeat() + 1 );
-                    setBallSetType( selectedBall,  ball.getBallType() );
+                    setBallSetType( selectedBall, ball.getBallType() );
                 }
                 BallSetItem ballSetItem = new BallSetItem( getContext() );
                 ballSetItem.setOnBallSetItemClickListener( this );
@@ -174,24 +214,24 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         }
     }
 
-    private void setBallSetType( Ball ball, BallSetType newType ){
-        if( BallSetType.ALL.equals( ball.getBallType() ) || newType.equals( ball.getBallType() ) ){
+    private void setBallSetType ( Ball ball, BallSetType newType ) {
+        if ( BallSetType.ALL.equals( ball.getBallType() ) || newType.equals( ball.getBallType() ) ) {
             ball.setBallType( newType );
             return;
         }
-        if( !ball.getBallType().equals( newType ) ){
-            if ( ball.getComby() == null ){
+        if ( !ball.getBallType().equals( newType ) ) {
+            if ( ball.getComby() == null ) {
                 ball.setComby( new HashSet<>() );
                 ball.getComby().add( ball.getBallType() );
             }
-            if( !BallSetType.COMBY.equals( newType ) ){
+            if ( !BallSetType.COMBY.equals( newType ) ) {
                 ball.getComby().add( newType );
             }
             ball.setBallType( BallSetType.COMBY );
         }
     }
 
-    private void clearStoredBallSets() {
+    private void clearStoredBallSets () {
         LinearLayout ballSetContainer = getView().findViewById( R.id.considerBallSetContainerId );
         ballSetContainer.removeAllViews();
         for ( Ball ball : mAllBalls.values() ) {
@@ -199,7 +239,7 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         }
     }
 
-    private void addToStoredBallSet() {
+    private void addToStoredBallSet () {
         List< Ball > balls = mBallTable.getSelectedBall();
         if ( balls.size() == 6 ) {
             ModalDialog.DialogParams params = ModalDialog.getDialogParms();
@@ -211,25 +251,26 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
                     .setWhiteButtonId( R.drawable.ic_close_gray_18dp );
             ModalDialog.execute( getActivity(), params ).setOnModalBtnClickListener( new ModalDialog.OnModalBtnClickListener() {
                 @Override
-                public void onBlueButtonClick( String textValue ) {
-                    Ball[] ballSet = new Ball[ balls.size() ];
-                    for( int i = 0; i < balls.size(); i++ ){
-                        Ball ball =  new Ball( balls.get(i).getBallNumber(),0 , BallSetType.CUSTOM );
+                public void onBlueButtonClick ( String textValue ) {
+                    Ball[] ballSet = new Ball[balls.size()];
+                    for ( int i = 0; i < balls.size(); i++ ) {
+                        Ball ball = new Ball( balls.get( i ).getBallNumber(), 0, BallSetType.CUSTOM );
                         ballSet[i] = ball;
                     }
                     addCustomBallSet( textValue.toUpperCase(), ballSet );
                 }
+
                 @Override
-                public void onWhiteBtnClick() {
+                public void onWhiteBtnClick () {
 
                 }
             } );
         } else {
-            ModalMessage.show( getActivity(), "Сообщение", new String[]{ "Добавить в корзину можно только 6 шаров !" } );
+            ModalMessage.show( getActivity(), "Сообщение", new String[] {"Добавить в корзину можно только 6 номеров !"} );
         }
     }
 
-    private void addCustomBallSet( String setName, Ball[] ballSet ) {
+    private void addCustomBallSet ( String setName, Ball[] ballSet ) {
         addBallSetToBasket( setName, ballSet, BallSetType.CUSTOM );
         clearStoredBallSets();
         addStoredBallSets( mAllBalls );
@@ -239,7 +280,7 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
     }
 
 
-    private void addBallSetToBasket( String basketName, Ball[] ballSet, BallSetType ballSetType ) {
+    private void addBallSetToBasket ( String basketName, Ball[] ballSet, BallSetType ballSetType ) {
         if ( GlobalManager.getStoredBallSet().get( basketName ) == null ) {
             StoredBallSet storedBallSet = new StoredBallSet();
             storedBallSet.setBallSets( ballSet );
@@ -249,14 +290,15 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
             storedBallSet.setDrawCount( AppConstants.ZERO_DIGIT );
             GlobalManager.getStoredBallSet().put( basketName, storedBallSet );
         } else {
-            ModalMessage.show( getActivity(), "Сообщение", new String[]{ "Набор с таким именем существует" } );
+            ModalMessage.show( getActivity(), "Сообщение", new String[] {"Набор с таким именем существует"} );
         }
     }
 
-    private void getConsiderInfo() {
+    private void getConsiderInfo () {
         List< Ball > balls = mBallTable.getSelectedBall();
-        if ( balls.size() < 6 || balls.size() > 13 ) {
-            ModalMessage.show( getActivity(), "Сообщение", new String[]{ "Выберите от 6 до 13 шаров." } );
+//        if ( balls.size() < 6 || balls.size() > 13 ) {
+        if ( balls.size() != 6 ) {
+            ModalMessage.show( getActivity(), "Сообщение", new String[] {"Выберите 6 номеров."} );
             return;
         }
         mConsiderRequest = new ConsiderRequest();
@@ -269,24 +311,29 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         new FetchConsiderInfo().execute();
     }
 
-    private void clearConsiderInfo() {
+    private void clearConsiderInfo () {
         mRequestProcessed = false;
         changeConsiderUIText( R.string.select_combination_label, R.string.button_consider );
     }
 
-    private void populateConsiderResponse() {
+    private void populateConsiderResponse () {
         mRequestProcessed = true;
         changeConsiderUIText( R.string.consider_result, R.string.button_clear );
+        addCalulatedBallSet();
         for ( ConsiderInfo considerInfo : mConsiderResponse.getConsiderInfos() ) {
             BallConsider ballConsider = new BallConsider( getContext() );
             ballConsider.setBallConsider( considerInfo, mConsiderRequest.getBalls() );
             mConsiderResultBody.addView( ballConsider );
         }
+        addHitNumbers( "5 выбранных номеров выпадали ранее", mConsiderResponse.getFiveHits() );
+        addHitNumbers( "6 выбранных номеров выпадали ранее", mConsiderResponse.getSixHits() );
+        (( ScrollView ) getView().findViewById( R.id.considerScrollViewId )).scrollTo( 0, mConsiderLabel.getTop() );
         CustomAnimation.transitionAnimation( getView().findViewById( R.id.pleaseWaitContainerId ),
                 getView().findViewById( R.id.considerMainLayoutId ) );
+
     }
 
-    private void changeConsiderUIText( int textId, int btnId ) {
+    private void changeConsiderUIText ( int textId, int btnId ) {
         getView().findViewById( R.id.considerResultContainerId ).setVisibility( mRequestProcessed ? View.VISIBLE : View.GONE );
         mConsiderResultBody.removeAllViews();
         initTextView( R.id.considerCombinationLabelId, AppConstants.ROTONDA_BOLD,
@@ -295,7 +342,45 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
                 .setText( SFFSApplication.getAppContext().getResources().getString( btnId ) );
     }
 
-    private void showLastFallInBallSet() {
+    private void addCalulatedBallSet () {
+        Ball[] calcBallSet = new Ball[6];
+        for ( int i = 0; i < 6; i++ ) {
+            ConsiderInfo considerInfo = mConsiderResponse.getConsiderInfos().get( i );
+            Ball ball = new Ball( considerInfo.getBallDigit(), considerInfo.getRepeatCount(), BallSetType.ALL );
+            calcBallSet[i] = ball;
+        }
+        SixBallSet ballSetView = new SixBallSet( getContext() );
+        ballSetView.setBallSet( calcBallSet, BallSetType.RARE );
+        mConsiderResultBody.addView( ballSetView );
+    }
+
+    private void addHitNumbers ( String labelValue, List< LotoModel > lotoDraws ) {
+        if ( lotoDraws == null || lotoDraws.isEmpty() ) {
+            return;
+        }
+        TextView label = new TextView( getContext() );
+        label.setTextSize( TypedValue.COMPLEX_UNIT_DIP, 16 );
+        label.setTextColor( getActivity().getResources().getColor( R.color.grayTextColor ) );
+        label.setTypeface( AppConstants.ROTONDA_BOLD );
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT );
+        params.setMarginStart( ( int ) AppUtils.convertDpToPixel( 20 ) );
+        params.topMargin = (( int ) AppUtils.convertDpToPixel( 12 ));
+        label.setLayoutParams( params );
+        label.setText( labelValue );
+        mConsiderResultBody.addView( label );
+        for ( LotoModel lotoModel : lotoDraws ) {
+            if ( lotoModel.getSlotOne() != null ) {
+                LotoItem lotoItem = new LotoItem( getContext() );
+                lotoItem.setLotoItem( lotoModel );
+                mConsiderResultBody.addView( lotoItem );
+            }
+        }
+
+    }
+
+
+    private void showLastFallInBallSet () {
         mShowLastFall = !mShowLastFall;
         Drawable drawable = mShowLastFall ? getActivity().getResources().getDrawable( R.drawable.ic_check_box_outline_black_18dp ) :
                 getActivity().getResources().getDrawable( R.drawable.ic_checkbox_blank_outline_black_18dp );
@@ -305,28 +390,37 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         addStoredBallSets( mAllBalls );
     }
 
-    private Ball[] getRareBalls(){
+    private Ball[] getRareBalls () {
         Ball[] rareBalls = new Ball[6];
-        Map<Integer,Ball> ballMap =  new TreeMap<>( Collections.reverseOrder()) ;
-        for( Ball ball: GlobalManager.getBootstrapModel().getPlayedBalls() ){
-            ballMap.put( ball.getDrawRange()-ball.getAvgRange(), ball );
+        Map< Integer, Ball > ballMap = new TreeMap<>( Collections.reverseOrder() );
+        for ( Ball ball : GlobalManager.getBootstrapModel().getPlayedBalls() ) {
+            ballMap.put( ball.getDrawRange() - ball.getAvgRange(), ball );
         }
         int idx = 0;
-        for( Ball ball : ballMap.values() ){
+        for ( Ball ball : ballMap.values() ) {
             Ball newBall = new Ball( ball.getBallNumber(), ball.getBallRepeat(), BallSetType.RARE );
             newBall.setDrawRange( ball.getDrawRange() );
             newBall.setAvgRange( ball.getAvgRange() );
-            rareBalls[ idx ] = newBall;
+            rareBalls[idx] = newBall;
             idx++;
-            if( idx == 6 ){
+            if ( idx == 6 ) {
                 break;
             }
         }
         return rareBalls;
     }
 
+    private void showAdditionalInfoContainer () {
+        String btnText = mShowAdditionalInfo ? getActivity().getResources().getString( R.string.button_hide ) :
+                getActivity().getResources().getString( R.string.show_additional_info );
+        int visibility = mShowAdditionalInfo ? View.VISIBLE : View.GONE;
+        mAdditionalInfoBtn.setText( btnText );
+        mConsiderAdditionalInfo.setVisibility( visibility );
+        AppPreferences.setPreference( AppConstants.ADITIONAL_INFO_PREF, visibility );
+    }
+
     @Override
-    public void onClick( View view ) {
+    public void onClick ( View view ) {
         switch ( view.getId() ) {
             case R.id.considerAddToStoredId:
                 addToStoredBallSet();
@@ -341,13 +435,17 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
             case R.id.showLastFallInBallSetId:
                 showLastFallInBallSet();
                 break;
+            case R.id.considerShowAdditionalInfoId:
+                mShowAdditionalInfo = !mShowAdditionalInfo;
+                showAdditionalInfoContainer();
+                break;
             default:
                 break;
         }
     }
 
     @Override
-    public void onBallSetItemClick( StoredBallSet ballSet, boolean addToSet ) {
+    public void onBallSetItemClick ( StoredBallSet ballSet, boolean addToSet ) {
         for ( Ball ball : ballSet.getBallSets() ) {
             Ball existBall = mAllBalls.get( ball.getBallNumber() );
             int existRepeat = existBall.getBallRepeat();
@@ -369,20 +467,36 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
     }
 
     @Override
-    public void onBallSetShowClick(StoredBallSet ballSet) {
+    public void onBallSetShowClick ( StoredBallSet ballSet ) {
         mBallTable.showSelectedBalls( ballSet );
-        ((ScrollView) getView().findViewById( R.id.considerScrollViewId )).scrollTo(0, mBallTable.getTop() );
+        (( ScrollView ) getView().findViewById( R.id.considerScrollViewId )).scrollTo( 0, mBallTable.getTop() );
+    }
+
+    @Override
+    public void onPause () {
+        super.onPause();
+        GlobalManager.setCachedResponseData( null );
+    }
+
+    @Override
+    public void onColorBallSelect ( ColorBall colorBall ) {
+//        if( mSelectedBalls.get( colorBall.getBall().getBallNumber() ) == null ){
+//            mSelectedBalls.put( colorBall.getBall().getBallNumber(), colorBall );
+//            colorBall.selectColorBall();
+//        } else {
+//            mSelectedBalls.remove( colorBall );
+//        }
     }
 
     private class FetchConsiderInfo extends AsyncTask< Void, Void, String > {
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute () {
             super.onPreExecute();
         }
 
         @Override
-        protected String doInBackground( Void... args ) {
+        protected String doInBackground ( Void... args ) {
             GlobalManager.setBackendBusy( true );
             String result = null;
             try {
@@ -408,12 +522,12 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         }
 
         @Override
-        protected void onPostExecute( String result ) {
+        protected void onPostExecute ( String result ) {
             super.onPostExecute( result );
             GlobalManager.setBackendBusy( false );
             if ( result != null ) {
-                ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );
-                ( new Handler() ).postDelayed( () -> {
+                ModalMessage.show( getActivity(), "Сообщение", new String[] {result} );
+                (new Handler()).postDelayed( () -> {
                     getActivity().onBackPressed();
                 }, 2000 );
                 return;

@@ -91,13 +91,13 @@ public class StatBySumFragment extends TabbedFragment {
             GlobalManager.getInstance().getLastMenuHeight();
             animateRequestContainer( 0, mMenuHeight );
             if ( RequestType.BY_SUM.equals( mSelectedRequest ) ){
-                header = "Сумма шаров с "+begin+" по "+ end;
+                header = "Сумма номеров с "+begin+" по "+ end;
                 beginSum = begin;
                 endSum = end;
                 sumEnabled = true;
                 ballEnabled = false;
             } else {
-                header = "Шары с "+begin+" по "+ end;
+                header = "Номера с "+begin+" по "+ end;
                 mBallSlider.setEnableSlider( true );
                 mSumSlider.setEnableSlider( false );
                 beginBall = begin;
@@ -154,8 +154,8 @@ public class StatBySumFragment extends TabbedFragment {
         getCachedResponseData().setRequestBySOB( request );
         getCachedResponseData().setLotoModelDraws( null );
         fetchSOBData( request );
-        String header = RequestType.BY_SUM.equals( mSelectedRequest ) ? "Сумма шаров с "+request.getBegin()+" по "+ request.getEnd() :
-                                                                            "Шары с "+request.getBegin()+" по "+ request.getEnd();
+        String header = RequestType.BY_SUM.equals( mSelectedRequest ) ? "Сумма номеров с "+request.getBegin()+" по "+ request.getEnd() :
+                                                                            "Номера с "+request.getBegin()+" по "+ request.getEnd();
         ( ( RouteActivity ) getActivity() ).getAppHeader().setHeader( new HeaderModel( R.drawable.emoji_look, header ) );
     }
 

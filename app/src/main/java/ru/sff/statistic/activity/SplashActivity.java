@@ -165,7 +165,7 @@ public class SplashActivity extends AppCompatActivity {
                     result = getResources().getString( R.string.internal_error );
                 }
             } catch ( Exception e ) {
-                result = getResources().getString( R.string.internal_error );
+                result = getResources().getString( R.string.internet_error );
                 Log.i( TAG, e.getMessage() );
                 e.printStackTrace();
             }

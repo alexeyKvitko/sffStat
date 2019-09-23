@@ -17,109 +17,119 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <TextView
-            android:id="@+id/considerTableOrientationLabelId"
-            style="@style/textViewLabel"
-            android:text="@string/table_orientation"
-            android:textSize="16dp" />
 
-        <ru.sff.statistic.component.FieldOrientation
-            android:id="@+id/considerFieldOrientationId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp" />
-
-        <TextView
-            android:id="@+id/considerResultOnTableId"
-            style="@style/textViewLabel"
-            android:text="@string/result_field" />
-
-        <ru.sff.statistic.component.FiveNineTable
-            android:id="@+id/considerFiveNineTableId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp" />
-
-        <TextView
-            android:id="@+id/considerCombinationLabelId"
-            style="@style/textViewLabel"
-            android:text="@string/select_combination_label"
-            android:textSize="16dp" />
-
-        <LinearLayout
-            android:id="@+id/considerResultContainerId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-            <LinearLayout
-                android:id="@+id/considerBodyId"
-                android:layout_marginHorizontal="24dp"
+            <ru.sff.statistic.component.LastFallInfo
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/considerAddToStoredId"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_yellow"
-                android:elevation="6dp"
-                android:text="@string/button_basket"
-                android:textColor="@android:color/white" />
-
-            <Button
-                android:id="@+id/considerGetInfoId"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_shocko"
-                android:elevation="6dp"
-                android:text="@string/button_consider"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginHorizontal="32dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/deviderColor" />
+                android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/considerRareLabelId"
-                style="@style/textViewLabel"
-                android:text="@string/rare_label"/>
-
-            <TextView
-                android:id="@+id/considerRareDescId"
+                android:id="@+id/showLastFallInBallSetId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="20dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:drawableLeft="@drawable/ic_checkbox_blank_outline_black_18dp"
+                android:drawablePadding="4dp"
+                android:text="@string/show_last_fall_label"
                 android:textColor="@color/grayTextColor"
-                android:textSize="10dp"
-                android:text="@string/rare_desc"/>
+                android:textSize="14dp" />
 
-            <ru.sff.statistic.component.SixBallSet
-                android:id="@+id/considerRareBallSetId"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/deviderColor" />
+
+            <TextView
+                android:id="@+id/considerShowAdditionalInfoId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="12dp" />
+                android:layout_gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/border_bottom"
+                android:textColor="@color/shokoColor"
+                android:textSize="12dp"
+                android:text="@string/show_additional_info"/>
+
+            <LinearLayout
+                android:id="@+id/considerWinnerInfoContainerId"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop = "-24dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/considerRareLabelId"
+                    style="@style/textViewLabel"
+                    android:text="@string/rare_label" />
+
+                <TextView
+                    android:id="@+id/considerRareDescId"
+                    style="@style/textViewDesc"
+                    android:text="@string/rare_desc" />
+
+                <ru.sff.statistic.component.SixBallSet
+                    android:id="@+id/considerRareBallSetId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/fourAvgWinnerBallSetId"
+                    style="@style/textViewLabel"
+                    android:layout_marginTop="18dp" />
+
+                <TextView
+                    android:id="@+id/fourAvgDescId"
+                    style="@style/textViewDesc"
+                    android:text="@string/often_desc_four" />
+
+                <ru.sff.statistic.component.SixBallSet
+                    android:id="@+id/fourBallSetWinId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/fiveAvgWinnerBallSetId"
+                    style="@style/textViewLabel"
+                    android:layout_marginTop="18dp" />
+
+                <TextView
+                    android:id="@+id/fiveAvgDescId"
+                    style="@style/textViewDesc"
+                    android:text="@string/often_desc_five" />
+
+                <ru.sff.statistic.component.SixBallSet
+                    android:id="@+id/fiveBallSetWinId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/sixAvgWinnerBallSetId"
+                    style="@style/textViewLabel"
+                    android:layout_marginTop="18dp" />
+
+                <TextView
+                    android:id="@+id/sixAvgDescId"
+                    style="@style/textViewDesc"
+                    android:text="@string/often_desc_six" />
+
+                <ru.sff.statistic.component.SixBallSet
+                    android:id="@+id/sixBallSetWinId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp" />
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -129,35 +139,103 @@
                 android:background="@color/deviderColor" />
 
 
-        <TextView
-            android:id="@+id/considerBallSetLabelId"
-            style="@style/textViewLabel"
-            android:text="@string/ball_set_label"/>
+            <TextView
+                android:id="@+id/considerTableOrientationLabelId"
+                style="@style/textViewLabel"
+                android:text="@string/table_orientation"
+                android:textSize="16dp" />
 
-        <LinearLayout
-            android:id="@+id/considerBallSetContainerId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            <ru.sff.statistic.component.FieldOrientation
+                android:id="@+id/considerFieldOrientationId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp" />
+
+            <TextView
+                android:id="@+id/considerResultOnTableId"
+                style="@style/textViewLabel"
+                android:text="@string/result_field" />
+
+            <ru.sff.statistic.component.FiveNineTable
+                android:id="@+id/considerFiveNineTableId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/considerCombinationLabelId"
+                style="@style/textViewLabel"
+                android:text="@string/select_combination_label"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/considerAddToStoredId"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_yellow"
+                    android:elevation="6dp"
+                    android:text="@string/button_basket"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/considerGetInfoId"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_shocko"
+                    android:elevation="6dp"
+                    android:text="@string/button_consider"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/considerResultContainerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/considerBodyId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical"/>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/deviderColor" />
+
+
+            <TextView
+                android:id="@+id/considerBallSetLabelId"
+                style="@style/textViewLabel"
+                android:text="@string/ball_set_label" />
+
+            <LinearLayout
+                android:id="@+id/considerBallSetContainerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="36dp"
+                android:orientation="vertical" />
         </LinearLayout>
-
-
-        <ru.sff.statistic.component.LastFallInfo
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/showLastFallInBallSetId"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:textColor="@color/grayTextColor"
-            android:textSize="14dp"
-            android:drawableLeft="@drawable/ic_checkbox_blank_outline_black_18dp"
-            android:drawablePadding="4dp"
-            android:text="@string/show_last_fall_label"/>
 
     </LinearLayout>
 

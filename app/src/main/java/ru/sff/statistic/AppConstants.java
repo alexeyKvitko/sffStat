@@ -35,6 +35,7 @@ public abstract class AppConstants {
     public static final String VIEW_TYPE_FALLING_COUNT = "view_type_falling_count";
 
     public static final String BASKET_PREF = "ru.sff.statistic.BASKET_PREF";
+    public static final String ADITIONAL_INFO_PREF = "ru.sff.statistic.ADITIONAL_INFO_PREF";
     public static final String DONATION_PREF = "ru.sff.statistic.DONATION_PREF";
 
     public static final String ZERO_DIGIT = "0";

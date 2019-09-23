@@ -28,8 +28,8 @@ public class Circle extends View {
         super.onDraw( canvas );
         Paint circle = new Paint( Paint.ANTI_ALIAS_FLAG );
         circle.setStyle( Paint.Style.STROKE );
-        circle.setColor( SFFSApplication.getAppContext().getResources().getColor( R.color.ballSpringgreen ) );
-        circle.setStrokeWidth( ( int ) AppUtils.convertDpToPixel( 3 ) );
+        circle.setColor( SFFSApplication.getAppContext().getResources().getColor( R.color.repeatColor ) );
+        circle.setStrokeWidth( ( int ) AppUtils.convertDpToPixel( 4 ) );
         circle.setStrokeCap( Paint.Cap.SQUARE );
         canvas.drawCircle( mCenter, mCenter, mRadius, circle );
     }

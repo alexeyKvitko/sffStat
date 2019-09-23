@@ -18,9 +18,10 @@
     <string name="donate_title">Поддержка проекта</string>
     <string name="donate_label">Оказать поддержку проекту</string>
     <string name="draw_details_title">Результаты тиража №</string>
-    <string name="digit_details_title">Статистика по шару №</string>
+    <string name="digit_details_title">Статистика по номеру №</string>
     <string name="per_draw_label">В среднем за тираж</string>
     <string name="internal_error">Внутренняя ошибка, повторите попытку позже</string>
+    <string name="internet_error">Низкая скорость интернет содинения</string>
     <string name="from_draw">С Тиража</string>
     <string name="draws_label">Тиражи</string>
     <string name="to_draw">По Тираж</string>
@@ -40,8 +41,11 @@
     <string name="table_orientation">Ориентация поля</string>
     <string name="select_combination_label">Выбранная комбинация</string>
     <string name="ball_set_label">Выбранные наборы</string>
-    <string name="rare_label">Ожидаемые шары</string>
-    <string name="rare_desc">( тиражей не выпадал / среднее число тиражей для выпадений шара )</string>
+    <string name="rare_label">Ожидаемые номера</string>
+    <string name="rare_desc">( тиражей не выпадал / среднее число тиражей для выпадений номера )</string>
+    <string name="often_desc_four">( выпадений в 4-х угаданных / всего выпадений )</string>
+    <string name="often_desc_five">( выпадений в 5-и угаданных / всего выпадений )</string>
+    <string name="often_desc_six">( выпадений в 6-и угаданных / всего выпадений )</string>
     <string name="consider_result">Результаты</string>
     <string name="even_odd_label">Четные, Нечетные</string>
     <string name="fab_falling_count">Количество выпадений</string>
@@ -55,7 +59,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="draw_date_label">Дата розыгрыша</string>
-    <string name="ball_sum_label">Сумма выпавших цифр</string>
+    <string name="ball_sum_label">Сумма выпавших номеров</string>
     <string name="draw_result_label">Итоги розыгрыша</string>
     <string name="ticket_count_label">Билетов участвовало</string>
     <string name="draw_pay_amount_label">Выплачено по результам тиража</string>
@@ -63,12 +67,13 @@
     <string name="superprize_draw_label">Суперприз</string>
     <string name="error_required_field">Поле обязательно для заполнения</string>
     <string name="button_show">Показать</string>
+    <string name="button_hide">Скрыть</string>
     <string name="button_cancel">Отменить</string>
     <string name="button_basket">В корзину</string>
     <string name="button_consider">Расчитать</string>
     <string name="button_donate">Поддержать</string>
     <string name="button_clear">Очистить</string>
-    <string name="avg_sum_label">Средняя сумма шаров</string>
+    <string name="avg_sum_label">Средняя сумма номеров</string>
     <string name="last_win_label">Последние тиражи из набора, в которых</string>
     <string name="show_result_by_draw">За последние 1 - 45 тиражей</string>
     <string name="show_result_by_draw_sel">По выбранным тиражам</string>
@@ -76,7 +81,7 @@
     <string name="from_draw_label">С тиража</string>
     <string name="to_draw_label">По тираж</string>
     <string name="by_sum_label">По выпавшим суммам</string>
-    <string name="by_ball_label">По выпавшим шарам</string>
+    <string name="by_ball_label">По выпавшим номерам</string>
     <string name="by_date_label">По дню в месяце</string>
     <string name="by_month_label">По месяцу</string>
     <string name="by_day_week_label">По дню недели</string>
@@ -97,5 +102,9 @@
     <string name="inf_hundred_label">1000 рублей</string>
     <string name="back_btn_label">Назад</string>
     <string name="show_on_field">Выделить на поле</string>
+    <string name="often_win_five_ball">Частота выпадения в выигрышах</string>
+    <string name="show_additional_info">Показать информацию по номерам</string>
+    <string name="previous_draw_label">Предыдущий тираж №</string>
+
 
 </resources>

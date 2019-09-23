@@ -1,13 +1,10 @@
 package ru.sff.statistic.manager;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.model.Ball;
@@ -15,6 +12,7 @@ import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BootstrapModel;
 import ru.sff.statistic.model.CachedResponseData;
 import ru.sff.statistic.model.StoredBallSet;
+import ru.sff.statistic.utils.AppPreferences;
 
 public class GlobalManager {
 
@@ -148,4 +146,6 @@ public class GlobalManager {
     public static void setBackendBusy(boolean backendBusy) {
         GlobalManager.backendBusy = backendBusy;
     }
+
+
 }

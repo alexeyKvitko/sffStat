@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class Ball implements Serializable, Comparable, Cloneable {
 
+
     private int ballNumber;
     private int ballRepeat;
     private int drawRange;

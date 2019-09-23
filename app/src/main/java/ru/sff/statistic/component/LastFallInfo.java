@@ -1,6 +1,7 @@
 package ru.sff.statistic.component;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
@@ -32,9 +34,10 @@ public class LastFallInfo extends BaseComponent {
         initBaseComponent( this );
         LotoModel lotoModel = GlobalManager.getBootstrapModel().getLastFall();
 
-        initTextView( R.id.lastFallDrawLabelId ,
-                                        AppConstants.ROBOTO_BLACK ).setText( "Предыдущий тираж № " +
-                                                                    lotoModel.getDraw().toString() );
+        initTextView( R.id.lastFallDrawLabelId ,AppConstants.ROBOTO_BLACK );
+        initTextView( R.id.lastFallDrawValueId ,
+                                    AppConstants.ROBOTO_BLACK ).setText( lotoModel.getDraw().toString() );
+
         initTextView( R.id.lastFallDateTimeValueId ,
                 AppConstants.ROBOTO_BLACK ).setText( GlobalManager.getBootstrapModel()
                                                     .getLastFallDay()+","+lotoModel.getDrawDate() );
@@ -51,11 +54,16 @@ public class LastFallInfo extends BaseComponent {
         balls[5] = GlobalManager.getBallByNumber( lotoModel.getSlotSix() );
         lastFallDraw.setBallSet( balls, BallSetType.BIGGER );
         lastFallDraw.hideRepeatCaption();
+        setThisOnClickListener( R.id.lastFallDrawValueId );
     }
 
 
     @Override
     public void onClick( View view ) {
-
+        Intent intent = new Intent( AppConstants.ROUTE_ACTION_MESSAGE );
+        intent.putExtra( AppConstants.ROUTE_ACTION_TYPE, AppConstants.DRAW_SELECT_ACTION );
+        intent.putExtra( AppConstants.DRAW_SELECT_ACTION, GlobalManager.getBootstrapModel().getLastFall().getDraw() );
+        SFFSApplication.getAppContext().sendBroadcast( intent );
     }
+
 }
