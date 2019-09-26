@@ -17,6 +17,9 @@ import java.util.List;
 import ru.sff.statistic.R;
 import ru.sff.statistic.activity.RouteActivity;
 import ru.sff.statistic.manager.GlobalManager;
+import ru.sff.statistic.modal.ModalDialog;
+import ru.sff.statistic.model.Ball;
+import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.StoredBallSet;
 import ru.sff.statistic.recycleview.BasketAdapter;
 
@@ -107,13 +110,38 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
     }
 
     @Override
-    public void onBasketTrashClick( String entityName ) {
-        GlobalManager.getStoredBallSet().remove( entityName );
-        if( GlobalManager.getStoredBallSet().size() == 0 ){
+    public void onBasketTrashClick( String entityName, BallSetType ballSetType ) {
+        if ( BallSetType.CUSTOM.equals( ballSetType ) ){
+            ModalDialog.DialogParams params = ModalDialog.getDialogParms();
+            params.setTitle( "Вы действительно хотите удалить набор ?" )
+                    .setMessage( "Подтверждение" )
+                    .setBlueButtonText( getResources().getString( R.string.button_cancel ) )
+                    .setBlueButtonId( R.drawable.ic_emog_good_24dp )
+                    .setWhiteButtonText( getResources().getString( R.string.button_delete ) )
+                    .setWhiteButtonId( R.drawable.ic_emog_angry_24dp );
+            ModalDialog.execute( getActivity(), params ).setOnModalBtnClickListener( new ModalDialog.OnModalBtnClickListener() {
+                @Override
+                public void onBlueButtonClick ( String textValue ) {}
+
+                @Override
+                public void onWhiteBtnClick () {
+                    removeFromStoredBallSet( entityName );
+                }
+            } );
+        } else {
+            removeFromStoredBallSet( entityName );
+        }
+
+
+    }
+
+    private void removeFromStoredBallSet( String entityName ){
+        if( GlobalManager.removeFromStoredBallSet( entityName ) ){
             getActivity().onBackPressed();
             return;
         }
         fillBasketAdapter( GlobalManager.getSortedStoredBallSet() );
         mBasketAdapter.notifyDataSetChanged();
     }
+
 }

@@ -202,7 +202,7 @@ public class DrawsPlaneInfo extends BaseComponent {
             storedBallSet.setStoredDate( AppUtils.formatDate( AppConstants.FULL_DATE_FORMAT, new Date( ) ) );
             storedBallSet.setBallSetName( basketName );
             storedBallSet.setDrawCount( AppUtils.getDraws( GlobalManager.getCachedResponseData().getTotalDraw() ) );
-            GlobalManager.getStoredBallSet().put( basketName, storedBallSet );
+            GlobalManager.addToStoredBallSet( basketName, storedBallSet );
             basketImage.setImageDrawable( SFFSApplication.getAppContext().getResources()
                                                 .getDrawable( R.drawable.ic_basket_shoko_18dp ) );
         } else {

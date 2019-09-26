@@ -44,7 +44,8 @@ public class AllResultsFragment extends TabbedFragment {
         RequestByDraw requestByDraw =  new RequestByDraw();
         requestByDraw.setRequestDrawType( RequestType.ALL_DRAW );
         if ( GlobalManager.getCachedResponseData() != null
-                    && RequestType.ALL_DRAW.equals( GlobalManager.getCachedResponseData().getLastRequest() ) ){
+                    && RequestType.ALL_DRAW.equals( GlobalManager.getCachedResponseData().getLastRequest() )
+                            && GlobalManager.getCachedResponseData().getBallsInfo() != null  ){
             mFirstRequest = false;
             initTabs();
         } else {

@@ -1,9 +1,5 @@
 package ru.sff.statistic.model;
 
-import android.util.Log;
-
-import java.util.Comparator;
-
 public class StoredBallSet implements Comparable {
 
     private Ball[] ballSets;

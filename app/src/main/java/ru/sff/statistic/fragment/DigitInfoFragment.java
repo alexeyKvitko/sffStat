@@ -25,6 +25,7 @@ import ru.sff.statistic.R;
 import ru.sff.statistic.SFFSApplication;
 import ru.sff.statistic.activity.RouteActivity;
 import ru.sff.statistic.component.BallSetWithDesc;
+import ru.sff.statistic.component.CountTenHits;
 import ru.sff.statistic.component.SixBallWin;
 import ru.sff.statistic.component.ThreeCellStat;
 import ru.sff.statistic.component.TwoCellStat;
@@ -69,10 +70,12 @@ public class DigitInfoFragment extends BaseFragment {
     private boolean mFiveShown;
     private boolean mSixShown;
 
-    public DigitInfoFragment() {
+    private boolean mIsAllDraw;
+
+    public DigitInfoFragment () {
     }
 
-    public static DigitInfoFragment newInstance( Ball ball ) {
+    public static DigitInfoFragment newInstance ( Ball ball ) {
         DigitInfoFragment fragment = new DigitInfoFragment();
         Bundle args = new Bundle();
         args.putSerializable( BALL_DIGIT, ball );
@@ -81,7 +84,7 @@ public class DigitInfoFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreate( Bundle savedInstanceState ) {
+    public void onCreate ( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         if ( getArguments() != null ) {
             mBall = ( Ball ) getArguments().getSerializable( BALL_DIGIT );
@@ -89,20 +92,21 @@ public class DigitInfoFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState ) {
+    public View onCreateView ( LayoutInflater inflater, ViewGroup container,
+                               Bundle savedInstanceState ) {
         return inflater.inflate( R.layout.fragment_digit_info, container, false );
     }
 
 
     @Override
-    public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
+    public void onActivityCreated ( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
         mPairShown = false;
         mThreesShown = false;
         mFoursShown = false;
         mFiveShown = false;
         mSixShown = false;
+        mIsAllDraw = false;
 
         mPleaseWait = getView().findViewById( R.id.pleaseWaitContainerId );
         mFragmentContainer = getView().findViewById( R.id.digitInfoScrollViewId );
@@ -110,20 +114,21 @@ public class DigitInfoFragment extends BaseFragment {
         mPleaseWait.setVisibility( View.VISIBLE );
         TextView digitInfoTitle = initTextView( R.id.digitInfoTitleId, AppConstants.ROTONDA_BOLD );
         String title = "";
-        if ( GlobalManager.getCachedResponseData().getRequestByDraw() != null ){
+        if ( GlobalManager.getCachedResponseData().getRequestByDraw() != null ) {
             RequestByDraw requestByDraw = GlobalManager.getCachedResponseData().getRequestByDraw();
-            requestByDraw.setBall(  mBall.getBallNumber() );
-            title = ALL_DRAW.equals( requestByDraw.getRequestDrawType() ) ?
-                    "По всем тиражам" : "C тиража "+ requestByDraw.getStartDraw()+" по "+ requestByDraw.getEndDraw();
-        } else if ( GlobalManager.getCachedResponseData().getRequestByDate() != null ){
+            requestByDraw.setBall( mBall.getBallNumber() );
+            mIsAllDraw = ALL_DRAW.equals( requestByDraw.getRequestDrawType() );
+            title = mIsAllDraw ? "По всем тиражам" :
+                    "C тиража " + requestByDraw.getStartDraw() + " по " + requestByDraw.getEndDraw();
+        } else if ( GlobalManager.getCachedResponseData().getRequestByDate() != null ) {
             RequestByDate requestByDate = GlobalManager.getCachedResponseData().getRequestByDate();
-            requestByDate.setBall(  mBall.getBallNumber() );
+            requestByDate.setBall( mBall.getBallNumber() );
             title = AppUtils.getRequestByDateHeader( requestByDate );
-        } else if ( GlobalManager.getCachedResponseData().getRequestBySOB() !=null ){
+        } else if ( GlobalManager.getCachedResponseData().getRequestBySOB() != null ) {
             RequestBySumOrBall requestBySOB = GlobalManager.getCachedResponseData().getRequestBySOB();
-            requestBySOB.setBall(  mBall.getBallNumber() );
-            title = BY_SUM.equals( requestBySOB.getRequestType() ) ? "Сумма номеров с "+requestBySOB.getBegin()+" по "+ requestBySOB.getEnd() :
-                    "Номера с "+requestBySOB.getBegin()+" по "+ requestBySOB.getEnd();
+            requestBySOB.setBall( mBall.getBallNumber() );
+            title = BY_SUM.equals( requestBySOB.getRequestType() ) ? "Сумма номеров с " + requestBySOB.getBegin() + " по " + requestBySOB.getEnd() :
+                    "Номера с " + requestBySOB.getBegin() + " по " + requestBySOB.getEnd();
         }
         digitInfoTitle.setText( title );
         new GetDigitInfo().execute();
@@ -131,23 +136,23 @@ public class DigitInfoFragment extends BaseFragment {
         initTextView( R.id.digitInfoRepeatLabelId, AppConstants.ROTONDA_BOLD );
         initTextView( R.id.digitInfoLastLabelId, AppConstants.ROTONDA_BOLD );
 
-        ( ( RouteActivity ) getActivity() ).getBackBtn().setOnClickListener( ( View view ) -> {
+        (( RouteActivity ) getActivity()).getBackBtn().setOnClickListener( ( View view ) -> {
             CustomAnimation.clickAnimation( view );
             getActivity().onBackPressed();
         } );
     }
 
-    private void populateDigitInfo() {
+    private void populateDigitInfo () {
         if ( mDigitInfo.getLastFallDay() != null ) {
             initTextView( R.id.digitInfoLastValueId, AppConstants.ROTONDA_BOLD, mDigitInfo.getLastFallDay() + ", " );
         }
 
         TwoCellStat repeatCount = getView().findViewById( R.id.twoCellRepeatCountId );
         int ballRepeat = mDigitInfo.getDigitDraws().size();
-        String percentRepeat = ( ballRepeat * 100 / GlobalManager.getCachedResponseData().getTotalDraw() ) + "";
+        String percentRepeat = (ballRepeat * 100 / GlobalManager.getCachedResponseData().getTotalDraw()) + "";
         repeatCount.setTwoCellValue( ballRepeat + "", AppUtils.getTimes( ballRepeat ), percentRepeat, "%" );
 
-        initTextView( R.id.digitInfoLastDrawValueId, AppConstants.ROTONDA_BOLD, "Тираж № "+mDigitInfo.getLastFall().getDraw() );
+        initTextView( R.id.digitInfoLastDrawValueId, AppConstants.ROTONDA_BOLD, "Тираж № " + mDigitInfo.getLastFall().getDraw() );
 
         initTextView( R.id.digitInfoDateTimeValueId, AppConstants.ROTONDA_BOLD, mDigitInfo.getLastFall().getDrawDate() );
 
@@ -166,13 +171,13 @@ public class DigitInfoFragment extends BaseFragment {
         initTextView( R.id.digitInfoSeriesLabelId, AppConstants.ROTONDA_BOLD );
 
         ThreeCellStat threeCellSeries = getView().findViewById( R.id.threeCellDigitInfoSeriesId );
-        if (  mDigitInfo.getSeriesDrawEnd() != null &&  mDigitInfo.getSeriesDrawStart() != null ){
+        if ( mDigitInfo.getSeriesDrawEnd() != null && mDigitInfo.getSeriesDrawStart() != null ) {
             String shootLabel = AppUtils.getTimes( mDigitInfo.getSeriesCount() ) + " подряд, тиражы с ";
-            threeCellSeries.setLeftCell( "" + ( mDigitInfo.getSeriesDrawEnd() - mDigitInfo.getSeriesDrawStart() + 1 ), shootLabel );
+            threeCellSeries.setLeftCell( "" + (mDigitInfo.getSeriesDrawEnd() - mDigitInfo.getSeriesDrawStart() + 1), shootLabel );
             threeCellSeries.setMiddleCell( mDigitInfo.getSeriesDrawStart().toString(), " по " );
             threeCellSeries.setRightCell( mDigitInfo.getSeriesDrawEnd().toString(), "" );
         } else {
-            threeCellSeries.setEmpty("Серий подряд нет");
+            threeCellSeries.setEmpty( "Серий подряд нет" );
         }
 
         initTextView( R.id.digitInfoFrequenciesLabelId, AppConstants.ROTONDA_BOLD );
@@ -181,14 +186,14 @@ public class DigitInfoFragment extends BaseFragment {
         String sfx = mDigitInfo.getDrawFreqMax() != 0 ? ", через " : " - подряд";
         String rateLabel = AppUtils.getTimes( mDigitInfo.getDrawFreqMaxValue() ) + sfx;
         threeCellFreq.setLeftCell( mDigitInfo.getDrawFreqMaxValue().toString(), rateLabel );
-        if ( mDigitInfo.getDrawFreqMax() != 0 ){
+        if ( mDigitInfo.getDrawFreqMax() != 0 ) {
             threeCellFreq.setMiddleCell( mDigitInfo.getDrawFreqMax().toString(), AppUtils.getDrawsSfx( mDigitInfo.getDrawFreqMax() ) );
         }
 
         threeCellFreq.setRightCell( "", "" );
 
         ThreeCellStat threeCellFreqAvg = getView().findViewById( R.id.threeCellDigitInfoFreqAvgId );
-        if( mDigitInfo.getDrawFreqAvg() > 0 ){
+        if ( mDigitInfo.getDrawFreqAvg() > 0 ) {
             threeCellFreqAvg.setLeftCell( "", "В среднем каждые " );
             threeCellFreqAvg.setMiddleCell( mDigitInfo.getDrawFreqAvg().toString(), AppUtils.getDrawsSfx( mDigitInfo.getDrawFreqAvg() ) );
             threeCellFreqAvg.setRightCell( "", "" );
@@ -218,7 +223,7 @@ public class DigitInfoFragment extends BaseFragment {
             mPairsContainer = getView().findViewById( R.id.maxPairContainerId );
             addPairs( mPairsContainer, mDigitInfo.getTwoBalls() );
         } else {
-            pairBallSet.setEmptySet("По этим тиражам повторений нет");
+            pairBallSet.setEmptySet( "По этим тиражам повторений нет" );
             showPairsBtn.setVisibility( View.GONE );
         }
 
@@ -228,7 +233,7 @@ public class DigitInfoFragment extends BaseFragment {
             mThreesContainer = getView().findViewById( R.id.maxThreesContainerId );
             addPairs( mThreesContainer, mDigitInfo.getThreeBalls() );
         } else {
-            threesBallSet.setEmptySet("По этим тиражам повторений нет");
+            threesBallSet.setEmptySet( "По этим тиражам повторений нет" );
             showThreesBtn.setVisibility( View.GONE );
         }
 
@@ -238,18 +243,18 @@ public class DigitInfoFragment extends BaseFragment {
             mFoursContainer = getView().findViewById( R.id.maxFoursContainerId );
             addPairs( mFoursContainer, mDigitInfo.getFourBalls() );
         } else {
-            fourBallSet.setEmptySet("По этим тиражам повторений нет" );
+            fourBallSet.setEmptySet( "По этим тиражам повторений нет" );
             showFoursBtn.setVisibility( View.GONE );
         }
 
         ThreeCellStat fiveHitStat = getView().findViewById( R.id.digitInfoFiveHitRate );
-        if ( mDigitInfo.getHitToFive() != null ){
+        if ( mDigitInfo.getHitToFive() != null ) {
             fiveHitStat.setLeftCell( mDigitInfo.getFiveWinCount().toString(), AppUtils.getTimes( mDigitInfo.getFiveWinCount() ) + ", последний " );
             fiveHitStat.setMiddleCell( mDigitInfo.getHitToFive().get( 0 ).getDrawDate(), "" );
             mHitFiveContainer = getView().findViewById( R.id.hitFiveContainerId );
             addHitBalls( mHitFiveContainer, mDigitInfo.getHitToFive() );
         } else {
-            fiveHitStat.setEmpty("В этих тиражах нет");
+            fiveHitStat.setEmpty( "В этих тиражах нет" );
             showHitFiveBtn.setVisibility( View.GONE );
         }
 
@@ -259,16 +264,28 @@ public class DigitInfoFragment extends BaseFragment {
             sixHitStat.setMiddleCell( mDigitInfo.getHitToSix().get( 0 ).getDrawDate(), "" );
             mHitSixContainer = getView().findViewById( R.id.hitSixContainerId );
             addHitBalls( mHitSixContainer, mDigitInfo.getHitToSix() );
-        }else {
-            sixHitStat.setEmpty("В этих тиражах нет");
+        } else {
+            sixHitStat.setEmpty( "В этих тиражах нет" );
             showHitSixBtn.setVisibility( View.GONE );
         }
+
+        if ( mIsAllDraw ) {
+            initTextView( R.id.countTenHitsTitleId, AppConstants.ROTONDA_BOLD );
+            LinearLayout hitsContainer = getView().findViewById( R.id.countTenHitsContainerId );
+            for ( Integer key : mDigitInfo.getCountTenHits().keySet() ) {
+                CountTenHits countTenHits = new CountTenHits( getContext() );
+                countTenHits.setCountTenHits( key, mDigitInfo.getCountTenHits().get( key ) );
+                hitsContainer.addView(  countTenHits );
+            }
+            hitsContainer.setVisibility( View.VISIBLE );
+        }
+
         setThisOnClickListener( R.id.showPairsId, R.id.showThreesId, R.id.showFoursId, R.id.showHitFiveId, R.id.showHitSixId );
 
         CustomAnimation.transitionAnimation( mPleaseWait, mFragmentContainer );
     }
 
-    private void addPairs( LinearLayout parentLayout, List< MagnetModel > magnetModels ) {
+    private void addPairs ( LinearLayout parentLayout, List< MagnetModel > magnetModels ) {
         for ( int idx = 1; idx < magnetModels.size(); idx++ ) {
             BallSetWithDesc ballSetWithDesc = new BallSetWithDesc( getActivity() );
             ballSetWithDesc.setBallSetWithDigit( magnetModels.get( idx ), mDigitInfo.getBallDigit() );
@@ -277,12 +294,12 @@ public class DigitInfoFragment extends BaseFragment {
         parentLayout.setVisibility( View.GONE );
     }
 
-    private void addHitBalls( LinearLayout parentLayout, List< SimpleLotoModel > lotoModels ) {
+    private void addHitBalls ( LinearLayout parentLayout, List< SimpleLotoModel > lotoModels ) {
         for ( SimpleLotoModel loto : lotoModels ) {
             BallSetWithDesc ballSetWithDesc = new BallSetWithDesc( getActivity() );
             ballSetWithDesc.setBallSetWithDigit( loto.getBalls(), loto.getDraw(), mDigitInfo.getBallDigit() );
             ballSetWithDesc.setOnClickListener( ( View view ) -> {
-                Integer draw = ( ( BallSetWithDesc ) view ).getDraw();
+                Integer draw = (( BallSetWithDesc ) view).getDraw();
                 showDrawDetails( draw );
             } );
             parentLayout.addView( ballSetWithDesc );
@@ -290,7 +307,7 @@ public class DigitInfoFragment extends BaseFragment {
         parentLayout.setVisibility( View.GONE );
     }
 
-    private void showDrawDetails( Integer draw ) {
+    private void showDrawDetails ( Integer draw ) {
         Intent intent = new Intent( AppConstants.ROUTE_ACTION_MESSAGE );
         intent.putExtra( AppConstants.ROUTE_ACTION_TYPE, AppConstants.DRAW_SELECT_ACTION );
         intent.putExtra( AppConstants.DRAW_SELECT_ACTION, draw );
@@ -298,7 +315,7 @@ public class DigitInfoFragment extends BaseFragment {
     }
 
     @Override
-    public void onClick( View view ) {
+    public void onClick ( View view ) {
         CustomAnimation.clickAnimation( view );
         switch ( view.getId() ) {
             case R.id.showPairsId:
@@ -324,7 +341,7 @@ public class DigitInfoFragment extends BaseFragment {
         }
     }
 
-    private void updateContainer( LinearLayout container, Boolean flag, int buttonId ) {
+    private void updateContainer ( LinearLayout container, Boolean flag, int buttonId ) {
         int visibility = View.VISIBLE;
         int msgColor = getActivity().getResources().getColor( R.color.grayTextColor );
         String msg = "Скрыть";
@@ -339,47 +356,47 @@ public class DigitInfoFragment extends BaseFragment {
     }
 
     @Override
-    public void onPause() {
+    public void onPause () {
         getView().findViewById( R.id.digitInfoHeaderId ).setVisibility( View.GONE );
         super.onPause();
     }
 
     @Override
-    public void onResume() {
+    public void onResume () {
         super.onResume();
-        ( ( RouteActivity ) getActivity() ).hidePanelWihMenu();
+        (( RouteActivity ) getActivity()).hidePanelWihMenu();
         getView().findViewById( R.id.digitInfoHeaderId ).setVisibility( View.VISIBLE );
     }
 
     private class GetDigitInfo extends AsyncTask< Void, Void, String > {
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute () {
             super.onPreExecute();
         }
 
         @Override
-        protected String doInBackground( Void... args ) {
+        protected String doInBackground ( Void... args ) {
             String result = null;
             GlobalManager.setBackendBusy( true );
             try {
                 Call< ApiResponse< DigitInfo > > resultCall = null;
-                if ( GlobalManager.getCachedResponseData().getRequestByDraw() != null) {
+                if ( GlobalManager.getCachedResponseData().getRequestByDraw() != null ) {
                     resultCall = RestController.getApi().getDigitInfoByDraw( AppPreferences.getUniqueId(),
-                                                 GlobalManager.getCachedResponseData().getRequestByDraw() );
-                } else if ( GlobalManager.getCachedResponseData().getRequestByDate() != null) {
-                    resultCall = RestController .getApi().getDigitInfoByDate( AppPreferences.getUniqueId(),
-                                    GlobalManager.getCachedResponseData().getRequestByDate() );
-                } else if ( GlobalManager.getCachedResponseData().getRequestBySOB() != null) {
-                    resultCall = RestController .getApi().getDigitInfoBySOB( AppPreferences.getUniqueId(),
+                            GlobalManager.getCachedResponseData().getRequestByDraw() );
+                } else if ( GlobalManager.getCachedResponseData().getRequestByDate() != null ) {
+                    resultCall = RestController.getApi().getDigitInfoByDate( AppPreferences.getUniqueId(),
+                            GlobalManager.getCachedResponseData().getRequestByDate() );
+                } else if ( GlobalManager.getCachedResponseData().getRequestBySOB() != null ) {
+                    resultCall = RestController.getApi().getDigitInfoBySOB( AppPreferences.getUniqueId(),
                             GlobalManager.getCachedResponseData().getRequestBySOB() );
                 }
                 Response< ApiResponse< DigitInfo > > resultResponse = resultCall.execute();
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {
                         mDigitInfo = resultResponse.body().getResult();
-                        if ( mDigitInfo == null ){
-                            result = "Нет информации по номеру: "+mBall.getBallNumber();
+                        if ( mDigitInfo == null ) {
+                            result = "Нет информации по номеру: " + mBall.getBallNumber();
                         }
                     } else {
                         result = resultResponse.body().getMessage();
@@ -397,12 +414,12 @@ public class DigitInfoFragment extends BaseFragment {
         }
 
         @Override
-        protected void onPostExecute( String result ) {
+        protected void onPostExecute ( String result ) {
             super.onPostExecute( result );
             GlobalManager.setBackendBusy( false );
             if ( result != null ) {
-                ModalMessage.show( getActivity(), "Сообщение", new String[]{ result } );
-                ( new Handler() ).postDelayed( () -> {
+                ModalMessage.show( getActivity(), "Сообщение", new String[] {result} );
+                (new Handler()).postDelayed( () -> {
                     getActivity().onBackPressed();
                 }, 2000 );
                 return;

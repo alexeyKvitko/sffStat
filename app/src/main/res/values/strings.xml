@@ -21,7 +21,7 @@
     <string name="digit_details_title">Статистика по номеру №</string>
     <string name="per_draw_label">В среднем за тираж</string>
     <string name="internal_error">Внутренняя ошибка, повторите попытку позже</string>
-    <string name="internet_error">Низкая скорость интернет содинения</string>
+    <string name="internet_error">Отсутствует интернет содинения</string>
     <string name="from_draw">С Тиража</string>
     <string name="draws_label">Тиражи</string>
     <string name="to_draw">По Тираж</string>
@@ -73,6 +73,7 @@
     <string name="button_consider">Расчитать</string>
     <string name="button_donate">Поддержать</string>
     <string name="button_clear">Очистить</string>
+    <string name="button_delete">Удалить</string>
     <string name="avg_sum_label">Средняя сумма номеров</string>
     <string name="last_win_label">Последние тиражи из набора, в которых</string>
     <string name="show_result_by_draw">За последние 1 - 45 тиражей</string>
@@ -105,6 +106,8 @@
     <string name="often_win_five_ball">Частота выпадения в выигрышах</string>
     <string name="show_additional_info">Показать информацию по номерам</string>
     <string name="previous_draw_label">Предыдущий тираж №</string>
-
+    <string name="support_service">Ваше Сообщение</string>
+    <string name="send_to_support">Отправить</string>
+    <string name="ten_hits_label">Кол-во выпадений в 10 тиражах</string>
 
 </resources>

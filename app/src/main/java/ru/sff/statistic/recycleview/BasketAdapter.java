@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
 import ru.sff.statistic.component.SixBallSet;
+import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.StoredBallSet;
 import ru.sff.statistic.utils.CustomAnimation;
 
@@ -55,7 +56,7 @@ public class BasketAdapter extends CommonBaseAdapter< StoredBallSet > {
         holder.basketEntityDate.setText( ballSet.getStoredDate() );
         holder.basketTrashImg.setOnClickListener( ( View view )->{
             CustomAnimation.clickAnimation( view );
-            mListener.onBasketTrashClick( ballSet.getBallSetName() );
+            mListener.onBasketTrashClick( ballSet.getBallSetName(), ballSet.getBallSetType() );
         } );
     }
 
@@ -86,7 +87,7 @@ public class BasketAdapter extends CommonBaseAdapter< StoredBallSet > {
         }
 
         public interface BasketTrashListener {
-            void onBasketTrashClick( String entityName );
+            void onBasketTrashClick( String entityName, BallSetType ballSetType );
         }
 
     }

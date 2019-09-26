@@ -23,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import ru.sff.statistic.AppConstants;
 import ru.sff.statistic.R;
+import ru.sff.statistic.activity.RouteActivity;
 import ru.sff.statistic.component.DonateWebView;
 import ru.sff.statistic.manager.GlobalManager;
 import ru.sff.statistic.modal.ModalMessage;
@@ -91,6 +92,7 @@ public class DonateFragment extends BaseFragment {
     private void showWebDonate(){
         LinearLayout chooseContainer = getView().findViewById( R.id.donateChooseContainerId );
         chooseContainer.setVisibility( View.GONE );
+        ((RouteActivity) getActivity()).getAppHeader().hideHeader();
         WebView webView = getView().findViewById( R.id.donateWebViewId );
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled( true );
@@ -114,6 +116,12 @@ public class DonateFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onPause () {
+        super.onPause();
+        ((RouteActivity) getActivity()).getAppHeader().showHeader();
     }
 
     @Override

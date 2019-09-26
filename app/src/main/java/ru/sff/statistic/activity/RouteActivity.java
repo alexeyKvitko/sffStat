@@ -24,6 +24,7 @@ import ru.sff.statistic.fragment.DigitInfoFragment;
 import ru.sff.statistic.fragment.DonateFragment;
 import ru.sff.statistic.fragment.DrawDetailsFragment;
 import ru.sff.statistic.fragment.LotoDrawsFragment;
+import ru.sff.statistic.fragment.SendMailFragment;
 import ru.sff.statistic.fragment.StatByDateFragment;
 import ru.sff.statistic.fragment.StatByDrawFragment;
 import ru.sff.statistic.fragment.StatBySumFragment;
@@ -46,6 +47,9 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
     private String mRouteAction;
     private HeaderModel mPrevHeader;
 
+    private Handler mDonateHandler;
+    private Runnable mDonateRunable;
+
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -61,6 +65,14 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
         mFooter = findViewById( R.id.routeFooterId );
         mFooter.setBasketDisabled( GlobalManager.getStoredBallSet().isEmpty() );
         mBackBtn = findViewById( R.id.routeBackBtnId );
+        mDonateRunable = () -> {
+            {
+                if ( donateShow() ) {
+                    AppPreferences.setPreference( AppConstants.DONATION_PREF, AppConstants.FAKE_ID );
+                };
+                mDonateHandler = null;
+            }
+        };
         switch ( mRouteAction ) {
             case AppConstants.SHOW_ALL_DRAW_SCREEN:
                 addReplaceFragment( AllResultsFragment.newInstance(), R.drawable.emoji_look, R.string.all_draws_label );
@@ -123,6 +135,14 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
         return true;
     }
 
+    public boolean supportShow() {
+        if( GlobalManager.isBackendBusy() ){
+            return false;
+        }
+        addReplaceFragment( SendMailFragment.newInstance(), R.drawable.emoji_mail, "Написать автору" );
+        return true;
+    }
+
     public ImageView getBackBtn() {
         return mBackBtn;
     }
@@ -130,6 +150,10 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
     @Override
     protected void onPause() {
         super.onPause();
+        if ( mDonateHandler != null ){
+            mDonateHandler.removeCallbacks( mDonateRunable );
+            mDonateHandler = null;
+        }
         unregisterReceiver( mRouteActionReceiver );
     }
 
@@ -151,19 +175,18 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
     }
 
     private void initializeDonationScreen(){
-        if ( !GlobalManager.getBootstrapModel().getShowDonationsMsg() ){
+        if ( !GlobalManager.getBootstrapModel().isShowDonationsMsg() ){
             return;
         }
         int donationCount = AppPreferences.getPreference( AppConstants.DONATION_PREF, AppConstants.FAKE_ID );
-        if ( donationCount < AppConstants.DONATION_TIME ){
+        if ( donationCount < AppConstants.DONATION_TIME  ){
             AppPreferences.setPreference( AppConstants.DONATION_PREF, ++donationCount );
             return;
         }
-        ( new Handler() ).postDelayed( () -> {
-            if ( donateShow() ) {
-                AppPreferences.setPreference( AppConstants.DONATION_PREF, AppConstants.FAKE_ID );
-            };
-        }, 7000 );
+        if( mDonateHandler == null ){
+            mDonateHandler = new Handler();
+            mDonateHandler.postDelayed( mDonateRunable, 7000 );
+        }
     }
 
     @Override
@@ -214,6 +237,8 @@ public class RouteActivity extends BaseActivity implements LotoDrawsFragment.OnD
                         ballSetBasketShow();
                     } else if ( AppConstants.FLOAT_MENU_SHOW_DONATE.equals( actionType ) ){
                         donateShow();
+                    } else if ( AppConstants.FLOAT_MENU_SHOW_SUPPORT.equals( actionType ) ){
+                        supportShow();
                     }
                 break;
             }

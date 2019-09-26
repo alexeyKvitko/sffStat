@@ -434,6 +434,29 @@
                 android:layout_height="1dp"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="8dp"
+                android:background="@color/deviderColor" />
+
+            <LinearLayout
+                android:id="@+id/countTenHitsContainerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/countTenHitsTitleId"
+                    style="@style/textViewLabel"
+                    android:text="@string/ten_hits_label"
+                    android:layout_marginBottom="8dp"/>
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="12dp"
                 android:background="@color/deviderColor" />
 

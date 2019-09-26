@@ -21,6 +21,7 @@ public abstract class AppConstants {
     public static final String DRAW_SELECT_ACTION = "ru.sff.statistic.component.DRAW_SELECT_ACTION";
     public static final String FLOAT_MENU_CHANGE_VIEW_TYPE = "ru.sff.statistic.component.FLOAT_MENU_CHANGE_VT";
     public static final String FLOAT_MENU_SHOW_DONATE = "ru.sff.statistic.component.FLOAT_MENU_SHOW_DONATE";
+    public static final String FLOAT_MENU_SHOW_SUPPORT = "ru.sff.statistic.component.FLOAT_MENU_SHOW_SUPPORT";
     public static final String FLOAT_MENU_SHOW_BASKET = "ru.sff.statistic.component.FLOAT_MENU_SHOW_BASKET";
 
     public static final String SHOW_ALL_DRAW_SCREEN = "ru.sff.statistic.SHOW_ALL_DRAW_SCREEN";
@@ -36,6 +37,7 @@ public abstract class AppConstants {
 
     public static final String BASKET_PREF = "ru.sff.statistic.BASKET_PREF";
     public static final String ADITIONAL_INFO_PREF = "ru.sff.statistic.ADITIONAL_INFO_PREF";
+    public static final String LAST_FALL_PREF = "ru.sff.statistic.LAST_FALL_PREF";
     public static final String DONATION_PREF = "ru.sff.statistic.DONATION_PREF";
 
     public static final String ZERO_DIGIT = "0";

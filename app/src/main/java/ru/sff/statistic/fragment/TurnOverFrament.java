@@ -194,6 +194,7 @@ public class TurnOverFrament extends BaseFragment implements LotoTurnAdapter.Lot
         }
         mLotoTurnAdapter = null;
         mBackButton.setOnClickListener( null );
+        GlobalManager.setCachedResponseData( null );
     }
 
     public void onAttach( Context context ) {

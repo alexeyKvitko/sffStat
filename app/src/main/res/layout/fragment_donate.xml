@@ -110,9 +110,9 @@
 
     </LinearLayout>
 
+
     <WebView
         android:id="@+id/donateWebViewId"
-        android:background="@drawable/border_debug_red"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

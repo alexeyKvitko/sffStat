@@ -82,11 +82,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if( GlobalManager.isBackendBusy() ){
             return;
         }
-        if ( !GlobalManager.getInstance().getStoredBallSet().isEmpty() ){
-            AppPreferences.setPreference( AppConstants.BASKET_PREF, new PreferenceBasket( GlobalManager.getInstance().getStoredBallSet() ).get()  );
-        } else {
-            AppPreferences.removePreference( AppConstants.BASKET_PREF );
-        }
         super.onBackPressed();
     }
 

@@ -205,6 +205,18 @@ public abstract class AppUtils {
         return source+draws;
     }
 
+    public static String getCases( int source ){
+        String cases = " случаях";
+        if ( source > 1 && source < 21 ){
+            return source + cases;
+        }
+        int lastDigit = Integer.valueOf( (source+"").substring( (source+"").length()-1 ) );
+        if ( lastDigit == 1 ){
+            cases = " случае";
+        }
+        return source+cases;
+    }
+
     public static String getDrawsSfx( int source ){
         String draws = " тиражей";
         if ( source > 4 && source < 21 ){
@@ -278,5 +290,6 @@ public abstract class AppUtils {
         }
         return header;
     }
+
 
 }

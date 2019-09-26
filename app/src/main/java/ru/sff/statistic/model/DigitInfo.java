@@ -1,6 +1,7 @@
 package ru.sff.statistic.model;
 
 import java.util.List;
+import java.util.Map;
 
 public class DigitInfo {
 
@@ -14,6 +15,7 @@ public class DigitInfo {
     private Integer drawFreqMax;
     private Integer drawFreqMaxValue;
     private Integer fiveWinCount;
+    private Map<Integer, DigitDraw> countTenHits;
     private List< MagnetModel > twoBalls;
     private List< MagnetModel > threeBalls;
     private List< MagnetModel > fourBalls;
@@ -93,9 +95,16 @@ public class DigitInfo {
         this.seriesDrawEnd = seriesDrawEnd;
     }
 
-
     public Integer getFiveWinCount() {
         return fiveWinCount;
+    }
+
+    public Map< Integer, DigitDraw > getCountTenHits () {
+        return countTenHits;
+    }
+
+    public void setCountTenHits ( Map< Integer, DigitDraw > countTenHits ) {
+        this.countTenHits = countTenHits;
     }
 
     public void setFiveWinCount( Integer fiveWinCount ) {

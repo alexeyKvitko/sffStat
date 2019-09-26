@@ -23,6 +23,7 @@ import ru.sff.statistic.model.RequestByDate;
 import ru.sff.statistic.model.RequestByDraw;
 import ru.sff.statistic.model.RequestBySumOrBall;
 import ru.sff.statistic.model.ResponseData;
+import ru.sff.statistic.model.StoredBallSet;
 
 public interface RestApi {
 
@@ -84,4 +85,12 @@ public interface RestApi {
     @GET(APP_API+"getPaymentUrl/{amount}")
     Call< ApiResponse< String > > getPaymentUrl( @Header("application-id") String applicationId
             , @Path("amount") Integer amount);
+
+    @POST(APP_API+"saveStoredBallSet")
+    Call< ApiResponse > saveStoredBallSet( @Header("application-id") String applicationId
+            , @Body StoredBallSet storedBallSet );
+
+    @GET(APP_API+"sendEmailToUs/{message}")
+    Call< ApiResponse> sendMessageToSupport( @Header("application-id") String applicationId,
+                                             @Path("message") String message );
 }

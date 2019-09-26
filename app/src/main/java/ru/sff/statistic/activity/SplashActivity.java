@@ -158,6 +158,9 @@ public class SplashActivity extends AppCompatActivity {
                 if ( resultResponse.body() != null ) {
                     if ( resultResponse.body().getStatus() == 200 ) {
                         GlobalManager.setBootstrapModel( resultResponse.body().getResult() );
+                        if ( resultResponse.body().getResult().isUserBlocked() ){
+                            result = "Приложение заблокировано автором";
+                        }
                     } else {
                         result = resultResponse.body().getMessage();
                     }

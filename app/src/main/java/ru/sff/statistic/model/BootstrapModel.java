@@ -9,7 +9,8 @@ public class BootstrapModel implements Serializable {
     private LotoModel lastFall;
     private String lastFallDay;
     private List<Ball> playedBalls;
-    private Boolean showDonationsMsg;
+    private boolean showDonationsMsg;
+    private boolean userBlocked;
     private Ball[] sixWinOften = new Ball[6];
     private Ball[] fiveWinOften = new Ball[6];
     private Ball[] fourWinOften = new Ball[6];
@@ -49,12 +50,20 @@ public class BootstrapModel implements Serializable {
         this.playedBalls = playedBalls;
     }
 
-    public Boolean getShowDonationsMsg() {
+    public boolean isShowDonationsMsg () {
         return showDonationsMsg;
     }
 
-    public void setShowDonationsMsg( Boolean showDonationsMsg ) {
+    public void setShowDonationsMsg ( boolean showDonationsMsg ) {
         this.showDonationsMsg = showDonationsMsg;
+    }
+
+    public boolean isUserBlocked () {
+        return userBlocked;
+    }
+
+    public void setUserBlocked ( boolean userBlocked ) {
+        this.userBlocked = userBlocked;
     }
 
     public Ball[] getSixWinOften() {

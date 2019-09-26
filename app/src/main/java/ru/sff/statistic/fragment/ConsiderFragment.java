@@ -4,13 +4,9 @@ package ru.sff.statistic.fragment;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
 import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -163,6 +160,7 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         rareBallSet.setColorBallSelectListener( this );
 
         mShowAdditionalInfo = AppPreferences.getPreference( AppConstants.ADITIONAL_INFO_PREF, View.GONE ) == 0;
+
         mAdditionalInfoBtn = initTextView( R.id.considerShowAdditionalInfoId, AppConstants.ROBOTO_CONDENCED );
         mConsiderAdditionalInfo = getView().findViewById( R.id.considerWinnerInfoContainerId );
         showAdditionalInfoContainer();
@@ -170,7 +168,7 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         mLastFallInBallSet = initTextView( R.id.showLastFallInBallSetId, AppConstants.ROTONDA_BOLD );
         mConsiderResultBody = getView().findViewById( R.id.considerBodyId );
         mRequestProcessed = false;
-        mShowLastFall = false;
+
         mAllBalls = new LinkedHashMap<>();
         for ( int i = 1; i < 46; i++ ) {
             mAllBalls.put( i, new Ball( i, 0, BallSetType.ALL ) );
@@ -187,6 +185,9 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         fieldOrientation.setOnFieldOrientationListener( () -> {
             mBallTable.redrawTable();
         } );
+        mShowLastFall = AppPreferences.getPreference( AppConstants.LAST_FALL_PREF, 1 ) == 0;
+        showLastFallInBallSet();
+
         setThisOnClickListener( R.id.considerBallSetLabelId, R.id.considerAddToStoredId, R.id.considerGetInfoId,
                 R.id.showLastFallInBallSetId, R.id.considerShowAdditionalInfoId );
     }
@@ -288,7 +289,7 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
             storedBallSet.setStoredDate( AppUtils.formatDate( AppConstants.FULL_DATE_FORMAT, new Date() ) );
             storedBallSet.setBallSetName( basketName );
             storedBallSet.setDrawCount( AppConstants.ZERO_DIGIT );
-            GlobalManager.getStoredBallSet().put( basketName, storedBallSet );
+            GlobalManager.addToStoredBallSet( basketName, storedBallSet );
         } else {
             ModalMessage.show( getActivity(), "Сообщение", new String[] {"Набор с таким именем существует"} );
         }
@@ -388,6 +389,7 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
         GlobalManager.setShowLastFallBallSet( mShowLastFall );
         clearStoredBallSets();
         addStoredBallSets( mAllBalls );
+        AppPreferences.setPreference( AppConstants.LAST_FALL_PREF, mShowLastFall ? 1 : 0 );
     }
 
     private Ball[] getRareBalls () {
@@ -475,8 +477,9 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
     @Override
     public void onPause () {
         super.onPause();
-        GlobalManager.setCachedResponseData( null );
+//        GlobalManager.setCachedResponseData( null );
     }
+
 
     @Override
     public void onColorBallSelect ( ColorBall colorBall ) {

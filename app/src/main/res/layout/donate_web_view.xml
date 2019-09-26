@@ -33,7 +33,7 @@
 
     </LinearLayout>
 
-    <WebView
+        <WebView
         android:background="@drawable/border_debug_red"
         android:id="@+id/webView"
         android:layout_width="match_parent"

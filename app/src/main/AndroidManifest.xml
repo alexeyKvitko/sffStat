@@ -16,13 +16,13 @@
         android:theme="@style/AppTheme.FullScreen"
         android:networkSecurityConfig="@xml/network_security_config">
 
-        <activity android:name=".activity.RouteActivity"></activity>
+        <activity android:name=".activity.RouteActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

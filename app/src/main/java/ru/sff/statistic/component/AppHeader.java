@@ -2,6 +2,7 @@ package ru.sff.statistic.component;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +35,13 @@ public class AppHeader extends LinearLayout {
         ( ( TextView ) findViewById( R.id.lotoTypeId ) ).setTypeface( AppConstants.ROBOTO_CONDENCED );
     }
 
+    public void showHeader(){
+        findViewById( R.id.appHeaderContainerId ).setVisibility( View.VISIBLE );
+    }
+
+    public void hideHeader(){
+        findViewById( R.id.appHeaderContainerId ).setVisibility( View.GONE );
+    }
 
     public void setHeader( HeaderModel header ) {
         mHeader = header;

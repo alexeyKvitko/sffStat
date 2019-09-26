@@ -1,5 +1,7 @@
 package ru.sff.statistic.manager;
 
+import android.os.Handler;
+
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -11,7 +13,9 @@ import ru.sff.statistic.model.Ball;
 import ru.sff.statistic.model.BallSetType;
 import ru.sff.statistic.model.BootstrapModel;
 import ru.sff.statistic.model.CachedResponseData;
+import ru.sff.statistic.model.PreferenceBasket;
 import ru.sff.statistic.model.StoredBallSet;
+import ru.sff.statistic.rest.SaveBallSetTask;
 import ru.sff.statistic.utils.AppPreferences;
 
 public class GlobalManager {
@@ -145,6 +149,26 @@ public class GlobalManager {
 
     public static void setBackendBusy(boolean backendBusy) {
         GlobalManager.backendBusy = backendBusy;
+    }
+
+    public static void addToStoredBallSet( String basketName, StoredBallSet storedBallSet ){
+       getStoredBallSet().put( basketName, storedBallSet );
+       AppPreferences.setPreference( AppConstants.BASKET_PREF, new PreferenceBasket( getStoredBallSet() ).get()  );
+       if ( BallSetType.CUSTOM.equals( storedBallSet.getBallSetType() ) ){
+           new SaveBallSetTask().execute( storedBallSet );
+       }
+    }
+
+    public static boolean removeFromStoredBallSet( String basketName ){
+        boolean empty = false;
+        getStoredBallSet().remove( basketName );
+        if ( getStoredBallSet().isEmpty() ){
+                AppPreferences.removePreference( AppConstants.BASKET_PREF );
+                empty = true;
+            } else {
+                AppPreferences.setPreference( AppConstants.BASKET_PREF, new PreferenceBasket( getStoredBallSet() ).get()  );
+            }
+        return empty;
     }
 
 
