@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:gravity="center">
 
-                <ru.sff.statistic.component.ArrowSelector
+                <ru.madest.statistic.component.ArrowSelector
                     android:id="@+id/monthArrowSelectorId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                 android:layout_weight="1"
                 android:gravity="center">
 
-                <ru.sff.statistic.component.ArrowSelector
+                <ru.madest.statistic.component.ArrowSelector
                     android:id="@+id/yearArrowSelectorId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
         android:layout_below="@+id/headerSelectPeriodId"
         android:layout_marginTop="96dp">
 
-            <ru.sff.statistic.recycleview.StickyRecyclerView
+            <ru.madest.statistic.recycleview.StickyRecyclerView
                 android:id="@+id/lotoDrawRVId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

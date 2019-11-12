@@ -16,7 +16,7 @@
         android:textSize="22dp" />
 
 
-    <ru.sff.statistic.component.TwoCellStat
+    <ru.madest.statistic.component.TwoCellStat
         android:id="@+id/twoCellDrawRangeId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ru.sff.statistic.component.SixBallSet
+    <ru.madest.statistic.component.SixBallSet
         android:id="@+id/biggerBallSetId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ru.sff.statistic.component.SixBallSet
+    <ru.madest.statistic.component.SixBallSet
         android:id="@+id/lessBallSetId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ru.sff.statistic.component.SixBallSet
+    <ru.madest.statistic.component.SixBallSet
         android:id="@+id/middleBallSetId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -167,7 +167,7 @@
         android:textColor="@color/grayTextColor"
         android:textSize="16dp" />
 
-    <ru.sff.statistic.component.TwoCellStat
+    <ru.madest.statistic.component.TwoCellStat
         android:id="@+id/twoCellLastWinId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -212,7 +212,7 @@
         android:textColor="@color/grayTextColor"
         android:textSize="16dp" />
 
-    <ru.sff.statistic.component.TwoCellStat
+    <ru.madest.statistic.component.TwoCellStat
         android:id="@+id/twoCellEvenOddId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -228,7 +228,7 @@
         android:textColor="@color/grayTextColor"
         android:textSize="16dp" />
 
-    <ru.sff.statistic.component.TwoCellStat
+    <ru.madest.statistic.component.TwoCellStat
         android:id="@+id/twoCellTotalTicketId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -244,7 +244,7 @@
         android:textColor="@color/grayTextColor"
         android:textSize="16dp" />
 
-    <ru.sff.statistic.component.TwoCellStat
+    <ru.madest.statistic.component.TwoCellStat
         android:id="@+id/twoCellPaidAmountId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -260,7 +260,7 @@
         android:textColor="@color/grayTextColor"
         android:textSize="16dp" />
 
-    <ru.sff.statistic.component.WinTable
+    <ru.madest.statistic.component.WinTable
         android:id="@+id/winTableAllResultsId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -284,7 +284,7 @@
         android:textColor="@color/grayTextColor"
         android:textSize="16dp" />
 
-    <ru.sff.statistic.component.FiveNineTable
+    <ru.madest.statistic.component.FiveNineTable
         android:id="@+id/fiveNineTableId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -301,7 +301,7 @@
         android:textColor="@color/splashTextColor"
         android:textSize="14dp" />
 
-    <ru.sff.statistic.component.FieldOrientation
+    <ru.madest.statistic.component.FieldOrientation
         android:id="@+id/fieldOrientationId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

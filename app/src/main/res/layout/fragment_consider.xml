@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ru.sff.statistic.component.LastFallInfo
+            <ru.madest.statistic.component.LastFallInfo
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -71,7 +71,7 @@
                     style="@style/textViewDesc"
                     android:text="@string/rare_desc" />
 
-                <ru.sff.statistic.component.SixBallSet
+                <ru.madest.statistic.component.SixBallSet
                     android:id="@+id/considerRareBallSetId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                     style="@style/textViewDesc"
                     android:text="@string/often_desc_four" />
 
-                <ru.sff.statistic.component.SixBallSet
+                <ru.madest.statistic.component.SixBallSet
                     android:id="@+id/fourBallSetWinId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
                     style="@style/textViewDesc"
                     android:text="@string/often_desc_five" />
 
-                <ru.sff.statistic.component.SixBallSet
+                <ru.madest.statistic.component.SixBallSet
                     android:id="@+id/fiveBallSetWinId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
                     style="@style/textViewDesc"
                     android:text="@string/often_desc_six" />
 
-                <ru.sff.statistic.component.SixBallSet
+                <ru.madest.statistic.component.SixBallSet
                     android:id="@+id/sixBallSetWinId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
                 android:text="@string/table_orientation"
                 android:textSize="16dp" />
 
-            <ru.sff.statistic.component.FieldOrientation
+            <ru.madest.statistic.component.FieldOrientation
                 android:id="@+id/considerFieldOrientationId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
                 style="@style/textViewLabel"
                 android:text="@string/result_field" />
 
-            <ru.sff.statistic.component.FiveNineTable
+            <ru.madest.statistic.component.FiveNineTable
                 android:id="@+id/considerFiveNineTableId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

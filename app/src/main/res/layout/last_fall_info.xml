@@ -33,7 +33,7 @@
         android:textColor="@color/shokoColor"
         android:textSize="14dp" />
 
-    <ru.sff.statistic.component.SixBallSet
+    <ru.madest.statistic.component.SixBallSet
         android:id="@+id/lastFallDrawId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

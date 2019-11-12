@@ -26,7 +26,7 @@
         android:elevation="1dp"
         android:orientation="vertical">
 
-        <ru.sff.statistic.component.ThreeCellStat
+        <ru.madest.statistic.component.ThreeCellStat
             android:id="@+id/rangeSliderLabelId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

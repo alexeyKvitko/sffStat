@@ -29,7 +29,7 @@
             android:background="@drawable/main_background"
             android:orientation="vertical">
 
-            <ru.sff.statistic.component.AppHeader
+            <ru.madest.statistic.component.AppHeader
                 android:id="@+id/routeHeaderId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"></RelativeLayout>
 
         </LinearLayout>
-        <ru.sff.statistic.component.AppFooter
+        <ru.madest.statistic.component.AppFooter
             android:id="@+id/routeFooterId"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"

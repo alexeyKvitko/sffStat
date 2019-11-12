@@ -27,22 +27,22 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ru.sff.statistic.component.DiscretSlider
+                    <ru.madest.statistic.component.DiscretSlider
                         android:id="@+id/daySliderId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <ru.sff.statistic.component.DiscretSlider
+                    <ru.madest.statistic.component.DiscretSlider
                         android:id="@+id/monthSliderId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <ru.sff.statistic.component.DiscretSlider
+                    <ru.madest.statistic.component.DiscretSlider
                         android:id="@+id/dayWeekSliderId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <ru.sff.statistic.component.DoubleSlider
+                    <ru.madest.statistic.component.DoubleSlider
                         android:id="@+id/periodSliderId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

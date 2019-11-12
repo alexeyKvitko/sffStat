@@ -24,7 +24,7 @@
             android:textColor="@color/ballVialet"
             android:textSize="16dp" />
 
-        <ru.sff.statistic.component.TwoCellStat
+        <ru.madest.statistic.component.TwoCellStat
             android:id="@+id/ballConsiderRepeatId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -88,7 +88,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ru.sff.statistic.component.BallSetWithDesc
+    <ru.madest.statistic.component.BallSetWithDesc
         android:id="@+id/considerTwoMaxId"
         android:layout_marginStart="8dp"
         android:layout_width="match_parent"
@@ -138,7 +138,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ru.sff.statistic.component.BallSetWithDesc
+    <ru.madest.statistic.component.BallSetWithDesc
         android:id="@+id/considerThreeMaxId"
         android:layout_marginStart="8dp"
         android:layout_width="match_parent"
@@ -188,7 +188,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ru.sff.statistic.component.BallSetWithDesc
+    <ru.madest.statistic.component.BallSetWithDesc
         android:id="@+id/considerFourMaxId"
         android:layout_marginStart="8dp"
         android:layout_width="match_parent"

@@ -6,32 +6,32 @@
     android:gravity="center_horizontal"
     android:orientation="horizontal">
 
-    <ru.sff.statistic.component.ColorBall
+    <ru.madest.statistic.component.ColorBall
         android:id="@+id/colorBallOneId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ru.sff.statistic.component.ColorBall
+    <ru.madest.statistic.component.ColorBall
         android:id="@+id/colorBallTwoId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ru.sff.statistic.component.ColorBall
+    <ru.madest.statistic.component.ColorBall
         android:id="@+id/colorBallThreeId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ru.sff.statistic.component.ColorBall
+    <ru.madest.statistic.component.ColorBall
         android:id="@+id/colorBallFourId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ru.sff.statistic.component.ColorBall
+    <ru.madest.statistic.component.ColorBall
         android:id="@+id/colorBallFiveId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ru.sff.statistic.component.ColorBall
+    <ru.madest.statistic.component.ColorBall
         android:id="@+id/colorBallSixId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

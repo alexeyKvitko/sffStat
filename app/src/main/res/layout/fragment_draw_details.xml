@@ -19,13 +19,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ru.sff.statistic.component.SixBallSet
+            <ru.madest.statistic.component.SixBallSet
                 android:id="@+id/drawDetailsSetId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp" />
 
-            <ru.sff.statistic.component.ThreeCellStat
+            <ru.madest.statistic.component.ThreeCellStat
                 android:id="@+id/threeCellEvenOddId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 android:textColor="@color/shokoColor"
                 android:textSize="18dp" />
 
-            <ru.sff.statistic.component.ThreeCellStat
+            <ru.madest.statistic.component.ThreeCellStat
                 android:id="@+id/threeCellStatDateId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,14 +82,14 @@
                 android:textColor="@color/grayTextColor"
                 android:textSize="16dp" />
 
-            <ru.sff.statistic.component.SixBallWin
+            <ru.madest.statistic.component.SixBallWin
                 android:id="@+id/detailsDrawCombinationValueId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp" />
 
-            <ru.sff.statistic.component.ThreeCellStat
+            <ru.madest.statistic.component.ThreeCellStat
                 android:id="@+id/threeCellStatCombiId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                 android:textColor="@color/grayTextColor"
                 android:textSize="16dp" />
 
-            <ru.sff.statistic.component.DrawResultTable
+            <ru.madest.statistic.component.DrawResultTable
                 android:id="@+id/drawResultTableId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

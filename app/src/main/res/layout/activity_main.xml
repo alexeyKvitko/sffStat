@@ -15,7 +15,7 @@
         android:background="@drawable/main_background"
         android:orientation="vertical">
 
-        <ru.sff.statistic.component.AppHeader
+        <ru.madest.statistic.component.AppHeader
             android:id="@+id/mainHeaderId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -264,7 +264,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <ru.sff.statistic.component.LastFallInfo
+                <ru.madest.statistic.component.LastFallInfo
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"/>

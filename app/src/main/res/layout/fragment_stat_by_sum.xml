@@ -19,13 +19,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ru.sff.statistic.component.RangeSlider
+            <ru.madest.statistic.component.RangeSlider
                 android:id="@+id/sumSliderId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="1dp"/>
 
-            <ru.sff.statistic.component.RangeSlider
+            <ru.madest.statistic.component.RangeSlider
                 android:id="@+id/ballSliderId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

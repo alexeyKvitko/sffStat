@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ru.sff.statistic.component.DiscretSlider
+            <ru.madest.statistic.component.DiscretSlider
                 android:id="@+id/drawCountSliderId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 android:elevation="1dp"
                 android:orientation="vertical">
 
-                <ru.sff.statistic.component.ThreeCellStat
+                <ru.madest.statistic.component.ThreeCellStat
                     android:id="@+id/statByDrawRequestFromToLabelId"
                     android:visibility="gone"
                     android:layout_width="wrap_content"

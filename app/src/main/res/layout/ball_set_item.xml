@@ -56,7 +56,7 @@
     </LinearLayout>
 
 
-     <ru.sff.statistic.component.SixBallSet
+     <ru.madest.statistic.component.SixBallSet
         android:id="@+id/ballSetItemId"
         android:layout_width="match_parent"
         android:layout_height="76dp"

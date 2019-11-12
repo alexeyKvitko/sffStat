@@ -52,7 +52,7 @@
                         android:textSize="18dp" />
                 </LinearLayout>
 
-                <ru.sff.statistic.component.SixBallWin
+                <ru.madest.statistic.component.SixBallWin
                     android:id="@+id/lotoDrawDigitsId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

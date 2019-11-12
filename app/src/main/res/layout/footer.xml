@@ -47,14 +47,6 @@
             app:srcCompat="@drawable/ic_menu_shocko_18dp" />
 
         <ImageView
-            android:id="@+id/footerShowDonateId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="12dp"
-            app:srcCompat="@drawable/ic_wallet_giftcard_shoko_18dp" />
-
-        <ImageView
             android:id="@+id/footerShowSupportId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
