@@ -279,7 +279,7 @@ public abstract class AppUtils {
                 header = "по " + AppConstants.ALL_DAY_OF_WEEK_SFX.get( requestByDate.getDayOfWeek() );
                 break;
             case BY_DAY_MONTH:
-                header = "за " + requestByDate.getDayNumber() + " " + AppConstants.ALL_MONTH_SFX[ requestByDate.getMonthNumber() ];
+                header = "за " + requestByDate.getDayNumber() + " " + AppConstants.ALL_MONTH_SFX[ requestByDate.getMonthNumber()-1 ];
                 break;
             case BY_PERIOD:
                 header = "c " + requestByDate.getStartDay() + " по " + requestByDate.getEndDay();

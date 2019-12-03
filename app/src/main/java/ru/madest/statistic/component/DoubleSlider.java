@@ -55,13 +55,23 @@ public class DoubleSlider extends BaseComponent {
         mSliderOne.setMax( maxOneValue );
         mSliderOne.setProgress( mSliderOneValue );
         setSliderLabel();
-        mSliderOne.setOnTouchListener( ( View view, MotionEvent motionEvent ) -> {
-            if ( MotionEvent.ACTION_MOVE == motionEvent.getAction()
-                    || MotionEvent.ACTION_UP == motionEvent.getAction() ) {
+        mSliderOne.setOnProgressChangeListener( new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged ( DiscreteSeekBar seekBar, int value, boolean fromUser ) {
                 mSliderOneValue = mSliderOne.getProgress();
                 setSliderLabel();
             }
-            return false;
+
+            @Override
+            public void onStartTrackingTouch ( DiscreteSeekBar seekBar ) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch ( DiscreteSeekBar seekBar ) {
+                mSliderOneValue = mSliderOne.getProgress();
+                setSliderLabel();
+            }
         } );
 
         mSliderTwo = findViewById( R.id.doubleSliderTwoId );
@@ -72,13 +82,23 @@ public class DoubleSlider extends BaseComponent {
         mSliderTwo.setMax( maxTwoValue );
         mSliderTwo.setProgress( mSliderTwoValue );
         setSliderLabel();
-        mSliderTwo.setOnTouchListener( ( View view, MotionEvent motionEvent ) -> {
-            if ( MotionEvent.ACTION_MOVE == motionEvent.getAction()
-                    || MotionEvent.ACTION_UP == motionEvent.getAction() ) {
+        mSliderTwo.setOnProgressChangeListener( new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged ( DiscreteSeekBar seekBar, int value, boolean fromUser ) {
                 mSliderTwoValue = mSliderTwo.getProgress();
                 setSliderLabel();
             }
-            return false;
+
+            @Override
+            public void onStartTrackingTouch ( DiscreteSeekBar seekBar ) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch ( DiscreteSeekBar seekBar ) {
+                mSliderTwoValue = mSliderTwo.getProgress();
+                setSliderLabel();
+            }
         } );
         return this;
     }

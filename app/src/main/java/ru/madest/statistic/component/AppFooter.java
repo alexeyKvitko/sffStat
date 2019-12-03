@@ -119,6 +119,9 @@ public class AppFooter extends LinearLayout {
     }
 
     public void setBasketDisabled ( boolean basketDisable ) {
+        if ( this.mBasketDisable == basketDisable ){
+            return;
+        }
         this.mBasketDisable = basketDisable;
         Drawable drawable = basketDisable ? SFFSApplication.getAppContext().getResources().getDrawable( R.drawable.ic_basket_grey600_18dp )
                 : SFFSApplication.getAppContext().getResources().getDrawable( R.drawable.ic_basket_shoko_menu_18dp );
@@ -135,5 +138,14 @@ public class AppFooter extends LinearLayout {
         Drawable drawable = supportDisable ? SFFSApplication.getAppContext().getResources().getDrawable( R.drawable.ic_mail_outline_gray_18 )
                 : SFFSApplication.getAppContext().getResources().getDrawable( R.drawable.ic_mail_outline_shoco_18 );
         (( ImageView ) findViewById( R.id.footerShowSupportId )).setImageDrawable( drawable );
+    }
+
+    public void switchButtonToBasket( boolean  showBasketButton ){
+        findViewById( R.id.footerShowSupportId ).setVisibility( showBasketButton ? View.GONE : View.VISIBLE );
+        findViewById( R.id.footerDeleteAllFromBasketId ).setVisibility( showBasketButton ? View.VISIBLE : View.GONE );
+    }
+
+    public ImageView getRemoveAllBtn(){
+        return findViewById( R.id.footerDeleteAllFromBasketId );
     }
 }

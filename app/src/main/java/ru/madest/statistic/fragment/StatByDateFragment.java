@@ -22,6 +22,8 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import ru.madest.statistic.AppConstants;
 import ru.madest.statistic.R;
 import ru.madest.statistic.activity.RouteActivity;
@@ -225,7 +227,12 @@ public class StatByDateFragment extends TabbedFragment implements DatePickerDial
         mRequestByDate.setDayOfWeek( mDayWeekSlider.getSliderValue() );
         mRequestByDate.setDayNumber( mDoubleSlider.getSliderOneValue() );
         mRequestByDate.setMonthNumber( mDoubleSlider.getSliderTwoValue() );
-
+        if ( RequestType.BY_DAY_MONTH.equals( mRequestByDate.getRequestType() ) ){
+            Calendar cal = Calendar.getInstance();
+            Date startDate = new GregorianCalendar( cal.get( Calendar.YEAR ), mRequestByDate.getMonthNumber()-1, mRequestByDate.getDayNumber() ).getTime();
+            mRequestByDate.setStartDay( AppUtils.formatDate( AppConstants.DATE_FORMAT, startDate ) );
+            mRequestByDate.setEndDay( AppUtils.formatDate( AppConstants.DATE_FORMAT, startDate ) );
+        }
         if ( GlobalManager.getCachedResponseData() == null ) {
             GlobalManager.setCachedResponseData( new CachedResponseData() );
         }

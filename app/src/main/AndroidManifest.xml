@@ -15,19 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.FullScreen"
         android:networkSecurityConfig="@xml/network_security_config">
-
-        <activity android:name="ru.madest.statistic.activity.RouteActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
         <activity
             android:name="ru.madest.statistic.activity.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="ru.madest.statistic.activity.RouteActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
         <activity

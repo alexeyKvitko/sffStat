@@ -57,13 +57,21 @@ public class DiscretSlider extends BaseComponent {
         mDiscreteSlider.setMax( maxValue );
         mDiscreteSlider.setProgress( mSliderValue );
         setSliderLabel();
-        mDiscreteSlider.setOnTouchListener( ( View view, MotionEvent motionEvent ) -> {
-            if ( MotionEvent.ACTION_MOVE == motionEvent.getAction()
-                    || MotionEvent.ACTION_UP == motionEvent.getAction() ) {
+        mDiscreteSlider.setOnProgressChangeListener( new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged ( DiscreteSeekBar seekBar, int value, boolean fromUser ) {
                 mSliderValue = mDiscreteSlider.getProgress();
                 setSliderLabel();
             }
-            return false;
+
+            @Override
+            public void onStartTrackingTouch ( DiscreteSeekBar seekBar ) {}
+
+            @Override
+            public void onStopTrackingTouch ( DiscreteSeekBar seekBar ) {
+                mSliderValue = mDiscreteSlider.getProgress();
+                setSliderLabel();
+            }
         } );
         return this;
     }

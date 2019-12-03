@@ -169,6 +169,12 @@ public class GlobalManager {
         return empty;
     }
 
+    public static boolean removeAllFromStoredBallSet(){
+        getStoredBallSet().clear();
+        AppPreferences.removePreference( AppConstants.BASKET_PREF );
+        return true;
+    }
+
 
     public static int getUserLevel(){
         return bootstrapModel.getLevel();

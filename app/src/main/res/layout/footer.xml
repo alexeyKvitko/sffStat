@@ -54,6 +54,15 @@
             android:padding="12dp"
             app:srcCompat="@drawable/ic_mail_outline_shoco_18" />
 
+        <ImageView
+            android:id="@+id/footerDeleteAllFromBasketId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:padding="12dp"
+            app:srcCompat="@drawable/ic_basket_del_18dp" />
+
     </LinearLayout>
 
 </FrameLayout>

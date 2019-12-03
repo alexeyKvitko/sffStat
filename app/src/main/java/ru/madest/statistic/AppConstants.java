@@ -40,6 +40,8 @@ public abstract class AppConstants {
     public static final String LAST_FALL_PREF = "ru.sff.statistic.LAST_FALL_PREF";
     public static final String DONATION_PREF = "ru.sff.statistic.DONATION_PREF";
 
+    public static final String REMOVE_ALL = "REMOVE_ALL";
+
     public static final String ZERO_DIGIT = "0";
     public static final int ZERO_LEVEL = 0;
 

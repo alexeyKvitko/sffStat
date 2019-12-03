@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ru.madest.statistic.R;
+import ru.madest.statistic.activity.RouteActivity;
 import ru.madest.statistic.component.DrawsPlaneInfo;
 
 public class DrawsPlaneFragment extends BaseFragment {
@@ -42,7 +43,7 @@ public class DrawsPlaneFragment extends BaseFragment {
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
         mDrawsPlaneInfo = getView().findViewById( R.id.allDrawsPanelInfoId );
-        mDrawsPlaneInfo.setActivity( getActivity(), getView().findViewById( R.id.pleaseWaitContainerId ),
+        mDrawsPlaneInfo.setActivity( ( RouteActivity ) getActivity(), getView().findViewById( R.id.pleaseWaitContainerId ),
                 getView().findViewById( R.id.scrollContainerId ));
         mDrawsPlaneInfo.populateDrawsPlane();
     }

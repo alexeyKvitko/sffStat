@@ -13,12 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.LinkedList;
 import java.util.List;
 
+import ru.madest.statistic.AppConstants;
 import ru.madest.statistic.R;
+import ru.madest.statistic.activity.RouteActivity;
 import ru.madest.statistic.manager.GlobalManager;
 import ru.madest.statistic.modal.ModalDialog;
 import ru.madest.statistic.model.BallSetType;
 import ru.madest.statistic.model.StoredBallSet;
 import ru.madest.statistic.recycleview.BasketAdapter;
+import ru.madest.statistic.utils.CustomAnimation;
 
 
 public class BallSetBasketFragment extends BaseFragment implements BasketAdapter.BasketDataObjectHolder.BasketTrashListener {
@@ -48,6 +51,10 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
     @Override
     public void onActivityCreated( @Nullable Bundle savedInstanceState ) {
         super.onActivityCreated( savedInstanceState );
+        ((RouteActivity) getActivity()).getFooter().getRemoveAllBtn().setOnClickListener( (View view) ->{
+            CustomAnimation.btnClickAnimation( view );
+            removeAllItemsFromBasket();
+        } );
     }
 
     private void initRecView() {
@@ -86,6 +93,7 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
         super.onResume();
         initAdapter();
         initRecView();
+        ((RouteActivity) getActivity()).getFooter().switchButtonToBasket( true );
     }
 
     @Override
@@ -97,8 +105,28 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
         }
         mBasketAdapter = null;
         mBackButton.setOnClickListener( null );
+        ((RouteActivity) getActivity()).getFooter().switchButtonToBasket( false );
     }
 
+
+    private void removeAllItemsFromBasket(){
+        ModalDialog.DialogParams params = ModalDialog.getDialogParms();
+        params.setTitle( "Вы действительно хотите удалить все наборы ?" )
+                .setMessage( "Подтверждение" )
+                .setBlueButtonText( getResources().getString( R.string.button_cancel ) )
+                .setBlueButtonId( R.drawable.ic_emog_good_24dp )
+                .setWhiteButtonText( getResources().getString( R.string.button_delete ) )
+                .setWhiteButtonId( R.drawable.ic_emog_angry_24dp );
+        ModalDialog.execute( getActivity(), params, false ).setOnModalBtnClickListener( new ModalDialog.OnModalBtnClickListener() {
+            @Override
+            public void onBlueButtonClick ( String textValue ) {}
+
+            @Override
+            public void onWhiteBtnClick () {
+                removeFromStoredBallSet( AppConstants.REMOVE_ALL );
+            }
+        } );
+    }
 
 
     @Override
@@ -133,7 +161,13 @@ public class BallSetBasketFragment extends BaseFragment implements BasketAdapter
     }
 
     private void removeFromStoredBallSet( String entityName ){
-        if( GlobalManager.removeFromStoredBallSet( entityName ) ){
+        boolean basketEmpty = false;
+        if ( AppConstants.REMOVE_ALL.equals( entityName ) ){
+            basketEmpty = GlobalManager.removeAllFromStoredBallSet();
+        } else {
+            basketEmpty = GlobalManager.removeFromStoredBallSet( entityName );
+        }
+        if( basketEmpty ){
             getActivity().onBackPressed();
             return;
         }

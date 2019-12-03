@@ -30,6 +30,7 @@ import retrofit2.Response;
 import ru.madest.statistic.AppConstants;
 import ru.madest.statistic.R;
 import ru.madest.statistic.SFFSApplication;
+import ru.madest.statistic.activity.RouteActivity;
 import ru.madest.statistic.component.BallConsider;
 import ru.madest.statistic.component.BallSetItem;
 import ru.madest.statistic.component.ColorBall;
@@ -290,6 +291,7 @@ public class ConsiderFragment extends BaseFragment implements BallSetItem.OnBall
             storedBallSet.setBallSetName( basketName );
             storedBallSet.setDrawCount( AppConstants.ZERO_DIGIT );
             GlobalManager.addToStoredBallSet( basketName, storedBallSet );
+            ((RouteActivity) getActivity()).getFooter().setBasketDisabled( false );
         } else {
             ModalMessage.show( getActivity(), "Сообщение", new String[] {"Набор с таким именем существует"} );
         }

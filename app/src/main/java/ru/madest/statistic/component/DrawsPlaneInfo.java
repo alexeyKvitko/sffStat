@@ -23,6 +23,7 @@ import java.util.List;
 import ru.madest.statistic.AppConstants;
 import ru.madest.statistic.R;
 import ru.madest.statistic.SFFSApplication;
+import ru.madest.statistic.activity.RouteActivity;
 import ru.madest.statistic.manager.GlobalManager;
 import ru.madest.statistic.model.Ball;
 import ru.madest.statistic.model.BallSetType;
@@ -52,7 +53,7 @@ public class DrawsPlaneInfo extends BaseComponent {
     private boolean mLessShow;
     private boolean mMiddleShow;
 
-    private Activity mActivity;
+    private RouteActivity mActivity;
     private RelativeLayout mPleaseWait;
     private ScrollView mScrollView;
 
@@ -73,7 +74,7 @@ public class DrawsPlaneInfo extends BaseComponent {
         initialize();
     }
 
-    public void setActivity( Activity activity, RelativeLayout layout, ScrollView scrollView ){
+    public void setActivity( RouteActivity activity, RelativeLayout layout, ScrollView scrollView ){
         mActivity = activity;
         mPleaseWait = layout;
         mScrollView = scrollView;
@@ -203,8 +204,10 @@ public class DrawsPlaneInfo extends BaseComponent {
             storedBallSet.setBallSetName( basketName );
             storedBallSet.setDrawCount( AppUtils.getDraws( GlobalManager.getCachedResponseData().getTotalDraw() ) );
             GlobalManager.addToStoredBallSet( basketName, storedBallSet );
+            mActivity.getFooter().setBasketDisabled( false );
             basketImage.setImageDrawable( SFFSApplication.getAppContext().getResources()
                                                 .getDrawable( R.drawable.ic_basket_shoko_18dp ) );
+
         } else {
             GlobalManager.getStoredBallSet().remove( basketName );
             basketImage.setImageDrawable( SFFSApplication.getAppContext().getResources()
